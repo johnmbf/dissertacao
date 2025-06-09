@@ -94,3 +94,13 @@ processos_adpf <- processos |>
 #   dplyr::filter(processo_numero %in% processos_adpf$numero) |>
 #   dplyr::filter(lubridate::year(julgamento_data) <= 2024) |>
 #   dplyr::select(id, uf = procedencia_geografica_uf_sigla, incidente = processo_classe_processual_unificada_incidente_sigla, numero = processo_numero, dt_julgamento = julgamento_data, decisao = decisao_texto, leg = documental_legislacao_citada_texto)
+
+
+
+# ADPF
+
+processos |>
+  dplyr::select(classe, numero) |>
+  dplyr::distinct() |>
+  dplyr::filter(classe == "ADPF") |>
+  nrow()

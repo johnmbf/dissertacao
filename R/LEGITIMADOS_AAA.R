@@ -1,3 +1,6 @@
+processos_adpf <- processos |>
+  dplyr::filter(classe == 'ADPF')
+
 processos_adpf_recorte <- processos_adpf |>
   dplyr::filter(lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024)
 
