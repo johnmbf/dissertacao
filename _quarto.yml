@@ -7,7 +7,11 @@ toc: true
 number-sections: true
 
 book:
-  title: "Documentação da Pesquisa de Dissertação"
+  repo-url: https://github.com/johnmbf/dissertacao
+  title: "A constituição em processo de judicialização"
+  subtitle: "Um estudo da multidimensionalidade da judicialização da política a partir da análise das arguições de descumprimento de preceito fundamental"
+  sidebar: 
+    style: docked
   author: 
     - name: "Jonathan Morais Barcellos Ferreira"
       email: jonathanmbferreira@outlook.com
@@ -18,10 +22,17 @@ book:
           state: Rio Grande do Sul
           country: Brasil
   date: 2025-06-15
+  page-footer: 
+    left: "Jonathan Morais Barcellos Ferreira (2025)"
+    right: 
+      - icon: instagram
+        href: https://instagram.com/jo_mbf
   chapters: 
     - index.qmd
     - CAPS/01_introducao.qmd
     - CAPS/02_metodologia.qmd
+  appendices: 
+    - CAPS/code.qmd
 
 execute:
   warning: false
@@ -49,12 +60,12 @@ crossref:
   lst-title: "Código"
   lst-prefix: "Código"
   
-
   
 format: 
   html:
     cap-location: top
     code-copy: hover
+    theme: cosmo
     
 
 lang: pt-br

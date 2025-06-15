@@ -1,26 +1,43 @@
----
-title: "Metodologia"
----
+# Metodologia {#sec-metodologia}
 
-```{r}
+```{r, setup-metodologia}
 #| include: false
+#| echo: false
 
 knitr::opts_knit$set(
   root.dir = "../"
 )
 ```
 
-
 Introdução à metodologia
 
 ## Coleta de dados
 
-```{r}
-processos <- readRDS("DATA/CLEAN/processos.rds")
-processos
-```
+Os dados foram coletados do portal Corte Aberta do STF, painéis estatísticos de controle concentrado que podem ser acessados [aqui](https://transparencia.stf.jus.br/extensions/controle_concentrado/controle_concentrado.html). Foram baixados três tabelas do portal e armazenados na pasta [DATA/RAW/](DATA/RAW/), conforme @tbl-dados-raw abaixo:
 
+::: {#tbl-dados-raw}
+| Tabela | Descrição | Arquivo | Data |
+| ------ | --------- | ----- | ----- |
+| Processos | Contém as informações gerais sobre os processos de controle concentrado | [raw_processos.xlsx](DATA/RAW/raw_processos.xlsx) | 06/06/2025 |
+:::
 
 ## Análise de dados quantitativos
 
+Estatísticas descritivas...
+
+### Análise de Sobrevivência
+
+A análise de sobrevivência (survival analysis) permitirá inferir sobre a duração dos processos. Inicialmente, empregou-se a análise de sobrevivência de Kaplan-Meier para avaliar o tempo em dias entre a autuação e a baixa de um processo. Este método não-paramétrico é fundamental para estudos longitudinais onde o desfecho é o tempo decorrido até um evento específico, tendo como principal vantagem a capacidade de incorporar dados de censura – isto é, quando durante o período de análise o evento não acontece para determinados casos.
+
+A função $S(t)$ representa a probabilidade de um indivíduo sobreviver por um tempo superior a $t$. A análise gera uma curva em degraus, onde cada degrau descendente corresponde ao momento em que um ou mais eventos ocorreram. A construção da curva baseia-se na fórmula do estimador de Kaplan-Meier (@eq-kaplan-meier), que calcula a probabilidade de sobrevivência acumulada em diferentes pontos no tempo:
+
+$$
+\hat{S}(t) = \prod_{i|t_i\leq t}(1-\frac{d_i}{n_i})
+$$ {#eq-kaplan-meier}
+
+Essencialmente, a fração $\frac{d_i}{n_i}$ representa a probabilidade de o evento ocorrer no tempo $t$. Consequentemente, o termo $(1-\frac{d_i}{n_i})$ representa a probabilidade de sobreviver àquele ponto de evento. A fórmula, portanto, calcula a sobrevivêmcia acumulada multiplicando essas probabilidades de sobrevivência em cada ponto de evento ao longo do tempo.
+
+### Regressão Logística
+
 ## Análise de dados qualitativos
+

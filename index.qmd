@@ -1,5 +1,14 @@
----
-title: "Documentação da Pesquisa de Dissertação"
----
+# Apresentação {.unnumbered}
 
-Falar sobre o livro
+Este livro apresenta a documentação da minha pesquisa de dissertação "A constituição em processo de judicialização: um estudo da multidimensionalidade da judicialização da política a partir da análise das arguições de descumprimento de preceito fundamental", apresentada ao Programa de Pós-Graduação em Direito e Justiça Social (PPGDJS) da Universidade Federal do Rio Grande - FURG, para obtenção do título de Mestre em Direito.
+
+A dissertação está disponível em: XXX.
+
+Esse livro foi gerado pela última vez em `r Sys.Date()` nas seguintes condições:
+
+```{r, session-info}
+#| echo: false
+
+sessioninfo::session_info()
+```
+
