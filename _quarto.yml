@@ -66,6 +66,8 @@ format:
     cap-location: top
     code-copy: hover
     theme: cosmo
+    page-layout: full
     
+code-annotations: hover
 
 lang: pt-br

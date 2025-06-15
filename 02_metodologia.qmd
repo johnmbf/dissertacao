@@ -2,19 +2,165 @@
 
 ```{r, setup-metodologia}
 #| include: false
+
+knitr::opts_chunk$set(
+  warning = FALSE, error = FALSE, message = FALSE
+)
 ```
 
 Introdução à metodologia
 
 ## Coleta de dados
 
-Os dados foram coletados do portal Corte Aberta do STF, painéis estatísticos de controle concentrado que podem ser acessados [aqui](https://transparencia.stf.jus.br/extensions/controle_concentrado/controle_concentrado.html). Foram baixados três tabelas do portal e armazenados na pasta [DATA/RAW/](DATA/RAW/), conforme @tbl-dados-raw abaixo:
+Os dados foram coletados do portal Corte Aberta do STF, painéis estatísticos de controle concentrado que podem ser acessados [aqui](https://transparencia.stf.jus.br/extensions/controle_concentrado/controle_concentrado.html). Foram baixados três tabelas do portal e armazenados na pasta `DATA/RAW/`, conforme @tbl-dados-raw abaixo:
 
 ::: {#tbl-dados-raw}
 | Tabela | Descrição | Arquivo | Data |
 | ------ | --------- | ----- | ----- |
 | Processos | Contém as informações gerais sobre os processos de controle concentrado | [raw_processos.xlsx](DATA/RAW/raw_processos.xlsx) | 06/06/2025 |
+| Decisões | Contém as informações sobre as decisões tomadas em sede de controle concentrado | [raw_decisoes.xlsx](DATA/RAW/raw_decisoes.xlsx) | 06/06/2025 |
+| Legitimados | Contém as informações sobre os legitimados ativos e legitimados passivos nas ações de controle concentrado | [raw_legitimados.xlsx](DATA/RAW/raw_legitimados.xlsx) | 06/06/2025 |
 :::
+
+Uma vez baixados os dados, eles foram importados utilizando a função `readxl::read_xlsx()`:
+
+```{r, imp-1, eval=FALSE}
+# Importa os processos
+raw_processos <- readxl::read_xlsx("DATA/RAW/raw_processos.xlsx", na = "*NI*") # <1>
+
+# Importa as decisões
+raw_decisoes <- readxl::read_xlsx("DATA/RAW/raw_decisoes.xlsx",
+  na = "*NI*",
+  col_types = c("guess", "date", "guess", "guess", "guess", "guess") # <2>
+)
+
+# Importa os legitimados
+raw_legitimados <- readxl::read_xlsx("DATA/RAW/raw_legitimados.xlsx",
+  na = "*NI*"
+)
+```
+1. na = "\*NI\*": o STF utiliza o código \*NI\* para dados faltantes.
+2. col_types: foi preciso na tabela de decisões indicar expressamente o tipo de dado da coluna data
+
+Após importar os dados, salvei eles em formato `.rds` para leitura mais posterior mais rápida:
+
+```{r, imp-2, eval=FALSE}
+# Salvar os arquivos raw em rds
+saveRDS(raw_processos, "DATA/RAW/raw_processos.rds")
+saveRDS(raw_decisoes, "DATA/RAW/raw_decisoes.rds")
+saveRDS(raw_legitimados, "DATA/RAW/raw_legitimados.rds")
+```
+
+O segundo conjunto de dados foram obtidos a partir da raspagem de dados no portal do STF. Primeiro, extraiu-se os dados sobre decisões monocráticas e acórdãos, depois, com base na tabela de acórdãos, foram baixados os arquivos em `.pdf` dos acórdãos. Para isso, foi utilizado o pacote `decJ`.
+
+```{r, dec-imp, eval=FALSE}
+# Extrai as decisões monocráticas
+raw_monocraticas <- decJ::stf_jurisprudencia(
+  classe = "ADPF",
+  base = 'decisoes',
+  quantidade = 3000
+)
+
+# Extrai os acórdãos
+raw_acordaos <- decJ::stf_jurisprudencia(
+  classe = "ADPF",
+  base = "acordaos",
+  quantidade = 3000
+)
+
+# Salva os arquivos raw em rds
+saveRDS(raw_monocraticas, "DATA/RAW/raw_monocraticas.rds")
+saveRDS(raw_acordaos, "DATA/RAW/raw_acordaos.rds")
+```
+
+A função `decJ::stf_jurisprudencia()` funciona da seguinte forma:
+
+```{r, decj-juris, eval=FALSE}
+# Função stf_jurisprudencia do pacote decJ
+
+stf_jurisprudencia = function(busca = NULL, classe = NULL, base = c("acordaos", "decisoes"), quantidade = 25){
+
+  header <- httr::add_headers("User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.51") # <1>
+
+  if (!is.null(busca) & is.null(classe)) { # <2>
+    body <- busca_jurisprudencia # <2>
+    body$query$bool$filter[[1]]$query_string$query <- busca # <2>
+    body$post_filter$bool$must[[1]]$term$base <- base # <2>
+  } else if (is.null(busca) & !is.null(classe)) { # <2>
+    body <- busca_classe # <2>
+    body$query$bool$filter$query_string$query <- classe # <2>
+    body$post_filter$bool$must$term$base <- base # <2>
+  } else if ((!is.null(busca) & !is.null(classe))) { # <2>
+    cli::cli_alert_danger("Essa funcao so funciona com busca por palavras chaves OU por classe. Ainda estamos desenvolvendo uma forma de trabalhar com as duas buscas juntas.") # <2>
+    return(NULL) # <2>
+  } # <2>
+
+  num_iteracoes <- ceiling(quantidade / 250) # <3>
+
+  if (quantidade > 250) {
+    body$size <- 250
+  } else {
+    body$size <- quantidade
+  }
+ 
+  purrr::map_dfr(1:num_iteracoes, purrr::slowly(~{ 
+    body$from <- (.x - 1) * 250
+    htmlSTF <- httr::POST( # <4>
+      "https://jurisprudencia.stf.jus.br/api/search/search", # <4>
+      body = body, # <4>
+      encode = "json", header # <4>
+    ) # <4>
+    getContent <- jsonlite::fromJSON(httr::content(htmlSTF, "text")) # <4>
+    dados <- getContent$result$hits$hits$`_source` # <4>
+  }, rate = purrr::rate_delay(5)), .progress = list(format = "Extraindo {cli::pb_bar} {cli::pb_elapsed}")) 
+}
+```
+1. Adicionar um User_Agent
+2. A função ainda não consegue fazer buscas por palavras-chave e classe, portanto, nesse momento ela identifica se a busca está sendo feita por palavras chave ou por classe e, então, utiliza o `body` da requisição correto para o tipo de busca. Caso o usuário coloque classe e palavra-chave, a função retorna um erro.
+3. Como a API do STF não permite fazer mais do que 250 buscas por vez, aqui ele verifica a quantidade que está sendo buscada e divide por 250 para identificar a quantidade de requisições que serão necessárias.
+4. A requisição é feita e como resultado temos uma tabela com os dados solicitados.
+
+Estas então foram as formas de coletar os dados brutos. Abaixo podemos observar a estrutura dessas tabelas:
+
+```{r, imp-3, include=FALSE}
+raw_processos <- readRDS('DATA/RAW/raw_processos.rds')
+raw_decisoes <- readRDS('DATA/RAW/raw_decisoes.rds')
+raw_legitimados <- readRDS('DATA/RAW/raw_legitimados.rds')
+raw_monocraticas <- readRDS('DATA/RAW/raw_monocraticas.rds')
+raw_acordaos <- readRDS('DATA/RAW/raw_acordaos.rds')
+```
+
+```{r, imp-4, echo=FALSE}
+tibble::tribble(
+  ~"Tabela", ~"Nº Colunas", ~"Nº Linhas", ~"Nº de Dados",
+  "raw_processos", ncol(raw_processos), nrow(raw_processos), ncol(raw_processos) * nrow(raw_processos),
+  "raw_decisoes", ncol(raw_decisoes), nrow(raw_decisoes), ncol(raw_decisoes) * nrow(raw_decisoes),
+  "raw_legitimados", ncol(raw_legitimados), nrow(raw_legitimados), ncol(raw_legitimados) * nrow(raw_legitimados),
+  "raw_acordaos", ncol(raw_acordaos), nrow(raw_acordaos), ncol(raw_acordaos) * nrow(raw_acordaos),
+  "raw_monocraticas", ncol(raw_monocraticas), nrow(raw_monocraticas), ncol(raw_monocraticas) * nrow(raw_monocraticas)
+) |> knitr::kable()
+```
+
+## Limpeza dos dados
+
+Uma vez obtidos os dados brutos, foi preciso fazer uma faxina inicial. Primeiro, limpei o nome das variáveis:
+
+```{r, limp-1}
+# Limpa o nome das variáveis
+clean_processos <- janitor::clean_names(raw_processos)
+clean_decisoes <- janitor::clean_names(raw_decisoes)
+clean_legitimados <- janitor::clean_names(raw_legitimados)
+clean_acordaos <- janitor::clean_names(raw_acordaos)
+clean_monocraticas <- janitor::clean_names(raw_monocraticas)
+```
+
+Após a limpeza dos nomes das variáveis de todas as tabelas, passei a limpar tabelas específicas. Começando pela tabela de processos (`clean_processos`).
+
+```{r, limp-2}
+
+```
+
+Serão feitas limpezas específicas dos dados a depender da análise. Essas limpezas estarão descritas no momento da análise no capítulo respectivo. Ademais, todo o código está compilado no @sec-code
 
 ## Análise de dados quantitativos
 
@@ -24,7 +170,7 @@ Estatísticas descritivas...
 
 A análise de sobrevivência (survival analysis) permitirá inferir sobre a duração dos processos. Inicialmente, empregou-se a análise de sobrevivência de Kaplan-Meier para avaliar o tempo em dias entre a autuação e a baixa de um processo. Este método não-paramétrico é fundamental para estudos longitudinais onde o desfecho é o tempo decorrido até um evento específico, tendo como principal vantagem a capacidade de incorporar dados de censura – isto é, quando durante o período de análise o evento não acontece para determinados casos.
 
-A função $S(t)$ representa a probabilidade de um indivíduo sobreviver por um tempo superior a $t$. A análise gera uma curva em degraus, onde cada degrau descendente corresponde ao momento em que um ou mais eventos ocorreram. A construção da curva baseia-se na fórmula do estimador de Kaplan-Meier (@eq-kaplan-meier), que calcula a probabilidade de sobrevivência acumulada em diferentes pontos no tempo:
+A função $S(t)$ representa a probabilidade de um indivíduo sobreviver por um tempo superior a $t$. A análise gera uma curva em degraus, onde cada degrau descendente corresponde ao momento em que um ou mais eventos ocorreram. A construção da curva baseia-se na fórmula do estimador de Kaplan-Meier (@eq-kaplan-meier), que calcula a probabilidade de sobrevivência acumulada em diferentes pontos no tempo.
 
 $$
 \hat{S}(t) = \prod_{i|t_i\leq t}(1-\frac{d_i}{n_i})

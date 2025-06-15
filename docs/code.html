@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -95,7 +130,7 @@ ul.task-list li input[type="checkbox"] {
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
@@ -164,16 +199,16 @@ ul.task-list li input[type="checkbox"] {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-body" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./code.html">Apêndices</a></li><li class="breadcrumb-item"><a href="./code.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Código</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Apêndice A — Código</h1>
+<h1 class="title"><span id="sec-code" class="quarto-section-identifier">Apêndice A — Código</span></h1>
 </div>
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-body">
 
     
   
@@ -190,6 +225,109 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="metodologia" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="metodologia">Metodologia</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
+<span id="annotated-cell-1-2"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">warning =</span> <span class="cn">FALSE</span>, <span class="at">error =</span> <span class="cn">FALSE</span>, <span class="at">message =</span> <span class="cn">FALSE</span></span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Importa os processos</span></span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a>raw_processos <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">"DATA/RAW/raw_processos.xlsx"</span>, <span class="at">na =</span> <span class="st">"*NI*"</span>)</span>
+<span id="annotated-cell-1-7"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Importa as decisões</span></span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a>raw_decisoes <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">"DATA/RAW/raw_decisoes.xlsx"</span>,</span>
+<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">na =</span> <span class="st">"*NI*"</span>,</span>
+<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_types =</span> <span class="fu">c</span>(<span class="st">"guess"</span>, <span class="st">"date"</span>, <span class="st">"guess"</span>, <span class="st">"guess"</span>, <span class="st">"guess"</span>, <span class="st">"guess"</span>)</span>
+<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-14"><a href="#annotated-cell-1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Importa os legitimados</span></span>
+<span id="annotated-cell-1-15"><a href="#annotated-cell-1-15" aria-hidden="true" tabindex="-1"></a>raw_legitimados <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">"DATA/RAW/raw_legitimados.xlsx"</span>,</span>
+<span id="annotated-cell-1-16"><a href="#annotated-cell-1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">na =</span> <span class="st">"*NI*"</span></span>
+<span id="annotated-cell-1-17"><a href="#annotated-cell-1-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="annotated-cell-1-18"><a href="#annotated-cell-1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-19"><a href="#annotated-cell-1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Salvar os arquivos raw em rds</span></span>
+<span id="annotated-cell-1-20"><a href="#annotated-cell-1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_processos, <span class="st">"DATA/RAW/raw_processos.rds"</span>)</span>
+<span id="annotated-cell-1-21"><a href="#annotated-cell-1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_decisoes, <span class="st">"DATA/RAW/raw_decisoes.rds"</span>)</span>
+<span id="annotated-cell-1-22"><a href="#annotated-cell-1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_legitimados, <span class="st">"DATA/RAW/raw_legitimados.rds"</span>)</span>
+<span id="annotated-cell-1-23"><a href="#annotated-cell-1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-24"><a href="#annotated-cell-1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Extrai as decisões monocráticas</span></span>
+<span id="annotated-cell-1-25"><a href="#annotated-cell-1-25" aria-hidden="true" tabindex="-1"></a>raw_monocraticas <span class="ot">&lt;-</span> decJ<span class="sc">::</span><span class="fu">stf_jurisprudencia</span>(</span>
+<span id="annotated-cell-1-26"><a href="#annotated-cell-1-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">classe =</span> <span class="st">"ADPF"</span>,</span>
+<span id="annotated-cell-1-27"><a href="#annotated-cell-1-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">base =</span> <span class="st">'decisoes'</span>,</span>
+<span id="annotated-cell-1-28"><a href="#annotated-cell-1-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">quantidade =</span> <span class="dv">3000</span></span>
+<span id="annotated-cell-1-29"><a href="#annotated-cell-1-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="annotated-cell-1-30"><a href="#annotated-cell-1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-31"><a href="#annotated-cell-1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Extrai os acórdãos</span></span>
+<span id="annotated-cell-1-32"><a href="#annotated-cell-1-32" aria-hidden="true" tabindex="-1"></a>raw_acordaos <span class="ot">&lt;-</span> decJ<span class="sc">::</span><span class="fu">stf_jurisprudencia</span>(</span>
+<span id="annotated-cell-1-33"><a href="#annotated-cell-1-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">classe =</span> <span class="st">"ADPF"</span>,</span>
+<span id="annotated-cell-1-34"><a href="#annotated-cell-1-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">base =</span> <span class="st">"acordaos"</span>,</span>
+<span id="annotated-cell-1-35"><a href="#annotated-cell-1-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">quantidade =</span> <span class="dv">3000</span></span>
+<span id="annotated-cell-1-36"><a href="#annotated-cell-1-36" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="annotated-cell-1-37"><a href="#annotated-cell-1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-38"><a href="#annotated-cell-1-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Salva os arquivos raw em rds</span></span>
+<span id="annotated-cell-1-39"><a href="#annotated-cell-1-39" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_monocraticas, <span class="st">"DATA/RAW/raw_monocraticas.rds"</span>)</span>
+<span id="annotated-cell-1-40"><a href="#annotated-cell-1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_acordaos, <span class="st">"DATA/RAW/raw_acordaos.rds"</span>)</span>
+<span id="annotated-cell-1-41"><a href="#annotated-cell-1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-42"><a href="#annotated-cell-1-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Função stf_jurisprudencia do pacote decJ</span></span>
+<span id="annotated-cell-1-43"><a href="#annotated-cell-1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-44"><a href="#annotated-cell-1-44" aria-hidden="true" tabindex="-1"></a>stf_jurisprudencia <span class="ot">=</span> <span class="cf">function</span>(<span class="at">busca =</span> <span class="cn">NULL</span>, <span class="at">classe =</span> <span class="cn">NULL</span>, <span class="at">base =</span> <span class="fu">c</span>(<span class="st">"acordaos"</span>, <span class="st">"decisoes"</span>), <span class="at">quantidade =</span> <span class="dv">25</span>){</span>
+<span id="annotated-cell-1-45"><a href="#annotated-cell-1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-46"><a href="#annotated-cell-1-46" aria-hidden="true" tabindex="-1"></a>  header <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="st">"User-Agent"</span> <span class="ot">=</span> <span class="st">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.51"</span>)</span>
+<span id="annotated-cell-1-47"><a href="#annotated-cell-1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-48"><a href="#annotated-cell-1-48" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(busca) <span class="sc">&amp;</span> <span class="fu">is.null</span>(classe)) {</span>
+<span id="annotated-cell-1-49"><a href="#annotated-cell-1-49" aria-hidden="true" tabindex="-1"></a>    body <span class="ot">&lt;-</span> busca_jurisprudencia</span>
+<span id="annotated-cell-1-50"><a href="#annotated-cell-1-50" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>query<span class="sc">$</span>bool<span class="sc">$</span>filter[[<span class="dv">1</span>]]<span class="sc">$</span>query_string<span class="sc">$</span>query <span class="ot">&lt;-</span> busca</span>
+<span id="annotated-cell-1-51"><a href="#annotated-cell-1-51" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>post_filter<span class="sc">$</span>bool<span class="sc">$</span>must[[<span class="dv">1</span>]]<span class="sc">$</span>term<span class="sc">$</span>base <span class="ot">&lt;-</span> base</span>
+<span id="annotated-cell-1-52"><a href="#annotated-cell-1-52" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">is.null</span>(busca) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(classe)) {</span>
+<span id="annotated-cell-1-53"><a href="#annotated-cell-1-53" aria-hidden="true" tabindex="-1"></a>    body <span class="ot">&lt;-</span> busca_classe</span>
+<span id="annotated-cell-1-54"><a href="#annotated-cell-1-54" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>query<span class="sc">$</span>bool<span class="sc">$</span>filter<span class="sc">$</span>query_string<span class="sc">$</span>query <span class="ot">&lt;-</span> classe</span>
+<span id="annotated-cell-1-55"><a href="#annotated-cell-1-55" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>post_filter<span class="sc">$</span>bool<span class="sc">$</span>must<span class="sc">$</span>term<span class="sc">$</span>base <span class="ot">&lt;-</span> base</span>
+<span id="annotated-cell-1-56"><a href="#annotated-cell-1-56" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> ((<span class="sc">!</span><span class="fu">is.null</span>(busca) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(classe))) {</span>
+<span id="annotated-cell-1-57"><a href="#annotated-cell-1-57" aria-hidden="true" tabindex="-1"></a>    cli<span class="sc">::</span><span class="fu">cli_alert_danger</span>(<span class="st">"Essa funcao so funciona com busca por palavras chaves OU por classe. Ainda estamos desenvolvendo uma forma de trabalhar com as duas buscas juntas."</span>)</span>
+<span id="annotated-cell-1-58"><a href="#annotated-cell-1-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="annotated-cell-1-59"><a href="#annotated-cell-1-59" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="annotated-cell-1-60"><a href="#annotated-cell-1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-61"><a href="#annotated-cell-1-61" aria-hidden="true" tabindex="-1"></a>  num_iteracoes <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(quantidade <span class="sc">/</span> <span class="dv">250</span>)</span>
+<span id="annotated-cell-1-62"><a href="#annotated-cell-1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-63"><a href="#annotated-cell-1-63" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (quantidade <span class="sc">&gt;</span> <span class="dv">250</span>) {</span>
+<span id="annotated-cell-1-64"><a href="#annotated-cell-1-64" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="annotated-cell-1-65"><a href="#annotated-cell-1-65" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="annotated-cell-1-66"><a href="#annotated-cell-1-66" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>size <span class="ot">&lt;-</span> quantidade</span>
+<span id="annotated-cell-1-67"><a href="#annotated-cell-1-67" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="annotated-cell-1-68"><a href="#annotated-cell-1-68" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="annotated-cell-1-69"><a href="#annotated-cell-1-69" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map_dfr</span>(<span class="dv">1</span><span class="sc">:</span>num_iteracoes, purrr<span class="sc">::</span><span class="fu">slowly</span>(<span class="sc">~</span>{ </span>
+<span id="annotated-cell-1-70"><a href="#annotated-cell-1-70" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>from <span class="ot">&lt;-</span> (.x <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">250</span></span>
+<span id="annotated-cell-1-71"><a href="#annotated-cell-1-71" aria-hidden="true" tabindex="-1"></a>    htmlSTF <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">POST</span>(</span>
+<span id="annotated-cell-1-72"><a href="#annotated-cell-1-72" aria-hidden="true" tabindex="-1"></a>      <span class="st">"https://jurisprudencia.stf.jus.br/api/search/search"</span>,</span>
+<span id="annotated-cell-1-73"><a href="#annotated-cell-1-73" aria-hidden="true" tabindex="-1"></a>      <span class="at">body =</span> body,</span>
+<span id="annotated-cell-1-74"><a href="#annotated-cell-1-74" aria-hidden="true" tabindex="-1"></a>      <span class="at">encode =</span> <span class="st">"json"</span>, header</span>
+<span id="annotated-cell-1-75"><a href="#annotated-cell-1-75" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-1-76"><a href="#annotated-cell-1-76" aria-hidden="true" tabindex="-1"></a>    getContent <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(httr<span class="sc">::</span><span class="fu">content</span>(htmlSTF, <span class="st">"text"</span>))</span>
+<span id="annotated-cell-1-77"><a href="#annotated-cell-1-77" aria-hidden="true" tabindex="-1"></a>    dados <span class="ot">&lt;-</span> getContent<span class="sc">$</span>result<span class="sc">$</span>hits<span class="sc">$</span>hits<span class="sc">$</span><span class="st">`</span><span class="at">_source</span><span class="st">`</span></span>
+<span id="annotated-cell-1-78"><a href="#annotated-cell-1-78" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">rate =</span> purrr<span class="sc">::</span><span class="fu">rate_delay</span>(<span class="dv">5</span>)), <span class="at">.progress =</span> <span class="fu">list</span>(<span class="at">format =</span> <span class="st">"Extraindo {cli::pb_bar} {cli::pb_elapsed}"</span>)) </span>
+<span id="annotated-cell-1-79"><a href="#annotated-cell-1-79" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="annotated-cell-1-80"><a href="#annotated-cell-1-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-81"><a href="#annotated-cell-1-81" aria-hidden="true" tabindex="-1"></a>raw_processos <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">'DATA/RAW/raw_processos.rds'</span>)</span>
+<span id="annotated-cell-1-82"><a href="#annotated-cell-1-82" aria-hidden="true" tabindex="-1"></a>raw_decisoes <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">'DATA/RAW/raw_decisoes.rds'</span>)</span>
+<span id="annotated-cell-1-83"><a href="#annotated-cell-1-83" aria-hidden="true" tabindex="-1"></a>raw_legitimados <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">'DATA/RAW/raw_legitimados.rds'</span>)</span>
+<span id="annotated-cell-1-84"><a href="#annotated-cell-1-84" aria-hidden="true" tabindex="-1"></a>raw_monocraticas <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">'DATA/RAW/raw_monocraticas.rds'</span>)</span>
+<span id="annotated-cell-1-85"><a href="#annotated-cell-1-85" aria-hidden="true" tabindex="-1"></a>raw_acordaos <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">'DATA/RAW/raw_acordaos.rds'</span>)</span>
+<span id="annotated-cell-1-86"><a href="#annotated-cell-1-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-87"><a href="#annotated-cell-1-87" aria-hidden="true" tabindex="-1"></a>tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="annotated-cell-1-88"><a href="#annotated-cell-1-88" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span><span class="st">"Tabela"</span>, <span class="sc">~</span><span class="st">"Nº Colunas"</span>, <span class="sc">~</span><span class="st">"Nº Linhas"</span>, <span class="sc">~</span><span class="st">"Nº de Dados"</span>,</span>
+<span id="annotated-cell-1-89"><a href="#annotated-cell-1-89" aria-hidden="true" tabindex="-1"></a>  <span class="st">"raw_processos"</span>, <span class="fu">ncol</span>(raw_processos), <span class="fu">nrow</span>(raw_processos), <span class="fu">ncol</span>(raw_processos) <span class="sc">*</span> <span class="fu">nrow</span>(raw_processos),</span>
+<span id="annotated-cell-1-90"><a href="#annotated-cell-1-90" aria-hidden="true" tabindex="-1"></a>  <span class="st">"raw_decisoes"</span>, <span class="fu">ncol</span>(raw_decisoes), <span class="fu">nrow</span>(raw_decisoes), <span class="fu">ncol</span>(raw_decisoes) <span class="sc">*</span> <span class="fu">nrow</span>(raw_decisoes),</span>
+<span id="annotated-cell-1-91"><a href="#annotated-cell-1-91" aria-hidden="true" tabindex="-1"></a>  <span class="st">"raw_legitimados"</span>, <span class="fu">ncol</span>(raw_legitimados), <span class="fu">nrow</span>(raw_legitimados), <span class="fu">ncol</span>(raw_legitimados) <span class="sc">*</span> <span class="fu">nrow</span>(raw_legitimados),</span>
+<span id="annotated-cell-1-92"><a href="#annotated-cell-1-92" aria-hidden="true" tabindex="-1"></a>  <span class="st">"raw_acordaos"</span>, <span class="fu">ncol</span>(raw_acordaos), <span class="fu">nrow</span>(raw_acordaos), <span class="fu">ncol</span>(raw_acordaos) <span class="sc">*</span> <span class="fu">nrow</span>(raw_acordaos),</span>
+<span id="annotated-cell-1-93"><a href="#annotated-cell-1-93" aria-hidden="true" tabindex="-1"></a>  <span class="st">"raw_monocraticas"</span>, <span class="fu">ncol</span>(raw_monocraticas), <span class="fu">nrow</span>(raw_monocraticas), <span class="fu">ncol</span>(raw_monocraticas) <span class="sc">*</span> <span class="fu">nrow</span>(raw_monocraticas)</span>
+<span id="annotated-cell-1-94"><a href="#annotated-cell-1-94" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span>
+<span id="annotated-cell-1-95"><a href="#annotated-cell-1-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-96"><a href="#annotated-cell-1-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Limpa o nome das variáveis</span></span>
+<span id="annotated-cell-1-97"><a href="#annotated-cell-1-97" aria-hidden="true" tabindex="-1"></a>clean_processos <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_processos)</span>
+<span id="annotated-cell-1-98"><a href="#annotated-cell-1-98" aria-hidden="true" tabindex="-1"></a>clean_decisoes <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_decisoes)</span>
+<span id="annotated-cell-1-99"><a href="#annotated-cell-1-99" aria-hidden="true" tabindex="-1"></a>clean_legitimados <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_legitimados)</span>
+<span id="annotated-cell-1-100"><a href="#annotated-cell-1-100" aria-hidden="true" tabindex="-1"></a>clean_acordaos <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_acordaos)</span>
+<span id="annotated-cell-1-101"><a href="#annotated-cell-1-101" aria-hidden="true" tabindex="-1"></a>clean_monocraticas <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_monocraticas)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>
@@ -535,25 +673,64 @@ ul.task-list li input[type="checkbox"] {
           }
         };
       }
-        // Attach click handler to the DT
-        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-        for (const annoteDlNode of annoteDls) {
-          annoteDlNode.addEventListener('click', (event) => {
-            const clickedEl = event.target;
-            if (clickedEl !== selectedAnnoteEl) {
-              unselectCodeLines();
-              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-              if (activeEl) {
-                activeEl.classList.remove('code-annotation-active');
-              }
-              selectCodeLines(clickedEl);
-              clickedEl.classList.add('code-annotation-active');
-            } else {
-              // Unselect the line
-              unselectCodeLines();
-              clickedEl.classList.remove('code-annotation-active');
+        const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+        for (let i=0; i<annoteTargets.length; i++) {
+          const annoteTarget = annoteTargets[i];
+          const targetCell = annoteTarget.getAttribute("data-target-cell");
+          const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+          const contentFn = () => {
+            const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+            if (content) {
+              const tipContent = content.cloneNode(true);
+              tipContent.classList.add("code-annotation-tip-content");
+              return tipContent.outerHTML;
             }
-          });
+          }
+          const config = {
+            allowHTML: true,
+            content: contentFn,
+            onShow: (instance) => {
+              selectCodeLines(instance.reference);
+              instance.reference.classList.add('code-annotation-active');
+              window.tippy.hideAll();
+            },
+            onHide: (instance) => {
+              unselectCodeLines();
+              instance.reference.classList.remove('code-annotation-active');
+            },
+            maxWidth: 300,
+            delay: [50, 0],
+            duration: [200, 0],
+            offset: [5, 10],
+            arrow: true,
+            appendTo: function(el) {
+              return el.parentElement.parentElement.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'right',
+            popperOptions: {
+              modifiers: [
+              {
+                name: 'flip',
+                options: {
+                  flipVariations: false, // true by default
+                  allowedAutoPlacements: ['right'],
+                  fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                },
+              },
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                  altAxis: false
+                }
+              }
+              ]        
+            }      
+          };
+          window.tippy(annoteTarget, config); 
         }
     const findCites = (el) => {
       const parentEl = el.parentElement;
@@ -594,7 +771,7 @@ ul.task-list li input[type="checkbox"] {
     }
   });
   </script>
-<nav class="page-navigation">
+<nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
       <a href="./02_metodologia.html" class="pagination-link" aria-label="Metodologia">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Metodologia</span></span>

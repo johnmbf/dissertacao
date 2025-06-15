@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -125,7 +160,7 @@ window.Quarto = {
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
@@ -189,17 +224,18 @@ window.Quarto = {
    
   <ul>
   <li><a href="#coleta-de-dados" id="toc-coleta-de-dados" class="nav-link active" data-scroll-target="#coleta-de-dados"><span class="header-section-number">2.1</span> Coleta de dados</a></li>
-  <li><a href="#análise-de-dados-quantitativos" id="toc-análise-de-dados-quantitativos" class="nav-link" data-scroll-target="#análise-de-dados-quantitativos"><span class="header-section-number">2.2</span> Análise de dados quantitativos</a>
+  <li><a href="#limpeza-dos-dados" id="toc-limpeza-dos-dados" class="nav-link" data-scroll-target="#limpeza-dos-dados"><span class="header-section-number">2.2</span> Limpeza dos dados</a></li>
+  <li><a href="#análise-de-dados-quantitativos" id="toc-análise-de-dados-quantitativos" class="nav-link" data-scroll-target="#análise-de-dados-quantitativos"><span class="header-section-number">2.3</span> Análise de dados quantitativos</a>
   <ul class="collapse">
-  <li><a href="#análise-de-sobrevivência" id="toc-análise-de-sobrevivência" class="nav-link" data-scroll-target="#análise-de-sobrevivência"><span class="header-section-number">2.2.1</span> Análise de Sobrevivência</a></li>
-  <li><a href="#regressão-logística" id="toc-regressão-logística" class="nav-link" data-scroll-target="#regressão-logística"><span class="header-section-number">2.2.2</span> Regressão Logística</a></li>
+  <li><a href="#análise-de-sobrevivência" id="toc-análise-de-sobrevivência" class="nav-link" data-scroll-target="#análise-de-sobrevivência"><span class="header-section-number">2.3.1</span> Análise de Sobrevivência</a></li>
+  <li><a href="#regressão-logística" id="toc-regressão-logística" class="nav-link" data-scroll-target="#regressão-logística"><span class="header-section-number">2.3.2</span> Regressão Logística</a></li>
   </ul></li>
-  <li><a href="#análise-de-dados-qualitativos" id="toc-análise-de-dados-qualitativos" class="nav-link" data-scroll-target="#análise-de-dados-qualitativos"><span class="header-section-number">2.3</span> Análise de dados qualitativos</a></li>
+  <li><a href="#análise-de-dados-qualitativos" id="toc-análise-de-dados-qualitativos" class="nav-link" data-scroll-target="#análise-de-dados-qualitativos"><span class="header-section-number">2.4</span> Análise de dados qualitativos</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-body" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -208,7 +244,7 @@ window.Quarto = {
 
 
 
-<div class="quarto-title-meta">
+<div class="quarto-title-meta column-body">
 
     
   
@@ -223,7 +259,7 @@ window.Quarto = {
 <p>Introdução à metodologia</p>
 <section id="coleta-de-dados" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="coleta-de-dados"><span class="header-section-number">2.1</span> Coleta de dados</h2>
-<p>Os dados foram coletados do portal Corte Aberta do STF, painéis estatísticos de controle concentrado que podem ser acessados <a href="https://transparencia.stf.jus.br/extensions/controle_concentrado/controle_concentrado.html">aqui</a>. Foram baixados três tabelas do portal e armazenados na pasta <a href="DATA/RAW/">DATA/RAW/</a>, conforme <a href="#tbl-dados-raw" class="quarto-xref">Tabela&nbsp;<span>2.1</span></a> abaixo:</p>
+<p>Os dados foram coletados do portal Corte Aberta do STF, painéis estatísticos de controle concentrado que podem ser acessados <a href="https://transparencia.stf.jus.br/extensions/controle_concentrado/controle_concentrado.html">aqui</a>. Foram baixados três tabelas do portal e armazenados na pasta <code>DATA/RAW/</code>, conforme <a href="#tbl-dados-raw" class="quarto-xref">Tabela&nbsp;<span>2.1</span></a> abaixo:</p>
 <div id="tbl-dados-raw" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-dados-raw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -246,30 +282,219 @@ Tabela&nbsp;2.1
 <td><a href="DATA/RAW/raw_processos.xlsx">raw_processos.xlsx</a></td>
 <td>06/06/2025</td>
 </tr>
+<tr class="even">
+<td>Decisões</td>
+<td>Contém as informações sobre as decisões tomadas em sede de controle concentrado</td>
+<td><a href="DATA/RAW/raw_decisoes.xlsx">raw_decisoes.xlsx</a></td>
+<td>06/06/2025</td>
+</tr>
+<tr class="odd">
+<td>Legitimados</td>
+<td>Contém as informações sobre os legitimados ativos e legitimados passivos nas ações de controle concentrado</td>
+<td><a href="DATA/RAW/raw_legitimados.xlsx">raw_legitimados.xlsx</a></td>
+<td>06/06/2025</td>
+</tr>
 </tbody>
 </table>
 </div>
 </figure>
 </div>
+<p>Uma vez baixados os dados, eles foram importados utilizando a função <code>readxl::read_xlsx()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importa os processos</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>raw_processos <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">"DATA/RAW/raw_processos.xlsx"</span>, <span class="at">na =</span> <span class="st">"*NI*"</span>)</span>
+<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Importa as decisões</span></span>
+<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a>raw_decisoes <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">"DATA/RAW/raw_decisoes.xlsx"</span>,</span>
+<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">na =</span> <span class="st">"*NI*"</span>,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-7" class="code-annotation-target"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_types =</span> <span class="fu">c</span>(<span class="st">"guess"</span>, <span class="st">"date"</span>, <span class="st">"guess"</span>, <span class="st">"guess"</span>, <span class="st">"guess"</span>, <span class="st">"guess"</span>)</span>
+<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Importa os legitimados</span></span>
+<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>raw_legitimados <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">"DATA/RAW/raw_legitimados.xlsx"</span>,</span>
+<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">na =</span> <span class="st">"*NI*"</span></span>
+<span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="1">na = “*NI*”: o STF utiliza o código *NI* para dados faltantes.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="2">col_types: foi preciso na tabela de decisões indicar expressamente o tipo de dado da coluna data</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>Após importar os dados, salvei eles em formato <code>.rds</code> para leitura mais posterior mais rápida:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Salvar os arquivos raw em rds</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_processos, <span class="st">"DATA/RAW/raw_processos.rds"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_decisoes, <span class="st">"DATA/RAW/raw_decisoes.rds"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_legitimados, <span class="st">"DATA/RAW/raw_legitimados.rds"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>O segundo conjunto de dados foram obtidos a partir da raspagem de dados no portal do STF. Primeiro, extraiu-se os dados sobre decisões monocráticas e acórdãos, depois, com base na tabela de acórdãos, foram baixados os arquivos em <code>.pdf</code> dos acórdãos. Para isso, foi utilizado o pacote <code>decJ</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extrai as decisões monocráticas</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>raw_monocraticas <span class="ot">&lt;-</span> decJ<span class="sc">::</span><span class="fu">stf_jurisprudencia</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">classe =</span> <span class="st">"ADPF"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">base =</span> <span class="st">'decisoes'</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">quantidade =</span> <span class="dv">3000</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Extrai os acórdãos</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>raw_acordaos <span class="ot">&lt;-</span> decJ<span class="sc">::</span><span class="fu">stf_jurisprudencia</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">classe =</span> <span class="st">"ADPF"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">base =</span> <span class="st">"acordaos"</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">quantidade =</span> <span class="dv">3000</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Salva os arquivos raw em rds</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_monocraticas, <span class="st">"DATA/RAW/raw_monocraticas.rds"</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_acordaos, <span class="st">"DATA/RAW/raw_acordaos.rds"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A função <code>decJ::stf_jurisprudencia()</code> funciona da seguinte forma:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função stf_jurisprudencia do pacote decJ</span></span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>stf_jurisprudencia <span class="ot">=</span> <span class="cf">function</span>(<span class="at">busca =</span> <span class="cn">NULL</span>, <span class="at">classe =</span> <span class="cn">NULL</span>, <span class="at">base =</span> <span class="fu">c</span>(<span class="st">"acordaos"</span>, <span class="st">"decisoes"</span>), <span class="at">quantidade =</span> <span class="dv">25</span>){</span>
+<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>  header <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="st">"User-Agent"</span> <span class="ot">=</span> <span class="st">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.51"</span>)</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-7" class="code-annotation-target"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(busca) <span class="sc">&amp;</span> <span class="fu">is.null</span>(classe)) {</span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>    body <span class="ot">&lt;-</span> busca_jurisprudencia</span>
+<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>query<span class="sc">$</span>bool<span class="sc">$</span>filter[[<span class="dv">1</span>]]<span class="sc">$</span>query_string<span class="sc">$</span>query <span class="ot">&lt;-</span> busca</span>
+<span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>post_filter<span class="sc">$</span>bool<span class="sc">$</span>must[[<span class="dv">1</span>]]<span class="sc">$</span>term<span class="sc">$</span>base <span class="ot">&lt;-</span> base</span>
+<span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">is.null</span>(busca) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(classe)) {</span>
+<span id="annotated-cell-4-12"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>    body <span class="ot">&lt;-</span> busca_classe</span>
+<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>query<span class="sc">$</span>bool<span class="sc">$</span>filter<span class="sc">$</span>query_string<span class="sc">$</span>query <span class="ot">&lt;-</span> classe</span>
+<span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>post_filter<span class="sc">$</span>bool<span class="sc">$</span>must<span class="sc">$</span>term<span class="sc">$</span>base <span class="ot">&lt;-</span> base</span>
+<span id="annotated-cell-4-15"><a href="#annotated-cell-4-15" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> ((<span class="sc">!</span><span class="fu">is.null</span>(busca) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(classe))) {</span>
+<span id="annotated-cell-4-16"><a href="#annotated-cell-4-16" aria-hidden="true" tabindex="-1"></a>    cli<span class="sc">::</span><span class="fu">cli_alert_danger</span>(<span class="st">"Essa funcao so funciona com busca por palavras chaves OU por classe. Ainda estamos desenvolvendo uma forma de trabalhar com as duas buscas juntas."</span>)</span>
+<span id="annotated-cell-4-17"><a href="#annotated-cell-4-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="annotated-cell-4-18"><a href="#annotated-cell-4-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="annotated-cell-4-19"><a href="#annotated-cell-4-19" aria-hidden="true" tabindex="-1"></a></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-20" class="code-annotation-target"><a href="#annotated-cell-4-20" aria-hidden="true" tabindex="-1"></a>  num_iteracoes <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(quantidade <span class="sc">/</span> <span class="dv">250</span>)</span>
+<span id="annotated-cell-4-21"><a href="#annotated-cell-4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-22"><a href="#annotated-cell-4-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (quantidade <span class="sc">&gt;</span> <span class="dv">250</span>) {</span>
+<span id="annotated-cell-4-23"><a href="#annotated-cell-4-23" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="annotated-cell-4-24"><a href="#annotated-cell-4-24" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="annotated-cell-4-25"><a href="#annotated-cell-4-25" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>size <span class="ot">&lt;-</span> quantidade</span>
+<span id="annotated-cell-4-26"><a href="#annotated-cell-4-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="annotated-cell-4-27"><a href="#annotated-cell-4-27" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="annotated-cell-4-28"><a href="#annotated-cell-4-28" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map_dfr</span>(<span class="dv">1</span><span class="sc">:</span>num_iteracoes, purrr<span class="sc">::</span><span class="fu">slowly</span>(<span class="sc">~</span>{ </span>
+<span id="annotated-cell-4-29"><a href="#annotated-cell-4-29" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>from <span class="ot">&lt;-</span> (.x <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">250</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4">4</button><span id="annotated-cell-4-30" class="code-annotation-target"><a href="#annotated-cell-4-30" aria-hidden="true" tabindex="-1"></a>    htmlSTF <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">POST</span>(</span>
+<span id="annotated-cell-4-31"><a href="#annotated-cell-4-31" aria-hidden="true" tabindex="-1"></a>      <span class="st">"https://jurisprudencia.stf.jus.br/api/search/search"</span>,</span>
+<span id="annotated-cell-4-32"><a href="#annotated-cell-4-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">body =</span> body,</span>
+<span id="annotated-cell-4-33"><a href="#annotated-cell-4-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">encode =</span> <span class="st">"json"</span>, header</span>
+<span id="annotated-cell-4-34"><a href="#annotated-cell-4-34" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-4-35"><a href="#annotated-cell-4-35" aria-hidden="true" tabindex="-1"></a>    getContent <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(httr<span class="sc">::</span><span class="fu">content</span>(htmlSTF, <span class="st">"text"</span>))</span>
+<span id="annotated-cell-4-36"><a href="#annotated-cell-4-36" aria-hidden="true" tabindex="-1"></a>    dados <span class="ot">&lt;-</span> getContent<span class="sc">$</span>result<span class="sc">$</span>hits<span class="sc">$</span>hits<span class="sc">$</span><span class="st">`</span><span class="at">_source</span><span class="st">`</span></span>
+<span id="annotated-cell-4-37"><a href="#annotated-cell-4-37" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">rate =</span> purrr<span class="sc">::</span><span class="fu">rate_delay</span>(<span class="dv">5</span>)), <span class="at">.progress =</span> <span class="fu">list</span>(<span class="at">format =</span> <span class="st">"Extraindo {cli::pb_bar} {cli::pb_elapsed}"</span>)) </span>
+<span id="annotated-cell-4-38"><a href="#annotated-cell-4-38" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="1">Adicionar um User_Agent</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="7,8,9,10,11,12,13,14,15,16,17,18" data-code-annotation="2">A função ainda não consegue fazer buscas por palavras-chave e classe, portanto, nesse momento ela identifica se a busca está sendo feita por palavras chave ou por classe e, então, utiliza o <code>body</code> da requisição correto para o tipo de busca. Caso o usuário coloque classe e palavra-chave, a função retorna um erro.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="20" data-code-annotation="3">Como a API do STF não permite fazer mais do que 250 buscas por vez, aqui ele verifica a quantidade que está sendo buscada e divide por 250 para identificar a quantidade de requisições que serão necessárias.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="30,31,32,33,34,35,36" data-code-annotation="4">A requisição é feita e como resultado temos uma tabela com os dados solicitados.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>Estas então foram as formas de coletar os dados brutos. Abaixo podemos observar a estrutura dessas tabelas:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tabela</th>
+<th style="text-align: right;">Nº Colunas</th>
+<th style="text-align: right;">Nº Linhas</th>
+<th style="text-align: right;">Nº de Dados</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">raw_processos</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">8355</td>
+<td style="text-align: right;">267360</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">raw_decisoes</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">17734</td>
+<td style="text-align: right;">106404</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">raw_legitimados</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">16687</td>
+<td style="text-align: right;">50061</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">raw_acordaos</td>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">632</td>
+<td style="text-align: right;">36024</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">raw_monocraticas</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: right;">1571</td>
+<td style="text-align: right;">58127</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
-<section id="análise-de-dados-quantitativos" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="análise-de-dados-quantitativos"><span class="header-section-number">2.2</span> Análise de dados quantitativos</h2>
+<section id="limpeza-dos-dados" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="limpeza-dos-dados"><span class="header-section-number">2.2</span> Limpeza dos dados</h2>
+<p>Uma vez obtidos os dados brutos, foi preciso fazer uma faxina inicial. Primeiro, limpei o nome das variáveis:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Limpa o nome das variáveis</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>clean_processos <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_processos)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>clean_decisoes <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_decisoes)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>clean_legitimados <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_legitimados)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>clean_acordaos <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_acordaos)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>clean_monocraticas <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_monocraticas)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Após a limpeza dos nomes das variáveis de todas as tabelas, passei a limpar tabelas específicas. Começando pela tabela de processos (<code>clean_processos</code>).</p>
+<p>Serão feitas limpezas específicas dos dados a depender da análise. Essas limpezas estarão descritas no momento da análise no capítulo respectivo. Ademais, todo o código está compilado no <a href="code.html" class="quarto-xref"><span>Apêndice A</span></a></p>
+</section>
+<section id="análise-de-dados-quantitativos" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="análise-de-dados-quantitativos"><span class="header-section-number">2.3</span> Análise de dados quantitativos</h2>
 <p>Estatísticas descritivas…</p>
-<section id="análise-de-sobrevivência" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="análise-de-sobrevivência"><span class="header-section-number">2.2.1</span> Análise de Sobrevivência</h3>
+<section id="análise-de-sobrevivência" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="análise-de-sobrevivência"><span class="header-section-number">2.3.1</span> Análise de Sobrevivência</h3>
 <p>A análise de sobrevivência (survival analysis) permitirá inferir sobre a duração dos processos. Inicialmente, empregou-se a análise de sobrevivência de Kaplan-Meier para avaliar o tempo em dias entre a autuação e a baixa de um processo. Este método não-paramétrico é fundamental para estudos longitudinais onde o desfecho é o tempo decorrido até um evento específico, tendo como principal vantagem a capacidade de incorporar dados de censura – isto é, quando durante o período de análise o evento não acontece para determinados casos.</p>
-<p>A função <span class="math inline">\(S(t)\)</span> representa a probabilidade de um indivíduo sobreviver por um tempo superior a <span class="math inline">\(t\)</span>. A análise gera uma curva em degraus, onde cada degrau descendente corresponde ao momento em que um ou mais eventos ocorreram. A construção da curva baseia-se na fórmula do estimador de Kaplan-Meier (<a href="#eq-kaplan-meier" class="quarto-xref">Equação&nbsp;<span>2.1</span></a>), que calcula a probabilidade de sobrevivência acumulada em diferentes pontos no tempo:</p>
+<p>A função <span class="math inline">\(S(t)\)</span> representa a probabilidade de um indivíduo sobreviver por um tempo superior a <span class="math inline">\(t\)</span>. A análise gera uma curva em degraus, onde cada degrau descendente corresponde ao momento em que um ou mais eventos ocorreram. A construção da curva baseia-se na fórmula do estimador de Kaplan-Meier (<a href="#eq-kaplan-meier" class="quarto-xref">Equação&nbsp;<span>2.1</span></a>), que calcula a probabilidade de sobrevivência acumulada em diferentes pontos no tempo.</p>
 <p><span id="eq-kaplan-meier"><span class="math display">\[
 \hat{S}(t) = \prod_{i|t_i\leq t}(1-\frac{d_i}{n_i})
 \tag{2.1}\]</span></span></p>
 <p>Essencialmente, a fração <span class="math inline">\(\frac{d_i}{n_i}\)</span> representa a probabilidade de o evento ocorrer no tempo <span class="math inline">\(t\)</span>. Consequentemente, o termo <span class="math inline">\((1-\frac{d_i}{n_i})\)</span> representa a probabilidade de sobreviver àquele ponto de evento. A fórmula, portanto, calcula a sobrevivêmcia acumulada multiplicando essas probabilidades de sobrevivência em cada ponto de evento ao longo do tempo.</p>
 </section>
-<section id="regressão-logística" class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="regressão-logística"><span class="header-section-number">2.2.2</span> Regressão Logística</h3>
+<section id="regressão-logística" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="regressão-logística"><span class="header-section-number">2.3.2</span> Regressão Logística</h3>
 </section>
 </section>
-<section id="análise-de-dados-qualitativos" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="análise-de-dados-qualitativos"><span class="header-section-number">2.3</span> Análise de dados qualitativos</h2>
+<section id="análise-de-dados-qualitativos" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="análise-de-dados-qualitativos"><span class="header-section-number">2.4</span> Análise de dados qualitativos</h2>
 
 
 </section>
@@ -615,25 +840,64 @@ Tabela&nbsp;2.1
           }
         };
       }
-        // Attach click handler to the DT
-        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-        for (const annoteDlNode of annoteDls) {
-          annoteDlNode.addEventListener('click', (event) => {
-            const clickedEl = event.target;
-            if (clickedEl !== selectedAnnoteEl) {
-              unselectCodeLines();
-              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-              if (activeEl) {
-                activeEl.classList.remove('code-annotation-active');
-              }
-              selectCodeLines(clickedEl);
-              clickedEl.classList.add('code-annotation-active');
-            } else {
-              // Unselect the line
-              unselectCodeLines();
-              clickedEl.classList.remove('code-annotation-active');
+        const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+        for (let i=0; i<annoteTargets.length; i++) {
+          const annoteTarget = annoteTargets[i];
+          const targetCell = annoteTarget.getAttribute("data-target-cell");
+          const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+          const contentFn = () => {
+            const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+            if (content) {
+              const tipContent = content.cloneNode(true);
+              tipContent.classList.add("code-annotation-tip-content");
+              return tipContent.outerHTML;
             }
-          });
+          }
+          const config = {
+            allowHTML: true,
+            content: contentFn,
+            onShow: (instance) => {
+              selectCodeLines(instance.reference);
+              instance.reference.classList.add('code-annotation-active');
+              window.tippy.hideAll();
+            },
+            onHide: (instance) => {
+              unselectCodeLines();
+              instance.reference.classList.remove('code-annotation-active');
+            },
+            maxWidth: 300,
+            delay: [50, 0],
+            duration: [200, 0],
+            offset: [5, 10],
+            arrow: true,
+            appendTo: function(el) {
+              return el.parentElement.parentElement.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'quarto',
+            placement: 'right',
+            popperOptions: {
+              modifiers: [
+              {
+                name: 'flip',
+                options: {
+                  flipVariations: false, // true by default
+                  allowedAutoPlacements: ['right'],
+                  fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
+                },
+              },
+              {
+                name: 'preventOverflow',
+                options: {
+                  mainAxis: false,
+                  altAxis: false
+                }
+              }
+              ]        
+            }      
+          };
+          window.tippy(annoteTarget, config); 
         }
     const findCites = (el) => {
       const parentEl = el.parentElement;
@@ -674,7 +938,7 @@ Tabela&nbsp;2.1
     }
   });
   </script>
-<nav class="page-navigation">
+<nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
       <a href="./01_introducao.html" class="pagination-link" aria-label="Introdução">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span>
