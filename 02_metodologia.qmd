@@ -2,11 +2,6 @@
 
 ```{r, setup-metodologia}
 #| include: false
-#| echo: false
-
-knitr::opts_knit$set(
-  root.dir = "../"
-)
 ```
 
 Introdução à metodologia
@@ -18,7 +13,7 @@ Os dados foram coletados do portal Corte Aberta do STF, painéis estatísticos d
 ::: {#tbl-dados-raw}
 | Tabela | Descrição | Arquivo | Data |
 | ------ | --------- | ----- | ----- |
-| Processos | Contém as informações gerais sobre os processos de controle concentrado | [raw_processos.xlsx](../DATA/RAW/raw_processos.xlsx) | 06/06/2025 |
+| Processos | Contém as informações gerais sobre os processos de controle concentrado | [raw_processos.xlsx](DATA/RAW/raw_processos.xlsx) | 06/06/2025 |
 :::
 
 ## Análise de dados quantitativos

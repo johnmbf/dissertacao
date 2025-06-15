@@ -10,8 +10,8 @@
     ]
   },
   {
-    "objectID": "CAPS/01_introducao.html",
-    "href": "CAPS/01_introducao.html",
+    "objectID": "01_introducao.html",
+    "href": "01_introducao.html",
     "title": "1  Introdução",
     "section": "",
     "text": "Introdução da dissertação",
@@ -20,8 +20,8 @@
     ]
   },
   {
-    "objectID": "CAPS/02_metodologia.html",
-    "href": "CAPS/02_metodologia.html",
+    "objectID": "02_metodologia.html",
+    "href": "02_metodologia.html",
     "title": "2  Metodologia",
     "section": "",
     "text": "2.1 Coleta de dados\nIntrodução à metodologia\nOs dados foram coletados do portal Corte Aberta do STF, painéis estatísticos de controle concentrado que podem ser acessados aqui. Foram baixados três tabelas do portal e armazenados na pasta DATA/RAW/, conforme Tabela 2.1 abaixo:",
@@ -30,8 +30,8 @@
     ]
   },
   {
-    "objectID": "CAPS/02_metodologia.html#coleta-de-dados",
-    "href": "CAPS/02_metodologia.html#coleta-de-dados",
+    "objectID": "02_metodologia.html#coleta-de-dados",
+    "href": "02_metodologia.html#coleta-de-dados",
     "title": "2  Metodologia",
     "section": "",
     "text": "Tabela 2.1\n\n\n\n\n\nTabela\nDescrição\nArquivo\nData\n\n\n\n\nProcessos\nContém as informações gerais sobre os processos de controle concentrado\nraw_processos.xlsx\n06/06/2025",
@@ -40,8 +40,8 @@
     ]
   },
   {
-    "objectID": "CAPS/02_metodologia.html#análise-de-dados-quantitativos",
-    "href": "CAPS/02_metodologia.html#análise-de-dados-quantitativos",
+    "objectID": "02_metodologia.html#análise-de-dados-quantitativos",
+    "href": "02_metodologia.html#análise-de-dados-quantitativos",
     "title": "2  Metodologia",
     "section": "2.2 Análise de dados quantitativos",
     "text": "2.2 Análise de dados quantitativos\nEstatísticas descritivas…\n\n2.2.1 Análise de Sobrevivência\nA análise de sobrevivência (survival analysis) permitirá inferir sobre a duração dos processos. Inicialmente, empregou-se a análise de sobrevivência de Kaplan-Meier para avaliar o tempo em dias entre a autuação e a baixa de um processo. Este método não-paramétrico é fundamental para estudos longitudinais onde o desfecho é o tempo decorrido até um evento específico, tendo como principal vantagem a capacidade de incorporar dados de censura – isto é, quando durante o período de análise o evento não acontece para determinados casos.\nA função \\(S(t)\\) representa a probabilidade de um indivíduo sobreviver por um tempo superior a \\(t\\). A análise gera uma curva em degraus, onde cada degrau descendente corresponde ao momento em que um ou mais eventos ocorreram. A construção da curva baseia-se na fórmula do estimador de Kaplan-Meier (Equação 2.1), que calcula a probabilidade de sobrevivência acumulada em diferentes pontos no tempo:\n\\[\n\\hat{S}(t) = \\prod_{i|t_i\\leq t}(1-\\frac{d_i}{n_i})\n\\tag{2.1}\\]\nEssencialmente, a fração \\(\\frac{d_i}{n_i}\\) representa a probabilidade de o evento ocorrer no tempo \\(t\\). Consequentemente, o termo \\((1-\\frac{d_i}{n_i})\\) representa a probabilidade de sobreviver àquele ponto de evento. A fórmula, portanto, calcula a sobrevivêmcia acumulada multiplicando essas probabilidades de sobrevivência em cada ponto de evento ao longo do tempo.\n\n\n2.2.2 Regressão Logística",
@@ -50,8 +50,8 @@
     ]
   },
   {
-    "objectID": "CAPS/02_metodologia.html#análise-de-dados-qualitativos",
-    "href": "CAPS/02_metodologia.html#análise-de-dados-qualitativos",
+    "objectID": "02_metodologia.html#análise-de-dados-qualitativos",
+    "href": "02_metodologia.html#análise-de-dados-qualitativos",
     "title": "2  Metodologia",
     "section": "2.3 Análise de dados qualitativos",
     "text": "2.3 Análise de dados qualitativos",
@@ -60,8 +60,8 @@
     ]
   },
   {
-    "objectID": "CAPS/code.html",
-    "href": "CAPS/code.html",
+    "objectID": "code.html",
+    "href": "code.html",
     "title": "Apêndice A — Código",
     "section": "",
     "text": "Introdução",
@@ -71,11 +71,11 @@
     ]
   },
   {
-    "objectID": "CAPS/code.html#metodologia",
-    "href": "CAPS/code.html#metodologia",
+    "objectID": "code.html#metodologia",
+    "href": "code.html#metodologia",
     "title": "Apêndice A — Código",
     "section": "Metodologia",
-    "text": "Metodologia\n\nknitr::opts_knit$set(\n  root.dir = \"../\"\n)",
+    "text": "Metodologia",
     "crumbs": [
       "Apêndices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Código</span>"

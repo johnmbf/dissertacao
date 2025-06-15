@@ -29,10 +29,10 @@ book:
         href: https://instagram.com/jo_mbf
   chapters: 
     - index.qmd
-    - CAPS/01_introducao.qmd
-    - CAPS/02_metodologia.qmd
+    - 01_introducao.qmd
+    - 02_metodologia.qmd
   appendices: 
-    - CAPS/code.qmd
+    - code.qmd
 
 execute:
   warning: false
