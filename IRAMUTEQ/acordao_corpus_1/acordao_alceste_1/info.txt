@@ -1,0 +1,21 @@
+
++-+-+-+-+-+-+-+-+
+|i|R|a|M|u|T|e|Q| - Thu Jun 12 06:48:32 2025
++-+-+-+-+-+-+-+-+
+
+
+Número de textos: 441
+Número de ST: 160697
+Número de formas: 63828
+Número de ocorrências: 5547136
+Número de lemas: 41181
+Número de formas ativas: 36134
+Número de formas suplementares: 5026
+Número de formas ativas com a frequência >= 3: 19217
+Média das formas por segmento: 34.519226
+Número de classes : 2
+149287 Segmentos classificados em  160697 (92.90%)
+
+###########################
+tempo : 7h 1m 10s
+###########################

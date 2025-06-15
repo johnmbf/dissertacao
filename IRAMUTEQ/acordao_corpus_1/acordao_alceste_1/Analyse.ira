@@ -1,0 +1,24 @@
+[alceste]
+type = alceste
+lem = 1
+mincl = 0
+nbforme_uce = 0
+max_actives = 20000
+tailleuc1 = 20
+nbcl = 4
+tailleuc2 = 15
+classif_mode = 1
+minforme = 2
+expressions = 1
+nbcl_p1 = 15
+svdmethod = irlba
+mode.patate = 0
+corpus = 2273137d-71f7-4e03-8629-199991dfc7d6
+pathout = C:\Users\jonathan.ferreira\Documents\PESSOAL\R\dissertacao\IRAMUTEQ\acordao_corpus_1\acordao_alceste_1
+uuid = 50cee6e1-32b2-47e3-9fed-3ab1d71b7310
+name = acordao_alceste_1
+eff_min_forme = 3
+nbactives = 19217
+clnb = 2
+time = 7h 1m 10s
+ira = C:\Users\jonathan.ferreira\Documents\PESSOAL\R\dissertacao\IRAMUTEQ\acordao_corpus_1\acordao_alceste_1\Analyse.ira

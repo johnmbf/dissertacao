@@ -1,0 +1,111 @@
+---
+title: "Documentação de pesquisa"
+format: html
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  fig.width = 8,
+  fig.height = 6,
+  cache = TRUE
+)
+knitr::opts_knit$set(
+  root.dir = "../"
+)
+
+# Pacotes
+library(ggplot2)
+```
+
+# Coleta e limpeza dos dados
+
+```{r}
+# Importar os dados baixados
+raw_processos <- readxl::read_xlsx("DATA/RAW/raw_processos.xlsx", na = "*NI*")
+raw_decisoes <- readxl::read_xlsx("DATA/RAW/raw_decisoes.xlsx",
+  na = "*NI*",
+  col_types = c("guess", "date", "guess", "guess", "guess", "guess")
+)
+raw_legitimados <- readxl::read_xlsx("DATA/RAW/raw_legitimados.xlsx",
+  na = "*NI*"
+)
+```
+
+```{r}
+# Limpeza inicial dos dados baixados
+## raw_processos ---
+
+processos <- raw_processos |>
+  janitor::clean_names()
+
+processos <- processos |>
+  tidyr::separate(
+    processo,
+    into = c("classe", "numero"),
+    sep = " ",
+    convert = TRUE
+  )
+
+processos <- processos |>
+  tidyr::separate_rows(
+    assunto_relacionado,
+    sep = "\\s*\\|\\s*"
+  ) |>
+  tidyr::separate_rows(
+    legislacao,
+    sep = "\\r"
+  )
+
+## raw_decisoes ---
+
+decisoes <- raw_decisoes |>
+  janitor::clean_names()
+
+decisoes <- decisoes |>
+  tidyr::separate(
+    processo,
+    into = c("classe", "numero"),
+    sep = " ",
+    convert = TRUE
+  )
+
+decisoes <- decisoes |>
+  dplyr::mutate(
+    data = lubridate::ymd(as.Date(data)),
+    andamento_agrupado = as.factor(andamento_agrupado),
+    subgrupo = as.factor(subgrupo)
+  )
+
+## raw_legitimados ---
+legitimados <- raw_legitimados |>
+  janitor::clean_names()
+
+legitimados <- legitimados |>
+  tidyr::separate(
+    processo,
+    into = c("classe", "numero"),
+    sep = " ",
+    convert = TRUE
+  )
+```
+
+## Limpeza da tabela de processos
+
+{{< include clean_proc.qmd >}}
+
+## Limpeza da tabela de decisões
+
+## Limpeza da tabela de legitimados
+
+{{< include clean_leg.qmd >}}
+
+# Capítulo 5
+
+## Capítulo 5.1
+
+{{< include cap5_1.qmd >}}

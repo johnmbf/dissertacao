@@ -1,0 +1,52 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Documentação da Pesquisa de Dissertação",
+    "section": "",
+    "text": "Falar sobre o livro",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Documentação da Pesquisa de Dissertação</span>"
+    ]
+  },
+  {
+    "objectID": "CAPS/01_introducao.html",
+    "href": "CAPS/01_introducao.html",
+    "title": "2  Introdução",
+    "section": "",
+    "text": "Introdução da dissertação",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introdução</span>"
+    ]
+  },
+  {
+    "objectID": "CAPS/02_metodologia.html",
+    "href": "CAPS/02_metodologia.html",
+    "title": "3  Metodologia",
+    "section": "",
+    "text": "3.1 Coleta de dados\nIntrodução à metodologia\nprocessos &lt;- readRDS(\"DATA/CLEAN/processos.rds\")\nprocessos",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Metodologia</span>"
+    ]
+  },
+  {
+    "objectID": "CAPS/02_metodologia.html#análise-de-dados-quantitativos",
+    "href": "CAPS/02_metodologia.html#análise-de-dados-quantitativos",
+    "title": "3  Metodologia",
+    "section": "3.2 Análise de dados quantitativos",
+    "text": "3.2 Análise de dados quantitativos",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Metodologia</span>"
+    ]
+  },
+  {
+    "objectID": "CAPS/02_metodologia.html#análise-de-dados-qualitativos",
+    "href": "CAPS/02_metodologia.html#análise-de-dados-qualitativos",
+    "title": "3  Metodologia",
+    "section": "3.3 Análise de dados qualitativos",
+    "text": "3.3 Análise de dados qualitativos",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Metodologia</span>"
+    ]
+  }
+]

@@ -1,0 +1,78 @@
+---
+format: html
+---
+
+```{r, include=FALSE}
+# certifica que os objetos necessários estão carregados
+adpf_legitimados <- readRDS("DATA/CLEAN/adpf_legitimados.rds")
+adpf_processos <- readRDS("DATA/CLEAN/adpf_processos.rds")
+```
+
+### Principais legitimados
+
+```{r}
+adpf_legitimados |>
+  dplyr::select(numero, ativo, tipo) |>
+  dplyr::mutate(
+    tipo = as.factor(tipo) |> forcats::fct_recode("Sem Legitimidade" = "0", "Presidente" = "1", "Mesa do SF"  = "2", "Mesa da CD" = "3", "Mesa da AL" = "4", "Governador" = "5", "PGR" = "6", "OAB" = "7", "Partidos" = "8", "Entidades" = "9")
+  ) |>
+  dplyr::distinct() |>
+  dplyr::group_by(tipo) |>
+  dplyr::summarise(n = dplyr::n()) |> 
+  ggplot(aes(x = n, y = reorder(tipo, n))) +
+  labs(
+    x = "Número de processos",
+    y = "Legitimado"
+  ) +
+  geom_col() +
+  scale_x_continuous(expand = c(0,0), limits = c(0, 470)) +
+  decJ::theme_decJ(x_num = TRUE)
+```
+
+### Legitimados x Tempo
+
+```{r}
+adpf_legitimados_sempartidos <- dplyr::left_join(
+  adpf_processos,
+  adpf_legitimados,
+  by = "numero"
+) |>
+  dplyr::select(
+    numero, dt_auto, tipo
+  ) |> 
+  dplyr::distinct() |>
+  dplyr::mutate(ano = lubridate::year(dt_auto)) |>
+  dplyr::group_by(ano, tipo) |>
+  dplyr::mutate(n = dplyr::n(), 
+                tipo = as.factor(tipo) |> forcats::fct_recode("Sem Legitimidade" = "0", "Presidente" = "1", "Mesa do SF"  = "2", "Mesa da CD" = "3", "Mesa da AL" = "4", "Governador" = "5", "PGR" = "6", "OAB" = "7", "Partidos" = "8", "Entidades" = "9")) |>
+  dplyr::ungroup() |>
+  dplyr::filter(tipo != "Partidos") |>
+  dplyr::select(tipo, ano, n) |>
+  dplyr::distinct()
+
+adpf_legitimados_partido <- dplyr::left_join(
+  adpf_processos,
+  adpf_legitimados,
+  by = "numero"
+) |>
+  dplyr::select(
+    numero, dt_auto, tipo
+  ) |> 
+  dplyr::distinct() |>
+  dplyr::mutate(ano = lubridate::year(dt_auto)) |>
+  dplyr::group_by(ano, tipo) |>
+  dplyr::mutate(n = dplyr::n(), 
+                tipo = as.factor(tipo) |> forcats::fct_recode("Sem Legitimidade" = "0", "Presidente" = "1", "Mesa do SF"  = "2", "Mesa da CD" = "3", "Mesa da AL" = "4", "Governador" = "5", "PGR" = "6", "OAB" = "7", "Partidos" = "8", "Entidades" = "9")) |>
+  dplyr::ungroup() |>
+  dplyr::filter(tipo == "Partidos") |>
+  dplyr::select(ano, n) |>
+  dplyr::distinct()
+
+ggplot() +
+  geom_col(aes(x = ano, y = n, fill = "Partidos"), data = adpf_legitimados_partido) +
+  geom_line(aes(x = ano, y = n, linetype = tipo), data = adpf_legitimados_sempartidos, linewidth = 1) +
+  scale_fill_manual(values = "lightblue") +
+  theme(legend.title = element_blank())
+
+```
+

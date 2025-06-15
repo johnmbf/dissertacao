@@ -1,0 +1,46 @@
+---
+format: html
+---
+
+```{r}
+clean_processos <- processos |>
+  # selecionar e renomear as colunas de interesse
+  dplyr::select(classe, numero, relator = relator_atual, ramo = ramo_do_direito, assunto = assunto_relacionado, dt_auto = data_autuacao,dt_trans = data_transito_julgado, dt_baixa = data_baixa, em_tramitacao, tem_decisao_liminar, tem_rito_art_12, legislacao) |>
+  dplyr::mutate(
+    dt_auto = lubridate::ymd(as.Date(dt_auto)),
+    dt_trans = lubridate::ymd(as.Date(dt_trans)),
+    dt_baixa = lubridate::ymd(as.Date(dt_baixa, format = "%d/%m/%Y"))
+  )
+
+# Salvar clean_processo
+saveRDS(clean_processos, "DATA/CLEAN/clean_processos.rds")
+
+# Cria arquivo de recorte -> Nº ADPF 2014-2024
+adpf_rec <- clean_processos |>
+  dplyr::filter(
+    classe == "ADPF",
+    lubridate::year(dt_auto) >= 2014 & lubridate::year(dt_auto) <= 2024
+  ) |>
+  dplyr::select(-classe) |>
+  # retira as ADPF sem relator (protocolo errado)
+  tidyr::drop_na(relator) |>
+  dplyr::select(numero) |>
+  dplyr::distinct()
+
+## Salvar adpf_rec
+saveRDS(adpf_rec, "DATA/MISC/adpf_rec.rds")
+
+# Cria arquivo adpf_processos
+adpf_processos <- clean_processos |>
+  dplyr::filter(
+    classe == "ADPF",
+    lubridate::year(dt_auto) >= 2014 & lubridate::year(dt_auto) <= 2024
+  ) |>
+  dplyr::select(-classe) |>
+  # retira as ADPF sem relator (protocolo errado)
+  tidyr::drop_na(relator)
+
+# Salvar adpf_processos
+saveRDS(adpf_processos, "DATA/CLEAN/adpf_processos.rds")
+```
+

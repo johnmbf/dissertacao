@@ -1,0 +1,60 @@
+project:
+  type: book
+  output-dir: docs/
+  pre-render: R/source.R
+
+toc: true
+number-sections: true
+
+book:
+  title: "Documentação da Pesquisa de Dissertação"
+  author: 
+    - name: "Jonathan Morais Barcellos Ferreira"
+      email: jonathanmbferreira@outlook.com
+      affiliation:
+        - name: Universidade Federal do Rio Grande
+          departament: Faculdade de Direito
+          city: Rio Grande
+          state: Rio Grande do Sul
+          country: Brasil
+  date: 2025-06-15
+  chapters: 
+    - index.qmd
+    - CAPS/01_introducao.qmd
+    - CAPS/02_metodologia.qmd
+
+execute:
+  warning: false
+  error: false
+  cache: true
+fig-align: center
+fig-dpi: 600
+df-print: paged
+citation-location: document
+citations-hover: true
+footnotes-hover: true
+reference-location: document
+crossrefs-hover: true
+license: "CC BY-NC"
+
+
+crossref: 
+  title-delim: "-"
+  fig-title: "Figura"
+  tbl-title: "Tabela"
+  eq-title: "Equação"
+  fig-prefix: "Figura"
+  tbl-prefix: "Tabela"
+  eq-prefix: "Equação"
+  lst-title: "Código"
+  lst-prefix: "Código"
+  
+
+  
+format: 
+  html:
+    cap-location: top
+    code-copy: hover
+    
+
+lang: pt-br

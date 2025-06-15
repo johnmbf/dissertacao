@@ -1,0 +1,26 @@
+---
+title: "Metodologia"
+---
+
+```{r}
+#| include: false
+
+knitr::opts_knit$set(
+  root.dir = "../"
+)
+```
+
+
+Introdução à metodologia
+
+## Coleta de dados
+
+```{r}
+processos <- readRDS("DATA/CLEAN/processos.rds")
+processos
+```
+
+
+## Análise de dados quantitativos
+
+## Análise de dados qualitativos
