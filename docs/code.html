@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./02_metodologia.html" rel="prev">
+<link href="./04_adpfs.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -164,6 +164,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./02_metodologia.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Metodologia</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_revisao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Revisão de Literatura</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_adpfs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Estudo das ADPF</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -359,7 +371,49 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="annotated-cell-1-131"><a href="#annotated-cell-1-131" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="annotated-cell-1-132"><a href="#annotated-cell-1-132" aria-hidden="true" tabindex="-1"></a></span>
 <span id="annotated-cell-1-133"><a href="#annotated-cell-1-133" aria-hidden="true" tabindex="-1"></a><span class="co"># Salva a tabela limpa</span></span>
-<span id="annotated-cell-1-134"><a href="#annotated-cell-1-134" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(clean_processos, <span class="st">"DATA/CLEAN/clean_processos.rds"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="annotated-cell-1-134"><a href="#annotated-cell-1-134" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(clean_processos, <span class="st">"DATA/CLEAN/clean_processos.rds"</span>)</span>
+<span id="annotated-cell-1-135"><a href="#annotated-cell-1-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-136"><a href="#annotated-cell-1-136" aria-hidden="true" tabindex="-1"></a>clean_decisoes <span class="ot">&lt;-</span> clean_decisoes <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-1-137"><a href="#annotated-cell-1-137" aria-hidden="true" tabindex="-1"></a>  <span class="co"># retira a coluna observação e descrição</span></span>
+<span id="annotated-cell-1-138"><a href="#annotated-cell-1-138" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>observacao, descricao) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-1-139"><a href="#annotated-cell-1-139" aria-hidden="true" tabindex="-1"></a>  <span class="co"># transforma a coluna de data </span></span>
+<span id="annotated-cell-1-140"><a href="#annotated-cell-1-140" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">data =</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(<span class="fu">as.Date</span>(data))) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-1-141"><a href="#annotated-cell-1-141" aria-hidden="true" tabindex="-1"></a>  <span class="co"># separa processo em classe e numero |&gt;</span></span>
+<span id="annotated-cell-1-142"><a href="#annotated-cell-1-142" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate</span>(</span>
+<span id="annotated-cell-1-143"><a href="#annotated-cell-1-143" aria-hidden="true" tabindex="-1"></a>    processo,</span>
+<span id="annotated-cell-1-144"><a href="#annotated-cell-1-144" aria-hidden="true" tabindex="-1"></a>    <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"classe"</span>, <span class="st">"numero"</span>),</span>
+<span id="annotated-cell-1-145"><a href="#annotated-cell-1-145" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">s"</span></span>
+<span id="annotated-cell-1-146"><a href="#annotated-cell-1-146" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-1-147"><a href="#annotated-cell-1-147" aria-hidden="true" tabindex="-1"></a>  <span class="co"># transforma o texto da coluna descricao em minusculo</span></span>
+<span id="annotated-cell-1-148"><a href="#annotated-cell-1-148" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">descricao =</span> stringr<span class="sc">::</span><span class="fu">str_to_lower</span>(descricao))</span>
+<span id="annotated-cell-1-149"><a href="#annotated-cell-1-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-150"><a href="#annotated-cell-1-150" aria-hidden="true" tabindex="-1"></a><span class="co"># Salva a tabela limpa</span></span>
+<span id="annotated-cell-1-151"><a href="#annotated-cell-1-151" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(clean_decisoes, <span class="st">"DATA/CLEAN/clean_decisoes.rds"</span>)</span>
+<span id="annotated-cell-1-152"><a href="#annotated-cell-1-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-153"><a href="#annotated-cell-1-153" aria-hidden="true" tabindex="-1"></a>clean_legitimados <span class="ot">&lt;-</span> clean_legitimados <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-1-154"><a href="#annotated-cell-1-154" aria-hidden="true" tabindex="-1"></a>  <span class="co"># retira os acentos</span></span>
+<span id="annotated-cell-1-155"><a href="#annotated-cell-1-155" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(dplyr<span class="sc">::</span><span class="fu">across</span>(<span class="fu">c</span>(<span class="st">"legitimado_polo_ativo"</span>, <span class="st">"legitimado_polo_passivo"</span>), decJ<span class="sc">::</span>utilitario_remover_acentos)) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-1-156"><a href="#annotated-cell-1-156" aria-hidden="true" tabindex="-1"></a>  <span class="co"># separa processo em classe e numero</span></span>
+<span id="annotated-cell-1-157"><a href="#annotated-cell-1-157" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate</span>(</span>
+<span id="annotated-cell-1-158"><a href="#annotated-cell-1-158" aria-hidden="true" tabindex="-1"></a>    processo,</span>
+<span id="annotated-cell-1-159"><a href="#annotated-cell-1-159" aria-hidden="true" tabindex="-1"></a>    <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"classe"</span>, <span class="st">"numero"</span>),</span>
+<span id="annotated-cell-1-160"><a href="#annotated-cell-1-160" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">s"</span></span>
+<span id="annotated-cell-1-161"><a href="#annotated-cell-1-161" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-1-162"><a href="#annotated-cell-1-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-163"><a href="#annotated-cell-1-163" aria-hidden="true" tabindex="-1"></a><span class="co"># Salva a tabela limpa</span></span>
+<span id="annotated-cell-1-164"><a href="#annotated-cell-1-164" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(clean_legitimados, <span class="st">"DATA/CLEAN/clean_legitimados.rds"</span>)</span>
+<span id="annotated-cell-1-165"><a href="#annotated-cell-1-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-166"><a href="#annotated-cell-1-166" aria-hidden="true" tabindex="-1"></a>clean_monocraticas <span class="ot">&lt;-</span> clean_monocraticas <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-1-167"><a href="#annotated-cell-1-167" aria-hidden="true" tabindex="-1"></a>  <span class="co"># seleciona e renomeia as colunas de interesse</span></span>
+<span id="annotated-cell-1-168"><a href="#annotated-cell-1-168" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(id, <span class="at">uf =</span> procedencia_geografica_uf_sigla, <span class="at">numero =</span> processo_numero, <span class="at">data =</span> julgamento_data, <span class="at">texto =</span> decisao_texto)</span>
+<span id="annotated-cell-1-169"><a href="#annotated-cell-1-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-170"><a href="#annotated-cell-1-170" aria-hidden="true" tabindex="-1"></a>clean_acordaos <span class="ot">&lt;-</span> clean_acordaos <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-1-171"><a href="#annotated-cell-1-171" aria-hidden="true" tabindex="-1"></a>  <span class="co"># seleciona e renomeia as colunas de interesse</span></span>
+<span id="annotated-cell-1-172"><a href="#annotated-cell-1-172" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(id, <span class="at">uf =</span> procedencia_geografica_uf_sigla, <span class="at">numero =</span> processo_numero, <span class="at">data =</span> julgamento_data, <span class="at">texto =</span> ementa_texto, <span class="at">url =</span> inteiro_teor_url)</span>
+<span id="annotated-cell-1-173"><a href="#annotated-cell-1-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-1-174"><a href="#annotated-cell-1-174" aria-hidden="true" tabindex="-1"></a><span class="co"># Salva as tabelas limpas</span></span>
+<span id="annotated-cell-1-175"><a href="#annotated-cell-1-175" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(clean_monocraticas, <span class="st">"DATA/CLEAN/clean_monocraticas.rds"</span>)</span>
+<span id="annotated-cell-1-176"><a href="#annotated-cell-1-176" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(clean_acordaos, <span class="st">"DATA/CLEAN/clean_acordaos.rds"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -806,8 +860,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
-      <a href="./02_metodologia.html" class="pagination-link" aria-label="Metodologia">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Metodologia</span></span>
+      <a href="./04_adpfs.html" class="pagination-link" aria-label="Estudo das ADPF">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Estudo das ADPF</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

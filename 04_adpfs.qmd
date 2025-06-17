@@ -1,0 +1,333 @@
+# Estudo das ADPF
+
+```{r, setup-adpfs, include=FALSE}
+library(ggplot2)
+library(survival)
+library(survminer)
+library(gt)
+
+knitr::opts_chunk$set(
+  warning = FALSE, error = FALSE, message = FALSE
+)
+
+cores <- c("#D9523F", "#D1CFC2", "#ACBCCC", "#588383", "#AA6F4E", "#8898A1")
+
+clean_processos <- readRDS('DATA/CLEAN/clean_processos.rds')
+```
+
+A intensidade da judicialização da política no Brasil pode ser diretamente aferida pela análise do volume de ações de controle concentrado de constitucionalidade ajuizadas no Supremo Tribunal Federal (STF). Instrumentos como a Ação Direta de Inconstitucionalidade (ADI), a Ação Declaratória de Constitucionalidade (ADC), a Ação Direta de Inconstitucionalidade por Omissão (ADO) e, notadamente, a Arguição de Descumprimento de Preceito Fundamental (ADPF) constituem os principais canais pelos quais questões políticas são submetidas a um veredito sobre sua compatibilidade com a Constituição. Desde a promulgação da Carta de 1988, um total de `r clean_processos |> dplyr::select(classe, numero) |> dplyr::distinct() |> nrow()` ações dessa natureza foram propostas, evidenciando a consolidação do STF como uma arena de disputas de alta relevância.
+
+A distribuição dessas ações, contudo, não é homogênea ao longo do tempo. Conforme ilustra o panorama quantitativo, o período de 2014 a 2024 se destaca por uma escalada sem precedentes no número de processos, com um ápice em 2021. Essa variação anual não é um dado isolado; ela pode refletir a conjuntura política do país. Períodos de maior conflito, marcados por eventos como a Operação Lava Jato, o impeachment presidencial e a pandemia de COVID-19, sugerem que o STF foi instado a atuar como árbitro em disputas cruciais entre atores políticos e sobre a condução de políticas públicas.
+
+Dentro deste universo de ações, este capítulo se debruça especificamente sobre a Arguição de Descumprimento de Preceito Fundamental. A ADPF se destaca como um instrumento de particular interesse devido à sua crescente utilização e flexibilidade para contestar não apenas leis, mas um vasto leque de atos do poder público, incluindo omissões. O objetivo é, portanto, realizar uma análise aprofundada do que representou a ADPF nos últimos dez anos, investigando os padrões de seu ajuizamento, os temas veiculados e, principalmente, os fatores que determinam a longevidade de sua tramitação no Tribunal.
+
+Para alcançar tal objetivo, esta análise emprega uma de análise de sobrevivência, que permite verificar o tempo médio até a ocorrência de um evento – no caso, a baixa do processo. Utilizando modelos como o de Kaplan-Meier e o de riscos proporcionais de Cox, o capítulo investigará de que forma a celeridade processual é influenciada por variáveis-chave. Serão examinados o impacto da identidade do ministro relator, a aplicação do rito abreviado, o perfil do legitimado que propõe a ação e o resultado do julgamento, buscando compreender a complexa dinâmica temporal que rege este importante instrumento da jurisdição constitucional brasileira.
+
+Desde a promulgação da Constituição de 1988 foram ajuizadas 8355 ações de controle concentrado, distribuídas heterogeneamente ao longo do período. A @fig-controle-1 abaixo representa o número de ações de controle concentrado ajuizadas por ano, o período destacado em laranja se refere ao recorte temporal desta pesquisa (2014-2024) e a linha cinza a tendência:
+
+```{r, fig-controle-1, echo=FALSE}
+#| fig-cap: "Número de ações de controle concentrado ajuizadas desde 1988 no Supremo Tribunal Federal"
+#| fig-width: 12
+#| fig-height: 8
+#| fig-dpi: 600
+
+clean_processos |>
+  # seleciona as colunas
+  dplyr::select(classe, numero, data_autuacao) |>
+  # deixa apenas as colunas únicas
+  dplyr::distinct() |>
+  dplyr::mutate(
+    # cria uma coluna para indicar se a ação está ou não no recorte de pesquisa (2014-2024)
+    recorte = ifelse(lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024, "1", "0"),
+    # cria uma coluna com o ano
+    ano = lubridate::year(data_autuacao)
+  ) |> 
+  dplyr::group_by(ano) |> 
+  dplyr::mutate(n = dplyr::n()) |>
+  dplyr::ungroup() |>
+  dplyr::select(ano, n, recorte) |>
+  dplyr::distinct() |>
+  ggplot(aes(x = ano, y = n)) +
+  geom_col(aes(fill = recorte)) +
+  geom_smooth(se = FALSE, color = cores[1]) +
+  scale_fill_manual(
+    breaks = NULL,
+    values = c("1" = cores[5], "0" = cores[4])
+  ) +
+  scale_x_continuous(
+    breaks = seq(1988, lubridate::year(Sys.Date()), by = 4)
+  ) +
+  scale_y_continuous(
+    expand = c(0,0),
+    limits = c(0,600)
+  ) +
+  labs(
+    y = "Número de Processos",
+    x = "Ano"
+  ) +
+  decJ::theme_decJ(y_num = TRUE)
+
+decJ::save_decJ("PLOT/controle_1.png", l = 24, dpi = 300)
+```
+
+O período de 1988 à 2013 apresenta um crescimento gradual e não linear com pico entre 2003-2004 seguido de um vale. A linha de tendência suavizada confirma esse movimento ascendente, indicado que, apesar das flutuações anuais, o recurso ao Judiciário se consolida de forma consistente nas duas primeiras décadas de redemocratização.
+
+A partir de 2014, o podemos perceber uma escalada no número de processos, tendo seu ápice em 2021. Os anos que sucederam 2014 foram marcados pela Operação Lava Jato, Impeachment da ex-Presidente Dilma Roussef, COVID-19, etc., sugerindo que o Supremo Tribunal Federal passou a ser arbitrado não apenas sobre a constitucionalidade das leis, mas sobre decisões políticas cruciais e disputas entre atores políticos e condução de políticas públicas. Por fim, o segmento final do gráfico induz um novo regime com a queda abrupta no número de processos retornando a patamares anteriores à 2019. 
+
+Corroborando a relevância desses números, um estudo de Nunes (2022) aponta que, entre 1º de janeiro de 2019 e 30 de dezembro de 2022, durante o governo Bolsonaro, foram ajuizadas 262 ADI por partidos políticos perante o STF. A comparação desse dado específico com o total de ADI recebidas pelo tribunal pode revelar a proporção da judicialização que é diretamente impulsionada por atores políticos partidários. 
+
+A variação anual no número de ações, portanto, não é um dado isolado. Ela pode refletir a conjuntura política – períodos de maior conflito tendem a gerar mais demandas judiciais – assim como estratégias específicas dos atores envolvidos, como o uso mais intenso do judiciário pela oposição para contestar ações governamentais. 
+
+A análise gráfica permite identificar momentos de intensificação (picos) ou retração (vales) na propositura de ações judiciais. A correlação desses movimentos com eventos políticos significativos – como eleições, crises institucionais, mudanças de governo, escândalos de corrupção ou pandemias – é crucial para compreender a dinâmica da judicialização.
+
+A relação de processos já findos nos permite observar o modo como o Tribunal prioriza o julgamento das ações de controle concentrado. Como esperado, a @fig-controle-2  mostra que o STF não possui muitas ações pendentes de julgamento se considerarmos a quantidade total de ações ajuizadas:
+
+```{r, fig-controle-2, echo=FALSE}
+#| fig-cap: "Número de ações de controle concentrado ajuizadas desde 1988 no Supremo Tribunal Federal e a proporção de ações julgadas"
+#| fig-width: 12
+#| fig-height: 8
+#| fig-dpi: 600
+
+clean_processos |>
+  dplyr::select(classe, numero, em_tramitacao, data_autuacao) |>
+  dplyr::distinct() |>
+  dplyr::mutate(ano = lubridate::year(data_autuacao)) |>
+  dplyr::select(ano, em_tramitacao) |>
+  dplyr::group_by(ano, em_tramitacao) |>
+  dplyr::mutate(n = dplyr::n()) |>
+  dplyr::distinct() |> 
+  ggplot() +
+  geom_col(aes(x = ano, y = n, fill = em_tramitacao)) +
+  scale_y_continuous(expand = c(0,0), limits = c(0,600)) +
+  scale_fill_manual(
+    name = "Encerrado",
+    labels = c("Sim", "Não"),
+    values = c("Não" = cores[4], "Sim" = cores[3])
+  ) +
+  labs(
+    x = "Ano",
+    y = "Número de processos"
+  ) +
+  decJ::theme_decJ(y_num = TRUE)
+  
+decJ::save_decJ("PLOT/controle_2.png", l = 24, dpi = 300)
+```
+
+São poucas as ações que aguardam mais de 10 anos de julgamento. Uma análise de sobrevivência permitiará que se observe o tempo mediano que a ação leva para ser baixada. Conforme exposto na metodologia, a análise de sobrevivência permite que se verifique o tempo até um evento de interesse ocorrer, inclusive se os dados possuírem censuras (eventos que não ocorreram). O modelo de Kaplan-Meier permite estimar a função de sobrevivência a partir de dados de tempo até um evento, sem fazer suposições sobre a distribuição de probabilidades. A função de sobrevivência @eq-kaplan-meier, é obtida pela proporção de indivíduos que sobreviveram cada vez que um evento ocorre e multiplicando essa proporção pela probabilidade acumulada até então, gerando um gráfico de escada descendente. 
+
+```{r, surv-1}
+#| echo: false
+
+# Cria uma tabela para análise de sobrevivência
+processos_surv <- clean_processos |>
+  dplyr::select(classe, numero, data_autuacao, data_baixa) |>
+  dplyr::distinct() |>
+  dplyr::mutate(
+    evento = ifelse(!is.na(data_baixa), 1 , 0)
+  ) |>
+  tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  dplyr::mutate(
+    tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1)
+  )
+
+# Cria o modelo nulo
+estimador_km <- survfit(Surv(tempo, evento) ~ 1, data = processos_surv)
+
+# Salva o modelo nulo
+saveRDS(estimador_km, "DATA/MODELOS/modelo_01.rds")
+
+m <- estimador_km |> broom::glance() |> dplyr::pull(median) |> lubridate::ddays() / lubridate::dyears(1)
+m <- m |> round(2)
+```
+
+
+A @fig-surv-1 demonstra a curva de sobrevivência de Kaplan-Meier para as ações de controle concentradoem um modelo nulo. A função de sobrevivência das ações de controle concentrado em razão do tempo utilizando de um modelo nulo permite observar que a expectativa é que metade dos processos encerrem em aproximadamente `r m` anos.
+
+```{r, fig-surv-1}
+#| fig-cap: "Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma ação de controle concentrado"
+#| fig-width: 12
+#| fig-height: 8
+#| fig-dpi: 600
+#| echo: false
+
+rm(m)
+
+ggsurvplot(
+  estimador_km,
+  data = processos_surv,
+  pval = FALSE,
+  conf.int = FALSE,
+  surv.median.line = "hv",
+  # risk.table = TRUE,
+  xlab = "Tempo (dias)",
+  ylab = "Probabilidade de Sobrevivência",
+  palette = cores[4],
+  ggtheme = decJ::theme_decJ()
+)
+
+decJ::save_decJ("PLOT/surv_01.png", l = 24, dpi = 300)
+
+```
+
+```{r, tbl-surv-1-km}
+#| echo: false
+#| eval: false
+
+estimador_km |> broom::glance() |>
+  dplyr::select(records, events, rmean, rmean.std.error, median, conf.low, conf.high, nobs) |>
+  gt() |>
+  cols_label(
+    records = "Registros",
+    events = "Eventos",
+    rmean = "Média",
+    rmean.std.error = "Erro padrão",
+    median = "Mediana",
+    conf.low = "IC Inferior",
+    conf.high = "Ic Superior",
+    nobs = "Nº Observações"
+  ) |>
+  fmt_number(
+    columns = everything(),
+    decimals = 2,
+    dec_mark = ",",
+    sep_mark = "."
+  ) |>
+  tab_options(
+    # Remove a borda superior e inferior da tabela
+    table.border.top.style = "hidden",
+    table.border.bottom.style = "hidden",
+    # Adiciona uma linha sólida abaixo do cabeçalho
+    column_labels.border.bottom.style = "solid",
+    column_labels.border.bottom.width = px(2),
+    # Remove as linhas verticais
+    column_labels.vlines.style = "hidden",
+    table_body.vlines.style = "hidden",
+    # Adiciona uma linha sólida na parte inferior do corpo da tabela
+    table_body.border.bottom.style = "solid",
+    table_body.border.bottom.width = px(2),
+    # Remove as linhas horizontais do corpo da tabela
+    table_body.hlines.style = "hidden",
+    # Centraliza o título da tabela
+    heading.align = "center",
+    # Posiciona a nota de rodapé
+    source_notes.padding = px(10)
+  ) |>
+  # Alinhar os cabeçalhos das colunas ao centro
+  cols_align(
+    align = "center",
+    columns = everything()
+  )
+
+```
+
+Dentre as ações de controle concentrado previstas no sistema de revisão judicial, destaaca-se a arguição de descumprimento de preceito fundamental.
+
+**FALAR SOBRE A ADPF**
+
+Os dados mostram que, desde a sua regulamentação, já foram ajuizadas `r clean_processos |> dplyr::select(classe, numero) |> dplyr::filter(classe == "ADPF") |> dplyr::distinct() |> nrow()` ADPF. A @fig-adpf-1 abaixo mostra a distribuição de ADPF ao longo do tempo, com o destaque do período de estudo de 2014 a 2024 e linha de tendência:
+
+```{r, fig-adpf-1}
+#| fig-cap: "Número de Arguição de Descumprimento de Preceito Fundamental ajuizadas por ano"
+#| fig-width: 12
+#| fig-height: 8
+#| fig-dpi: 600
+#| echo: false
+
+clean_processos |>
+  # seleciona as colunas
+  dplyr::select(classe, numero, data_autuacao) |>
+  dplyr::filter(classe == "ADPF") |>
+  # deixa apenas as colunas únicas
+  dplyr::distinct() |>
+  dplyr::mutate(
+    # cria uma coluna para indicar se a ação está ou não no recorte de pesquisa (2014-2024)
+    recorte = ifelse(lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024, "1", "0"),
+    # cria uma coluna com o ano
+    ano = lubridate::year(data_autuacao)
+  ) |> 
+  dplyr::group_by(ano) |> 
+  dplyr::mutate(n = dplyr::n()) |>
+  dplyr::ungroup() |>
+  dplyr::select(ano, n, recorte) |>
+  dplyr::distinct() |>
+  ggplot(aes(x = ano, y = n)) +
+  geom_col(aes(fill = recorte)) +
+  geom_smooth(se = FALSE, color = cores[1]) +
+  scale_fill_manual(
+    breaks = NULL,
+    values = c("1" = cores[5], "0" = cores[4])
+  ) +
+  scale_x_continuous(
+    breaks = seq(1988, lubridate::year(Sys.Date()), by = 4)
+  ) +
+  scale_y_continuous(
+    expand = c(0,0),
+    limits = c(0,200)
+  ) +
+  labs(
+    y = "Número de Processos",
+    x = "Ano"
+  ) +
+  decJ::theme_decJ(y_num = TRUE)
+
+decJ::save_decJ("PLOT/adpf_1.png", l = 24, dpi = 300)
+```
+
+Nota-se que a ADPF foi uma ação de controle pouco utilizada inicialmente, mas que, ao longo do tempo, recebeu atenção dos legitimados para a sua proposição. No primeiro período de 2000 a 2014, observa-se um volume de ações relativamente baixo e estável, as flutuações anuais são modestas, e raramente ultrapassando a marca de 40 processos. A partir de 2015, o cenário muda completamente, atingindo picos de mais de 150 processos em 2021. A curva de tendência coincide com o período de pandemia e Governo Bolsonaro (2019-2022). Após o ápice, a análise para os anos subsequentes revela um movimento de arrefecimento, com uma queda considerável no número de ajuizamentos. Contudo, os patamares de 2022 a 2024, embora menores que o pico, permanecem significativamente superior à média do período anterior a 2016.  Isso pode indicar o estabelecimento de um “novo normal” na utilização da ADPF.
+
+O uso crescente da ADPF pode indicar tanto uma maior conscientização dos atores jurídicos e políticos sobre seu potencial quanto uma percepção de que outros instrumentos processuais ou os canais políticos tradicionais são insuficientes para lidar com certas violações de direitos ou impasses institucionais. A ADPF permite contestar não apenas leis ou atos normativos específicos, mas também atos do poder público de natureza diversa, incluindo omissões ou um conjunto de atos que, cumulativamente, gerem lesão a preceito fundamental. Um aumento no número de ADPFs pode sugerir que os problemas levados ao STF são cada vez mais de natureza estrutural ou difusa, transcendendo a simples inconstitucionalidade de uma lei ou ato normativo.
+
+A pandemia não apenas gerou novas demandas por direitos (como acesso a leitos, medicamentos e vacinas), mas também expôs e intensificou tensões federativas preexistentes. A ausência de uma coordenação nacional clara e a divergência de posturas entre o governo federal e os governos estaduais e municipais levaram a uma profusão de conflitos que desaguaram no STF, que atuou como árbitro dessas disputas. Decisões sobre a autonomia de instituições federais de ensino para exigir comprovante de vacina, contrariando diretrizes do Ministério da Educação, ou a suspensão de atos da FUNAI que negavam proteção a terras indígenas não homologadas durante a crise sanitária, são exemplos dessa mediação de conflitos verticais (entre o governo federal e outros entes ou instituições) e horizontais (entre diferentes políticas públicas) pelo Supremo. 
+
+```{r, fig-adpf-2}
+#| fig-cap: "Dez principais ramos do direito (a) e assuntos (b) das Arguições de Descumprimento de Preceito Fundamental"
+#| fig-subcap: 
+#|   - "Ramo do Direito"
+#|   - "Assunto Relacionado"
+#| fig-width: 12
+#| fig-height: 8
+#| fig-dpi: 600
+#| echo: false
+#| layout-ncol: 2
+
+clean_processos |>
+  dplyr::select(classe, numero, ramo_do_direito) |>
+  dplyr::filter(classe == "ADPF") |>
+  dplyr::distinct() |>
+  dplyr::group_by(ramo_do_direito) |>
+  dplyr::summarise(n = dplyr::n()) |> 
+  tidyr::drop_na() |> 
+  dplyr::slice_max(n = 10, order_by = n) |>
+  ggplot(aes(x = n, y = reorder(ramo_do_direito, n))) +
+  geom_col(fill = cores[4]) +
+  scale_x_continuous(expand = c(0,0), limits = c(0,870)) +
+  labs(
+    x = "Número de Processos",
+    y = "Ramo do Direito"
+  ) +
+  decJ::theme_decJ(x_num= TRUE)
+
+clean_processos |>
+  dplyr::select(classe, numero, assunto_relacionado) |>
+  dplyr::filter(classe == "ADPF") |>
+  dplyr::distinct() |>
+  dplyr::group_by(assunto_relacionado) |>
+  dplyr::summarise(n = dplyr::n()) |> 
+  tidyr::drop_na() |> 
+  dplyr::slice_max(n = 10, order_by = n) |>
+  ggplot(aes(x = n, y = reorder(assunto_relacionado, n))) +
+  geom_col(fill = cores[4]) +
+  scale_x_continuous(expand = c(0,0), limits = c(0,870)) +
+  labs(
+    x = "Número de Processos",
+    y = "Assunto"
+  ) +
+  decJ::theme_decJ(x_num= TRUE)
+
+```
+
+Uma vez mapeado o "o quê" — os temas que dominam o universo das ADPFs —, a análise se volta para o "quem": os membros do Tribunal responsáveis por conduzir esses processos. A forma como o Supremo Tribunal Federal processa essa avalanche de demandas de alta complexidade política não é homogênea, sendo crucial entender como a carga processual se distribui entre os ministros e se há concentração de relatorias, um fator que pode influenciar diretamente o andamento e o destino das arguições.
+
+
+
+

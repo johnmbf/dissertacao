@@ -191,9 +191,61 @@ clean_processos <- clean_processos |>
 saveRDS(clean_processos, "DATA/CLEAN/clean_processos.rds")
 ```
 
+A segunda tabela que apliquei a faxina foi a tabela que contém as decisões (`clean_decisoes`). A tabela criada considera apenas as decisões cujo resultado foi procedente, improcedente, procedente em parte ou prejudicado. Posteriormente, as ações que tiverem "em tramitação" igual a "não" na tabela de processos e não retornarem esses resultados, serão consideradas sem resolução de mérito.
 
+```{r, limp-3}
+clean_decisoes <- clean_decisoes |>
+  # retira a coluna observação e descrição
+  dplyr::select(-observacao, descricao) |>
+  # transforma a coluna de data 
+  dplyr::mutate(data = lubridate::ymd(as.Date(data))) |>
+  # separa processo em classe e numero |>
+  tidyr::separate(
+    processo,
+    into = c("classe", "numero"),
+    sep = "\\s"
+  ) |>
+  # transforma o texto da coluna descricao em minusculo
+  dplyr::mutate(descricao = stringr::str_to_lower(descricao))
 
-Serão feitas limpezas específicas dos dados a depender da análise. Essas limpezas estarão descritas no momento da análise no capítulo respectivo. Ademais, todo o código está compilado no @sec-code
+# Salva a tabela limpa
+saveRDS(clean_decisoes, "DATA/CLEAN/clean_decisoes.rds")
+```
+
+A teceira tabela envolve os legitimados (`clean_legitimados`):
+
+```{r, limp-4}
+clean_legitimados <- clean_legitimados |>
+  # retira os acentos
+  dplyr::mutate(dplyr::across(c("legitimado_polo_ativo", "legitimado_polo_passivo"), decJ::utilitario_remover_acentos)) |>
+  # separa processo em classe e numero
+  tidyr::separate(
+    processo,
+    into = c("classe", "numero"),
+    sep = "\\s"
+  )
+
+# Salva a tabela limpa
+saveRDS(clean_legitimados, "DATA/CLEAN/clean_legitimados.rds")
+```
+
+A limpeza da tabela com as decisões monocráticas e os acórdãos envolveu, basicamente, selecionar as colunas de interesse.
+
+```{r, limp-5}
+clean_monocraticas <- clean_monocraticas |>
+  # seleciona e renomeia as colunas de interesse
+  dplyr::select(id, uf = procedencia_geografica_uf_sigla, numero = processo_numero, data = julgamento_data, texto = decisao_texto)
+
+clean_acordaos <- clean_acordaos |>
+  # seleciona e renomeia as colunas de interesse
+  dplyr::select(id, uf = procedencia_geografica_uf_sigla, numero = processo_numero, data = julgamento_data, texto = ementa_texto, url = inteiro_teor_url)
+
+# Salva as tabelas limpas
+saveRDS(clean_monocraticas, "DATA/CLEAN/clean_monocraticas.rds")
+saveRDS(clean_acordaos, "DATA/CLEAN/clean_acordaos.rds")
+```
+
+Serão feitas limpezas específicas dos dados a depender da análise. Essas limpezas estarão descritas no momento da análise no capítulo respectivo. Ademais, todo o código está compilado no @sec-code. As tabelas salvas serão carregas sempre antes de serem utilizadas nas análises, permitindo que o ponto de partida das informações sejam os descritos nessa seção.
 
 ## Análise quantitativa
 
@@ -211,10 +263,9 @@ Para contornar o problema dos dados censurados e estimar a função de sobreviv�
 
 A fórmula matemática que fundamenta o estimador de Kaplan-Meier, embora possa parecer complexa à primeira vista, baseia-se em uma lógica bastante intuitiva. A probabilidade de um processo sobreviver para além de um tempo $t$, denotada por $S(t)$, é calculada pelo produto das probabilidades de sobrevivência em cada um dos momentos em que ocorre um evento (a baixa de um processo) até o tempo $t$. A fórmula é a seguinte:
 
-
 $$
 S(t) = \prod_{i:t_i\leq t} (1 - \frac{d_i}{n_i})
-$$
+$$ {#eq-kaplan-meier}
 
 $S(t)$ é a função de sobrevivência, ou seja, a probabilidade estimada de que uma ADPF inda esteja em tramitação após um tempo $t$. O símbolo $\prod$ é o produtório, que indica a multiplicação sucessiva de termos. O índice $t_i\leq t$ significa que estamos multiplicando os termos para todos os momentos $t_i$ em que um processo foi baixado, desde o início do acompanhamento até o tempo $t$. O elemento $d_i$ representa o número de processos que tiveram baixa exatamente no tempo $t_i$. Por fim, $n_i$ representa o número total de processos que estavam sob risco de serem baixados imediatamenteantes do tempo $t_i$,  isto é, todos os processos que ainda estavam ativos naquele momento.
 
@@ -230,3 +281,4 @@ Após a aplicação do estimador de Kaplan-Meier, que nos permite descrever a pr
 
 ## Análise qualitativa
 
+Iramuteq... e quanteda?

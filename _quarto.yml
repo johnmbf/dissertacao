@@ -31,6 +31,8 @@ book:
     - index.qmd
     - 01_introducao.qmd
     - 02_metodologia.qmd
+    - 03_revisao.qmd
+    - 04_adpfs.qmd
   appendices: 
     - code.qmd
 

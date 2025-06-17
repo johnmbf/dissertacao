@@ -132,3 +132,45 @@ clean_processos <- clean_processos |>
 
 # Salva a tabela limpa
 saveRDS(clean_processos, "DATA/CLEAN/clean_processos.rds")
+
+clean_decisoes <- clean_decisoes |>
+  # retira a coluna observação e descrição
+  dplyr::select(-observacao, descricao) |>
+  # transforma a coluna de data 
+  dplyr::mutate(data = lubridate::ymd(as.Date(data))) |>
+  # separa processo em classe e numero |>
+  tidyr::separate(
+    processo,
+    into = c("classe", "numero"),
+    sep = "\\s"
+  ) |>
+  # transforma o texto da coluna descricao em minusculo
+  dplyr::mutate(descricao = stringr::str_to_lower(descricao))
+
+# Salva a tabela limpa
+saveRDS(clean_decisoes, "DATA/CLEAN/clean_decisoes.rds")
+
+clean_legitimados <- clean_legitimados |>
+  # retira os acentos
+  dplyr::mutate(dplyr::across(c("legitimado_polo_ativo", "legitimado_polo_passivo"), decJ::utilitario_remover_acentos)) |>
+  # separa processo em classe e numero
+  tidyr::separate(
+    processo,
+    into = c("classe", "numero"),
+    sep = "\\s"
+  )
+
+# Salva a tabela limpa
+saveRDS(clean_legitimados, "DATA/CLEAN/clean_legitimados.rds")
+
+clean_monocraticas <- clean_monocraticas |>
+  # seleciona e renomeia as colunas de interesse
+  dplyr::select(id, uf = procedencia_geografica_uf_sigla, numero = processo_numero, data = julgamento_data, texto = decisao_texto)
+
+clean_acordaos <- clean_acordaos |>
+  # seleciona e renomeia as colunas de interesse
+  dplyr::select(id, uf = procedencia_geografica_uf_sigla, numero = processo_numero, data = julgamento_data, texto = ementa_texto, url = inteiro_teor_url)
+
+# Salva as tabelas limpas
+saveRDS(clean_monocraticas, "DATA/CLEAN/clean_monocraticas.rds")
+saveRDS(clean_acordaos, "DATA/CLEAN/clean_acordaos.rds")
