@@ -78,12 +78,14 @@ stf_jurisprudencia = function(busca = NULL, classe = NULL, base = c("acordaos", 
   }, rate = purrr::rate_delay(5)), .progress = list(format = "Extraindo {cli::pb_bar} {cli::pb_elapsed}")) 
 }
 
+# Faz a leitura dos arquivos raw para utilizar no script
 raw_processos <- readRDS('DATA/RAW/raw_processos.rds')
 raw_decisoes <- readRDS('DATA/RAW/raw_decisoes.rds')
 raw_legitimados <- readRDS('DATA/RAW/raw_legitimados.rds')
 raw_monocraticas <- readRDS('DATA/RAW/raw_monocraticas.rds')
 raw_acordaos <- readRDS('DATA/RAW/raw_acordaos.rds')
 
+# Cria uma tabela com as informações dos dados raw
 tibble::tribble(
   ~"Tabela", ~"Nº Colunas", ~"Nº Linhas", ~"Nº de Dados",
   "raw_processos", ncol(raw_processos), nrow(raw_processos), ncol(raw_processos) * nrow(raw_processos),
@@ -99,3 +101,34 @@ clean_decisoes <- janitor::clean_names(raw_decisoes)
 clean_legitimados <- janitor::clean_names(raw_legitimados)
 clean_acordaos <- janitor::clean_names(raw_acordaos)
 clean_monocraticas <- janitor::clean_names(raw_monocraticas)
+
+clean_processos <- clean_processos |>
+  # seleciona as colunas que serão utilizadas
+  dplyr::select(
+    processo, link_processo, relator_atual, ramo_do_direito, assunto_relacionado, data_autuacao, data_transito_julgado, data_baixa, em_tramitacao, tem_rito_art_12, legislacao
+  ) |>
+  # transforma as colunas de data 
+  dplyr::mutate(
+    data_autuacao = lubridate::ymd(as.Date(data_autuacao)),
+    data_transito_julgado = lubridate::ymd(as.Date(data_transito_julgado)),
+    data_baixa = lubridate::ymd(as.Date(data_baixa, format = "%d/%m/%Y"))
+  ) |>
+  # separa processo em classe e numero
+  tidyr::separate(
+    processo,
+    into = c("classe", "numero"),
+    sep = "\\s"
+  ) |>
+  # separa os assuntos relacionados
+  tidyr::separate_rows(
+    assunto_relacionado,
+    sep = "\\|"
+  ) |>
+  # separa a legislação
+  tidyr::separate_rows(
+    legislacao,
+    sep = "\\r"
+  )
+
+# Salva a tabela limpa
+saveRDS(clean_processos, "DATA/CLEAN/clean_processos.rds")
