@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -234,7 +269,7 @@ Figura&nbsp;4.2- Número de ações de controle concentrado ajuizadas desde 1988
 </div>
 </div>
 <p>São poucas as ações que aguardam mais de 10 anos de julgamento. Uma análise de sobrevivência permitiará que se observe o tempo mediano que a ação leva para ser baixada. Conforme exposto na metodologia, a análise de sobrevivência permite que se verifique o tempo até um evento de interesse ocorrer, inclusive se os dados possuírem censuras (eventos que não ocorreram). O modelo de Kaplan-Meier permite estimar a função de sobrevivência a partir de dados de tempo até um evento, sem fazer suposições sobre a distribuição de probabilidades. A função de sobrevivência <a href="02_metodologia.html#eq-kaplan-meier" class="quarto-xref">Equação&nbsp;<span>2.1</span></a>, é obtida pela proporção de indivíduos que sobreviveram cada vez que um evento ocorre e multiplicando essa proporção pela probabilidade acumulada até então, gerando um gráfico de escada descendente.</p>
-<p>A <a href="#fig-surv-1" class="quarto-xref">Figura&nbsp;<span>4.3</span></a> demonstra a curva de sobrevivência de Kaplan-Meier para as ações de controle concentradoem um modelo nulo. A função de sobrevivência das ações de controle concentrado em razão do tempo utilizando de um modelo nulo permite observar que a expectativa é que metade dos processos encerrem em aproximadamente 4.97 anos.</p>
+<p>A <a href="#fig-surv-1" class="quarto-xref">Figura&nbsp;<span>4.3</span></a> demonstra a curva de sobrevivência de Kaplan-Meier para as ações de controle concentrado em um modelo nulo. A função de sobrevivência das ações de controle concentrado em razão do tempo utilizando de um modelo nulo permite observar que a expectativa é que metade dos processos encerrem em aproximadamente 4.97 anos.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-surv-1" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -261,7 +296,7 @@ Tabela&nbsp;4.1
 </div>
 </figure>
 </div>
-<p>Dentre as ações de controle concentrado previstas no sistema de revisão judicial, destaaca-se a arguição de descumprimento de preceito fundamental.</p>
+<p>Dentre as ações de controle concentrado previstas no sistema de revisão judicial, destaca-se a arguição de descumprimento de preceito fundamental.</p>
 <p><strong>FALAR SOBRE A ADPF</strong></p>
 <p>Os dados mostram que, desde a sua regulamentação, já foram ajuizadas 1217 ADPF. A <a href="#fig-adpf-1" class="quarto-xref">Figura&nbsp;<span>4.4</span></a> abaixo mostra a distribuição de ADPF ao longo do tempo, com o destaque do período de estudo de 2014 a 2024 e linha de tendência:</p>
 <div class="cell">
@@ -281,10 +316,11 @@ Figura&nbsp;4.4- Número de Arguição de Descumprimento de Preceito Fundamental
 <p>Nota-se que a ADPF foi uma ação de controle pouco utilizada inicialmente, mas que, ao longo do tempo, recebeu atenção dos legitimados para a sua proposição. No primeiro período de 2000 a 2014, observa-se um volume de ações relativamente baixo e estável, as flutuações anuais são modestas, e raramente ultrapassando a marca de 40 processos. A partir de 2015, o cenário muda completamente, atingindo picos de mais de 150 processos em 2021. A curva de tendência coincide com o período de pandemia e Governo Bolsonaro (2019-2022). Após o ápice, a análise para os anos subsequentes revela um movimento de arrefecimento, com uma queda considerável no número de ajuizamentos. Contudo, os patamares de 2022 a 2024, embora menores que o pico, permanecem significativamente superior à média do período anterior a 2016. Isso pode indicar o estabelecimento de um “novo normal” na utilização da ADPF.</p>
 <p>O uso crescente da ADPF pode indicar tanto uma maior conscientização dos atores jurídicos e políticos sobre seu potencial quanto uma percepção de que outros instrumentos processuais ou os canais políticos tradicionais são insuficientes para lidar com certas violações de direitos ou impasses institucionais. A ADPF permite contestar não apenas leis ou atos normativos específicos, mas também atos do poder público de natureza diversa, incluindo omissões ou um conjunto de atos que, cumulativamente, gerem lesão a preceito fundamental. Um aumento no número de ADPFs pode sugerir que os problemas levados ao STF são cada vez mais de natureza estrutural ou difusa, transcendendo a simples inconstitucionalidade de uma lei ou ato normativo.</p>
 <p>A pandemia não apenas gerou novas demandas por direitos (como acesso a leitos, medicamentos e vacinas), mas também expôs e intensificou tensões federativas preexistentes. A ausência de uma coordenação nacional clara e a divergência de posturas entre o governo federal e os governos estaduais e municipais levaram a uma profusão de conflitos que desaguaram no STF, que atuou como árbitro dessas disputas. Decisões sobre a autonomia de instituições federais de ensino para exigir comprovante de vacina, contrariando diretrizes do Ministério da Educação, ou a suspensão de atos da FUNAI que negavam proteção a terras indígenas não homologadas durante a crise sanitária, são exemplos dessa mediação de conflitos verticais (entre o governo federal e outros entes ou instituições) e horizontais (entre diferentes políticas públicas) pelo Supremo.</p>
+<p>Observado o crescimento no número de ADPF ajuizadas por ano, é possível verificar quais ramos do direito e assunto estão sendo discutidos nessas ações:</p>
 <div id="fig-adpf-2" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-adpf-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;4.5- Dez principais ramos do direito (a) e assuntos (b) das Arguições de Descumprimento de Preceito Fundamental
+Figura&nbsp;4.5- Dez principais ramos do direito (a) e assuntos (b) das Arguições de Descumprimento de Preceito Fundamental ajuizadas entre 2014-2024
 </figcaption>
 <div aria-describedby="fig-adpf-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="quarto-layout-row">
@@ -316,7 +352,634 @@ Figura&nbsp;4.5- Dez principais ramos do direito (a) e assuntos (b) das Arguiç�
 </div>
 </figure>
 </div>
-<p>Uma vez mapeado o “o quê” — os temas que dominam o universo das ADPFs —, a análise se volta para o “quem”: os membros do Tribunal responsáveis por conduzir esses processos. A forma como o Supremo Tribunal Federal processa essa avalanche de demandas de alta complexidade política não é homogênea, sendo crucial entender como a carga processual se distribui entre os ministros e se há concentração de relatorias, um fator que pode influenciar diretamente o andamento e o destino das arguições.</p>
+<p>Uma vez mapeado o “o quê” — os temas que dominam o universo das ADPFs —, a análise se volta para o “quem”: os membros do Tribunal responsáveis por conduzir esses processos. A forma como o Supremo Tribunal Federal processa essa avalanche de demandas de alta complexidade política não é homogênea, sendo crucial entender como a carga processual se distribui entre os ministros e se há concentração de relatorias, um fator que pode influencia diretamente o andamento e o destino das arguições.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>clean_processos <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(classe, numero, relator_atual, data_autuacao) <span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(classe <span class="sc">==</span> <span class="st">"ADPF"</span>, lubridate<span class="sc">::</span><span class="fu">year</span>(data_autuacao) <span class="sc">&gt;=</span> <span class="dv">2014</span> <span class="sc">&amp;</span> lubridate<span class="sc">::</span><span class="fu">year</span>(data_autuacao) <span class="sc">&lt;=</span> <span class="dv">2024</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">drop_na</span>(relator_atual) <span class="sc">|&gt;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(relator_atual) <span class="sc">|&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">n =</span> dplyr<span class="sc">::</span><span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(relator_atual <span class="sc">!=</span> <span class="st">"MINISTRO PRESIDENTE"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>No que tange aos ministros relatores das arguições, a média de relatorias por ministro é de aproximadamente 58,6 processos, no entanto com uma alta variabilidade. Por exemplo, a Ministra Cármen Lúcia relata 91 processos, enquanto o Min. Flávio Dino apenas 23. Isso se dá, obviamente, pelo tempo de tribunal. Além do fato de que os dados considerando o relator atual do processo, e não o relator inicial. Isso quer dizer, quando um ministro se aposenta sem que os processos tenham encerrado, é designado um novo relator – é esse novo relator que recebe o dado. Observa-se que os Ministros Celso de Mello e Marco Aurélio possuem de 2014 a 2024 apenas 27 e 31 processos, respectivamente.</p>
+<p>A constatação de uma distribuição achatada das relatorias leva naturalmente à pergunta seguinte: essa concentração de poder processual impacta a celeridade dos julgamentos? Deixando a análise estática da distribuição de casos, o estudo avança para uma perspectiva dinâmica, buscando mensurar o tempo de vida de uma ADPF dentro do Tribunal. É preciso, primeiramente, estabelecer uma linha de base para entender quanto tempo, em média, uma arguição leva para ser concluída, antes de investigar os fatores que podem acelerar ou retardar esse processo.</p>
+<p>Assim com as ações de controle concentrado em geral, as ADPF possuem tempo próprio de resposta pelo STF cujos prazos podem ser influenciados a depender de diferentes fatores. No momento, analisa-se em relação a um modelo nulo – independentemente de qualquer variável, em relação ao relator e em relação ao tipo de legitimado.</p>
+<p>O modelo nulo para um conjunto de 1217 processos, considerando que em 995 ocorreram o evento de interesse indica que a mediana do tempo de sobrevivência foi de 746 dias, ou seja, metade das ADPF da amostra levaram aproximadamente 2.04 anos para serem baixadas. Isso significa que, geralmente, as ADPF são concluídas antes das ações de controle concentrado em geral.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-adpf-surv-5" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-adpf-surv-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.6- Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental
+</figcaption>
+<div aria-describedby="fig-adpf-surv-5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="04_adpfs_files/figure-html/fig-adpf-surv-5-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figura&nbsp;4.6- Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental"><img src="04_adpfs_files/figure-html/fig-adpf-surv-5-1.png" class="img-fluid figure-img" width="7200"></a>
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>Saber que metade das ADPFs é encerrada em pouco mais de dois anos oferece um panorama geral valioso, mas oculta as variações significativas que existem caso a caso. O que explica por que algumas ações são decididas em meses, enquanto outras aguardam anos? O primeiro fator a ser testado é a influência do ministro relator. Utilizando o modelo de riscos proporcionais de Cox, é possível ir além da média e quantificar o efeito que cada relator individualmente exerce sobre a celeridade processual. A partir desse ponto, considere que estão sendo avaliadas apenas as ADPF ajuizadas entre 2014 e 2024, e não mais sobre todo o período. A <a href="#fig-adpf-surv-6" class="quarto-xref">Figura&nbsp;<span>4.7</span></a> é a curva de sobrevivência ajustada para esse período com base no modelo nulo:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-adpf-surv-6" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-adpf-surv-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.7- Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental ajuizada entre 2014-2024
+</figcaption>
+<div aria-describedby="fig-adpf-surv-6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="04_adpfs_files/figure-html/fig-adpf-surv-6-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figura&nbsp;4.7- Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental ajuizada entre 2014-2024"><img src="04_adpfs_files/figure-html/fig-adpf-surv-6-1.png" class="img-fluid figure-img" width="7200"></a>
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>Como observado acima, a distribuição de processos entre os ministros é achatada, isto é, temos uma alta variabilidade de ações. Isso influencia no prazo de conclusão do processo? O modelo de Cox inicialmente indicou que, por exemplo, os ministros Carmem Lucia, Celso de Mello e Ricardo Lewandowski geralmente encerram seus processo mais rápido do que os demais ministros. André Mendonça é o ministro mais “lento”: o risco dos processos terminarem quando ele é relator é de apenas 0.213, isto é, 80% menor do que a referência. A <a href="#tbl-adpf-surv-8" class="quarto-xref">Tabela&nbsp;<span>4.2</span></a> abaixo apresenta os resultados do modelo:</p>
+<div class="cell">
+<div id="tbl-adpf-surv-8" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-adpf-surv-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em relação ao ministro relator
+</figcaption>
+<div aria-describedby="tbl-adpf-surv-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="ysxnccsxxs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ysxnccsxxs table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#ysxnccsxxs thead, #ysxnccsxxs tbody, #ysxnccsxxs tfoot, #ysxnccsxxs tr, #ysxnccsxxs td, #ysxnccsxxs th {
+  border-style: none;
+}
+
+#ysxnccsxxs p {
+  margin: 0;
+  padding: 0;
+}
+
+#ysxnccsxxs .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: hidden;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: hidden;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ysxnccsxxs .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#ysxnccsxxs .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ysxnccsxxs .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ysxnccsxxs .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ysxnccsxxs .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ysxnccsxxs .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ysxnccsxxs .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: hidden;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: hidden;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ysxnccsxxs .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ysxnccsxxs .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ysxnccsxxs .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ysxnccsxxs .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ysxnccsxxs .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#ysxnccsxxs .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#ysxnccsxxs .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ysxnccsxxs .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ysxnccsxxs .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ysxnccsxxs .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: hidden;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: hidden;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: hidden;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ysxnccsxxs .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysxnccsxxs .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ysxnccsxxs .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ysxnccsxxs .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#ysxnccsxxs .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysxnccsxxs .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#ysxnccsxxs .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ysxnccsxxs .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ysxnccsxxs .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysxnccsxxs .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ysxnccsxxs .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ysxnccsxxs .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ysxnccsxxs .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ysxnccsxxs .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ysxnccsxxs .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysxnccsxxs .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ysxnccsxxs .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysxnccsxxs .gt_left {
+  text-align: left;
+}
+
+#ysxnccsxxs .gt_center {
+  text-align: center;
+}
+
+#ysxnccsxxs .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ysxnccsxxs .gt_font_normal {
+  font-weight: normal;
+}
+
+#ysxnccsxxs .gt_font_bold {
+  font-weight: bold;
+}
+
+#ysxnccsxxs .gt_font_italic {
+  font-style: italic;
+}
+
+#ysxnccsxxs .gt_super {
+  font-size: 65%;
+}
+
+#ysxnccsxxs .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#ysxnccsxxs .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ysxnccsxxs .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#ysxnccsxxs .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#ysxnccsxxs .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#ysxnccsxxs .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#ysxnccsxxs .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings header">
+<th id="term" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">term</th>
+<th id="estimate" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">estimate</th>
+<th id="std.error" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">std.error</th>
+<th id="statistic" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">statistic</th>
+<th id="p.value" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">p.value</th>
+<th id="HR" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">HR</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_center" headers="term">MIN. ANDRÉ MENDONÇA</td>
+<td class="gt_row gt_center" headers="estimate">−1,55</td>
+<td class="gt_row gt_center" headers="std.error">0,25</td>
+<td class="gt_row gt_center" headers="statistic">−6,26</td>
+<td class="gt_row gt_center" headers="p.value">0,00</td>
+<td class="gt_row gt_center" headers="HR">0,21</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="term">MIN. CÁRMEN LÚCIA</td>
+<td class="gt_row gt_center" headers="estimate">0,10</td>
+<td class="gt_row gt_center" headers="std.error">0,16</td>
+<td class="gt_row gt_center" headers="statistic">0,62</td>
+<td class="gt_row gt_center" headers="p.value">0,53</td>
+<td class="gt_row gt_center" headers="HR">1,10</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_center" headers="term">MIN. CELSO DE MELLO</td>
+<td class="gt_row gt_center" headers="estimate">0,17</td>
+<td class="gt_row gt_center" headers="std.error">0,22</td>
+<td class="gt_row gt_center" headers="statistic">0,77</td>
+<td class="gt_row gt_center" headers="p.value">0,44</td>
+<td class="gt_row gt_center" headers="HR">1,19</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="term">MIN. CRISTIANO ZANIN</td>
+<td class="gt_row gt_center" headers="estimate">−1,60</td>
+<td class="gt_row gt_center" headers="std.error">0,31</td>
+<td class="gt_row gt_center" headers="statistic">−5,13</td>
+<td class="gt_row gt_center" headers="p.value">0,00</td>
+<td class="gt_row gt_center" headers="HR">0,20</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_center" headers="term">MIN. DIAS TOFFOLI</td>
+<td class="gt_row gt_center" headers="estimate">−0,23</td>
+<td class="gt_row gt_center" headers="std.error">0,17</td>
+<td class="gt_row gt_center" headers="statistic">−1,31</td>
+<td class="gt_row gt_center" headers="p.value">0,19</td>
+<td class="gt_row gt_center" headers="HR">0,80</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="term">MIN. EDSON FACHIN</td>
+<td class="gt_row gt_center" headers="estimate">−0,55</td>
+<td class="gt_row gt_center" headers="std.error">0,17</td>
+<td class="gt_row gt_center" headers="statistic">−3,22</td>
+<td class="gt_row gt_center" headers="p.value">0,00</td>
+<td class="gt_row gt_center" headers="HR">0,58</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_center" headers="term">MIN. FLÁVIO DINO</td>
+<td class="gt_row gt_center" headers="estimate">−1,01</td>
+<td class="gt_row gt_center" headers="std.error">0,32</td>
+<td class="gt_row gt_center" headers="statistic">−3,14</td>
+<td class="gt_row gt_center" headers="p.value">0,00</td>
+<td class="gt_row gt_center" headers="HR">0,36</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="term">MIN. GILMAR MENDES</td>
+<td class="gt_row gt_center" headers="estimate">−0,38</td>
+<td class="gt_row gt_center" headers="std.error">0,16</td>
+<td class="gt_row gt_center" headers="statistic">−2,29</td>
+<td class="gt_row gt_center" headers="p.value">0,02</td>
+<td class="gt_row gt_center" headers="HR">0,69</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_center" headers="term">MIN. LUÍS ROBERTO BARROSO</td>
+<td class="gt_row gt_center" headers="estimate">−0,36</td>
+<td class="gt_row gt_center" headers="std.error">0,17</td>
+<td class="gt_row gt_center" headers="statistic">−2,19</td>
+<td class="gt_row gt_center" headers="p.value">0,03</td>
+<td class="gt_row gt_center" headers="HR">0,69</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="term">MIN. LUIZ FUX</td>
+<td class="gt_row gt_center" headers="estimate">−0,93</td>
+<td class="gt_row gt_center" headers="std.error">0,21</td>
+<td class="gt_row gt_center" headers="statistic">−4,49</td>
+<td class="gt_row gt_center" headers="p.value">0,00</td>
+<td class="gt_row gt_center" headers="HR">0,40</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_center" headers="term">MIN. MARCO AURÉLIO</td>
+<td class="gt_row gt_center" headers="estimate">−0,23</td>
+<td class="gt_row gt_center" headers="std.error">0,22</td>
+<td class="gt_row gt_center" headers="statistic">−1,07</td>
+<td class="gt_row gt_center" headers="p.value">0,28</td>
+<td class="gt_row gt_center" headers="HR">0,79</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="term">MIN. NUNES MARQUES</td>
+<td class="gt_row gt_center" headers="estimate">−0,78</td>
+<td class="gt_row gt_center" headers="std.error">0,20</td>
+<td class="gt_row gt_center" headers="statistic">−3,99</td>
+<td class="gt_row gt_center" headers="p.value">0,00</td>
+<td class="gt_row gt_center" headers="HR">0,46</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_center" headers="term">MIN. RICARDO LEWANDOWSKI</td>
+<td class="gt_row gt_center" headers="estimate">0,29</td>
+<td class="gt_row gt_center" headers="std.error">0,19</td>
+<td class="gt_row gt_center" headers="statistic">1,48</td>
+<td class="gt_row gt_center" headers="p.value">0,14</td>
+<td class="gt_row gt_center" headers="HR">1,33</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_center" headers="term">MIN. ROSA WEBER</td>
+<td class="gt_row gt_center" headers="estimate">−0,32</td>
+<td class="gt_row gt_center" headers="std.error">0,18</td>
+<td class="gt_row gt_center" headers="statistic">−1,78</td>
+<td class="gt_row gt_center" headers="p.value">0,08</td>
+<td class="gt_row gt_center" headers="HR">0,73</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
 
 
 

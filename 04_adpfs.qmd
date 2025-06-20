@@ -141,7 +141,7 @@ m <- m |> round(2)
 ```
 
 
-A @fig-surv-1 demonstra a curva de sobrevivência de Kaplan-Meier para as ações de controle concentradoem um modelo nulo. A função de sobrevivência das ações de controle concentrado em razão do tempo utilizando de um modelo nulo permite observar que a expectativa é que metade dos processos encerrem em aproximadamente `r m` anos.
+A @fig-surv-1 demonstra a curva de sobrevivência de Kaplan-Meier para as ações de controle concentrado em um modelo nulo. A função de sobrevivência das ações de controle concentrado em razão do tempo utilizando de um modelo nulo permite observar que a expectativa é que metade dos processos encerrem em aproximadamente `r m` anos.
 
 ```{r, fig-surv-1}
 #| fig-cap: "Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma ação de controle concentrado"
@@ -220,7 +220,7 @@ estimador_km |> broom::glance() |>
 
 ```
 
-Dentre as ações de controle concentrado previstas no sistema de revisão judicial, destaaca-se a arguição de descumprimento de preceito fundamental.
+Dentre as ações de controle concentrado previstas no sistema de revisão judicial, destaca-se a arguição de descumprimento de preceito fundamental.
 
 **FALAR SOBRE A ADPF**
 
@@ -277,10 +277,12 @@ Nota-se que a ADPF foi uma ação de controle pouco utilizada inicialmente, mas 
 
 O uso crescente da ADPF pode indicar tanto uma maior conscientização dos atores jurídicos e políticos sobre seu potencial quanto uma percepção de que outros instrumentos processuais ou os canais políticos tradicionais são insuficientes para lidar com certas violações de direitos ou impasses institucionais. A ADPF permite contestar não apenas leis ou atos normativos específicos, mas também atos do poder público de natureza diversa, incluindo omissões ou um conjunto de atos que, cumulativamente, gerem lesão a preceito fundamental. Um aumento no número de ADPFs pode sugerir que os problemas levados ao STF são cada vez mais de natureza estrutural ou difusa, transcendendo a simples inconstitucionalidade de uma lei ou ato normativo.
 
-A pandemia não apenas gerou novas demandas por direitos (como acesso a leitos, medicamentos e vacinas), mas também expôs e intensificou tensões federativas preexistentes. A ausência de uma coordenação nacional clara e a divergência de posturas entre o governo federal e os governos estaduais e municipais levaram a uma profusão de conflitos que desaguaram no STF, que atuou como árbitro dessas disputas. Decisões sobre a autonomia de instituições federais de ensino para exigir comprovante de vacina, contrariando diretrizes do Ministério da Educação, ou a suspensão de atos da FUNAI que negavam proteção a terras indígenas não homologadas durante a crise sanitária, são exemplos dessa mediação de conflitos verticais (entre o governo federal e outros entes ou instituições) e horizontais (entre diferentes políticas públicas) pelo Supremo. 
+A pandemia não apenas gerou novas demandas por direitos (como acesso a leitos, medicamentos e vacinas), mas também expôs e intensificou tensões federativas preexistentes. A ausência de uma coordenação nacional clara e a divergência de posturas entre o governo federal e os governos estaduais e municipais levaram a uma profusão de conflitos que desaguaram no STF, que atuou como árbitro dessas disputas. Decisões sobre a autonomia de instituições federais de ensino para exigir comprovante de vacina, contrariando diretrizes do Ministério da Educação, ou a suspensão de atos da FUNAI que negavam proteção a terras indígenas não homologadas durante a crise sanitária, são exemplos dessa mediação de conflitos verticais (entre o governo federal e outros entes ou instituições) e horizontais (entre diferentes políticas públicas) pelo Supremo.
+
+Observado o crescimento no número de ADPF ajuizadas por ano, é possível verificar quais ramos do direito e assunto estão sendo discutidos nessas ações:
 
 ```{r, fig-adpf-2}
-#| fig-cap: "Dez principais ramos do direito (a) e assuntos (b) das Arguições de Descumprimento de Preceito Fundamental"
+#| fig-cap: "Dez principais ramos do direito (a) e assuntos (b) das Arguições de Descumprimento de Preceito Fundamental ajuizadas entre 2014-2024"
 #| fig-subcap: 
 #|   - "Ramo do Direito"
 #|   - "Assunto Relacionado"
@@ -291,8 +293,9 @@ A pandemia não apenas gerou novas demandas por direitos (como acesso a leitos, 
 #| layout-ncol: 2
 
 clean_processos |>
-  dplyr::select(classe, numero, ramo_do_direito) |>
-  dplyr::filter(classe == "ADPF") |>
+  dplyr::select(classe, numero, ramo_do_direito, data_autuacao) |>
+  dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024) |>
+  dplyr::select(-data_autuacao) |>
   dplyr::distinct() |>
   dplyr::group_by(ramo_do_direito) |>
   dplyr::summarise(n = dplyr::n()) |> 
@@ -308,8 +311,9 @@ clean_processos |>
   decJ::theme_decJ(x_num= TRUE)
 
 clean_processos |>
-  dplyr::select(classe, numero, assunto_relacionado) |>
-  dplyr::filter(classe == "ADPF") |>
+  dplyr::select(classe, numero, assunto_relacionado, data_autuacao) |>
+  dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024) |>
+  dplyr::select(-data_autuacao) |>
   dplyr::distinct() |>
   dplyr::group_by(assunto_relacionado) |>
   dplyr::summarise(n = dplyr::n()) |> 
@@ -326,8 +330,195 @@ clean_processos |>
 
 ```
 
-Uma vez mapeado o "o quê" — os temas que dominam o universo das ADPFs —, a análise se volta para o "quem": os membros do Tribunal responsáveis por conduzir esses processos. A forma como o Supremo Tribunal Federal processa essa avalanche de demandas de alta complexidade política não é homogênea, sendo crucial entender como a carga processual se distribui entre os ministros e se há concentração de relatorias, um fator que pode influenciar diretamente o andamento e o destino das arguições.
+Uma vez mapeado o "o quê" — os temas que dominam o universo das ADPFs —, a análise se volta para o "quem": os membros do Tribunal responsáveis por conduzir esses processos. A forma como o Supremo Tribunal Federal processa essa avalanche de demandas de alta complexidade política não é homogênea, sendo crucial entender como a carga processual se distribui entre os ministros e se há concentração de relatorias, um fator que pode influencia diretamente o andamento e o destino das arguições.
+
+```{r, adpf-3}
+#| eval: false
+
+clean_processos |>
+  dplyr::select(classe, numero, relator_atual, data_autuacao) |>
+  dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024) |>
+  dplyr::distinct() |>
+  tidyr::drop_na(relator_atual) |> 
+  dplyr::group_by(relator_atual) |>
+  dplyr::summarise(n = dplyr::n()) |>
+  dplyr::ungroup() |>
+  dplyr::filter(relator_atual != "MINISTRO PRESIDENTE")
+
+```
+
+No que tange aos ministros relatores das arguições, a média de relatorias por ministro é de aproximadamente 58,6 processos, no entanto com uma alta variabilidade. Por exemplo, a Ministra Cármen Lúcia relata 91 processos, enquanto o Min. Flávio Dino apenas 23. Isso se dá, obviamente, pelo tempo de tribunal. Além do fato de que os dados considerando o relator atual do processo, e não o relator inicial. Isso quer dizer, quando um ministro se aposenta sem que os processos tenham encerrado, é designado um novo relator – é esse novo relator que recebe o dado. Observa-se que os Ministros Celso de Mello e Marco Aurélio possuem de 2014 a 2024 apenas 27 e 31 processos, respectivamente.
+
+A constatação de uma distribuição achatada das relatorias leva naturalmente à pergunta seguinte: essa concentração de poder processual impacta a celeridade dos julgamentos? Deixando a análise estática da distribuição de casos, o estudo avança para uma perspectiva dinâmica, buscando mensurar o tempo de vida de uma ADPF dentro do Tribunal. É preciso, primeiramente, estabelecer uma linha de base para entender quanto tempo, em média, uma arguição leva para ser concluída, antes de investigar os fatores que podem acelerar ou retardar esse processo.
+
+Assim com as ações de controle concentrado em geral, as ADPF possuem tempo próprio de resposta pelo STF cujos prazos podem ser influenciados a depender de diferentes fatores. No momento, analisa-se em relação a um modelo nulo – independentemente de qualquer variável, em relação ao relator e em relação ao tipo de legitimado.
 
 
+```{r, adpf-surv-4}
+#| echo: false
+
+processos_surv <- clean_processos |>
+  dplyr::select(classe, numero, data_autuacao, data_baixa) |>
+  dplyr::filter(classe == "ADPF") |>
+  dplyr::distinct() |>
+  dplyr::mutate(
+    evento = ifelse(!is.na(data_baixa), 1 , 0)
+  ) |>
+  tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  dplyr::mutate(
+    tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1)
+  )
+
+# Cria o modelo nulo
+estimador_km <- survfit(Surv(tempo, evento) ~ 1, data = processos_surv)
+
+# Salva o modelo nulo
+saveRDS(estimador_km, "DATA/MODELOS/modelo_02.rds")
+
+m <- estimador_km |> broom::glance() |> dplyr::pull(median) |> lubridate::ddays() / lubridate::dyears(1)
+m <- m |> round(2)
+```
 
 
+O modelo nulo para um conjunto de `r estimador_km$n` processos, considerando que em `r estimador_km$n.event |> sum()` ocorreram o evento de interesse indica que a mediana do tempo de sobrevivência foi de `r estimador_km |> broom::glance() |> dplyr::pull(median)` dias, ou seja, metade das ADPF da amostra levaram aproximadamente `r m` anos para serem baixadas. Isso significa que, geralmente, as ADPF são concluídas antes das ações de controle concentrado em geral.
+
+```{r, fig-adpf-surv-5}
+#| fig-cap: "Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental"
+#| fig-width: 12
+#| fig-height: 8
+#| fig-dpi: 600
+#| echo: false
+
+rm(m)
+
+ggsurvplot(
+  estimador_km,
+  data = processos_surv,
+  pval = FALSE,
+  conf.int = FALSE,
+  surv.median.line = "hv",
+  # risk.table = TRUE,
+  xlab = "Tempo (dias)",
+  ylab = "Probabilidade de Sobrevivência",
+  palette = cores[4],
+  ggtheme = decJ::theme_decJ()
+)
+
+decJ::save_decJ("PLOT/surv_02.png", l = 24, dpi = 300)
+```
+
+Saber que metade das ADPFs é encerrada em pouco mais de dois anos oferece um panorama geral valioso, mas oculta as variações significativas que existem caso a caso. O que explica por que algumas ações são decididas em meses, enquanto outras aguardam anos? O primeiro fator a ser testado é a influência do ministro relator. Utilizando o modelo de riscos proporcionais de Cox, é possível ir além da média e quantificar o efeito que cada relator individualmente exerce sobre a celeridade processual. A partir desse ponto, considere que estão sendo avaliadas apenas as ADPF ajuizadas entre 2014 e 2024, e não mais sobre todo o período. A @fig-adpf-surv-6 é a curva de sobrevivência ajustada para esse período com base no modelo nulo:
+
+```{r, fig-adpf-surv-6}
+#| fig-cap: "Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental ajuizada entre 2014-2024"
+#| fig-width: 12
+#| fig-height: 8
+#| fig-dpi: 600
+#| echo: false
+
+processos_surv <- clean_processos |>
+  dplyr::select(classe, numero, data_autuacao, data_baixa) |>
+  dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024) |>
+  dplyr::distinct() |>
+  dplyr::mutate(
+    evento = ifelse(!is.na(data_baixa), 1 , 0)
+  ) |>
+  tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  dplyr::mutate(
+    tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1)
+  )
+
+# Cria o modelo nulo
+estimador_km <- survfit(Surv(tempo, evento) ~ 1, data = processos_surv)
+
+# Salva o modelo nulo
+saveRDS(estimador_km, "DATA/MODELOS/modelo_03.rds")
+
+ggsurvplot(
+  estimador_km,
+  data = processos_surv,
+  pval = FALSE,
+  conf.int = FALSE,
+  surv.median.line = "hv",
+  # risk.table = TRUE,
+  xlab = "Tempo (dias)",
+  ylab = "Probabilidade de Sobrevivência",
+  palette = cores[4],
+  ggtheme = decJ::theme_decJ()
+)
+
+decJ::save_decJ("PLOT/surv_03.png", l = 24, dpi = 300)
+
+```
+
+```{r, adpf-surv-7}
+#| echo: false
+
+processos_surv <- clean_processos |>
+  dplyr::select(classe, numero, data_autuacao, data_baixa, relator_atual) |>
+  tidyr::drop_na(relator_atual) |>
+  dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024, relator_atual != "MINISTRO PRESIDENTE") |>
+  dplyr::distinct() |>
+  dplyr::mutate(
+    evento = ifelse(!is.na(data_baixa), 1 , 0)
+  ) |>
+  tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  dplyr::mutate(
+    tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1)
+  )
+
+m_cox <- coxph(Surv(tempo, evento) ~ relator_atual, data = processos_surv)
+
+# Salva o modelo
+saveRDS(m_cox, "DATA/MODELOS/modelo_04.rds")
+```
+
+Como observado acima, a distribuição de processos entre os ministros é achatada, isto é, temos uma alta variabilidade de ações. Isso influencia no prazo de conclusão do processo? O modelo de Cox inicialmente indicou que, por exemplo, os ministros Carmem Lucia, Celso de Mello e Ricardo Lewandowski geralmente encerram seus processo mais rápido do que os demais ministros. André Mendonça é o ministro mais "lento": o risco dos processos terminarem quando ele é relator é de apenas 0.213, isto é,  80% menor do que a referência. A @tbl-adpf-surv-8 abaixo apresenta os resultados do modelo:
+
+```{r, tbl-adpf-surv-8}
+#| tbl-cap: "Modelo de Cox de uma análise de sobrevivência das ADPF em relação ao ministro relator"
+#| echo: false
+
+m_cox |> 
+  broom::tidy() |> 
+  dplyr::mutate(
+    term = stringr::str_remove_all(term, "relator_atual"),
+    HR = exp(estimate)) |>
+      gt() |>
+  fmt_number(
+    columns = everything(),
+    decimals = 2,
+    dec_mark = ",",
+    sep_mark = "."
+  ) |>
+  tab_options(
+    # Remove a borda superior e inferior da tabela
+    table.border.top.style = "hidden",
+    table.border.bottom.style = "hidden",
+    # Adiciona uma linha sólida abaixo do cabeçalho
+    column_labels.border.bottom.style = "solid",
+    column_labels.border.bottom.width = px(2),
+    # Remove as linhas verticais
+    column_labels.vlines.style = "hidden",
+    table_body.vlines.style = "hidden",
+    # Adiciona uma linha sólida na parte inferior do corpo da tabela
+    table_body.border.bottom.style = "solid",
+    table_body.border.bottom.width = px(2),
+    # Remove as linhas horizontais do corpo da tabela
+    table_body.hlines.style = "hidden",
+    # Centraliza o título da tabela
+    heading.align = "center",
+    # Posiciona a nota de rodapé
+    source_notes.padding = px(10)
+  ) |>
+  # Alinhar os cabeçalhos das colunas ao centro
+  cols_align(
+    align = "center",
+    columns = everything()
+  )
+```
+
+```{r, adpf-surv-9}
+#| echo: false
+rs_mcox <- cox.zph(m_cox, terms = FALSE)
+```
