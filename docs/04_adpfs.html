@@ -20,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -112,6 +77,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -204,11 +198,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#considerações-parciais" id="toc-considerações-parciais" class="nav-link active" data-scroll-target="#considerações-parciais"><span class="header-section-number">4.1</span> Considerações parciais</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content">
+<main class="content column-body" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -217,7 +217,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div class="quarto-title-meta column-page-right">
+<div class="quarto-title-meta column-body">
 
     
   
@@ -353,17 +353,6 @@ Figura&nbsp;4.5- Dez principais ramos do direito (a) e assuntos (b) das Arguiç�
 </figure>
 </div>
 <p>Uma vez mapeado o “o quê” — os temas que dominam o universo das ADPFs —, a análise se volta para o “quem”: os membros do Tribunal responsáveis por conduzir esses processos. A forma como o Supremo Tribunal Federal processa essa avalanche de demandas de alta complexidade política não é homogênea, sendo crucial entender como a carga processual se distribui entre os ministros e se há concentração de relatorias, um fator que pode influencia diretamente o andamento e o destino das arguições.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>clean_processos <span class="sc">|&gt;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(classe, numero, relator_atual, data_autuacao) <span class="sc">|&gt;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(classe <span class="sc">==</span> <span class="st">"ADPF"</span>, lubridate<span class="sc">::</span><span class="fu">year</span>(data_autuacao) <span class="sc">&gt;=</span> <span class="dv">2014</span> <span class="sc">&amp;</span> lubridate<span class="sc">::</span><span class="fu">year</span>(data_autuacao) <span class="sc">&lt;=</span> <span class="dv">2024</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>() <span class="sc">|&gt;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">drop_na</span>(relator_atual) <span class="sc">|&gt;</span> </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(relator_atual) <span class="sc">|&gt;</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">n =</span> dplyr<span class="sc">::</span><span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(relator_atual <span class="sc">!=</span> <span class="st">"MINISTRO PRESIDENTE"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>No que tange aos ministros relatores das arguições, a média de relatorias por ministro é de aproximadamente 58,6 processos, no entanto com uma alta variabilidade. Por exemplo, a Ministra Cármen Lúcia relata 91 processos, enquanto o Min. Flávio Dino apenas 23. Isso se dá, obviamente, pelo tempo de tribunal. Além do fato de que os dados considerando o relator atual do processo, e não o relator inicial. Isso quer dizer, quando um ministro se aposenta sem que os processos tenham encerrado, é designado um novo relator – é esse novo relator que recebe o dado. Observa-se que os Ministros Celso de Mello e Marco Aurélio possuem de 2014 a 2024 apenas 27 e 31 processos, respectivamente.</p>
 <p>A constatação de uma distribuição achatada das relatorias leva naturalmente à pergunta seguinte: essa concentração de poder processual impacta a celeridade dos julgamentos? Deixando a análise estática da distribuição de casos, o estudo avança para uma perspectiva dinâmica, buscando mensurar o tempo de vida de uma ADPF dentro do Tribunal. É preciso, primeiramente, estabelecer uma linha de base para entender quanto tempo, em média, uma arguição leva para ser concluída, antes de investigar os fatores que podem acelerar ou retardar esse processo.</p>
 <p>Assim com as ações de controle concentrado em geral, as ADPF possuem tempo próprio de resposta pelo STF cujos prazos podem ser influenciados a depender de diferentes fatores. No momento, analisa-se em relação a um modelo nulo – independentemente de qualquer variável, em relação ao relator e em relação ao tipo de legitimado.</p>
@@ -406,23 +395,23 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
 </figcaption>
 <div aria-describedby="tbl-adpf-surv-8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="ysxnccsxxs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ysxnccsxxs table {
+<div id="ivhikkpbbl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ivhikkpbbl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ysxnccsxxs thead, #ysxnccsxxs tbody, #ysxnccsxxs tfoot, #ysxnccsxxs tr, #ysxnccsxxs td, #ysxnccsxxs th {
+#ivhikkpbbl thead, #ivhikkpbbl tbody, #ivhikkpbbl tfoot, #ivhikkpbbl tr, #ivhikkpbbl td, #ivhikkpbbl th {
   border-style: none;
 }
 
-#ysxnccsxxs p {
+#ivhikkpbbl p {
   margin: 0;
   padding: 0;
 }
 
-#ysxnccsxxs .gt_table {
+#ivhikkpbbl .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -448,12 +437,12 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   border-left-color: #D3D3D3;
 }
 
-#ysxnccsxxs .gt_caption {
+#ivhikkpbbl .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ysxnccsxxs .gt_title {
+#ivhikkpbbl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -465,7 +454,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   border-bottom-width: 0;
 }
 
-#ysxnccsxxs .gt_subtitle {
+#ivhikkpbbl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -477,7 +466,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   border-top-width: 0;
 }
 
-#ysxnccsxxs .gt_heading {
+#ivhikkpbbl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -489,13 +478,13 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   border-right-color: #D3D3D3;
 }
 
-#ysxnccsxxs .gt_bottom_border {
+#ivhikkpbbl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ysxnccsxxs .gt_col_headings {
+#ivhikkpbbl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -510,7 +499,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   border-right-color: #D3D3D3;
 }
 
-#ysxnccsxxs .gt_col_heading {
+#ivhikkpbbl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -530,7 +519,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   overflow-x: hidden;
 }
 
-#ysxnccsxxs .gt_column_spanner_outer {
+#ivhikkpbbl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -542,15 +531,15 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   padding-right: 4px;
 }
 
-#ysxnccsxxs .gt_column_spanner_outer:first-child {
+#ivhikkpbbl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ysxnccsxxs .gt_column_spanner_outer:last-child {
+#ivhikkpbbl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ysxnccsxxs .gt_column_spanner {
+#ivhikkpbbl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -562,11 +551,11 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   width: 100%;
 }
 
-#ysxnccsxxs .gt_spanner_row {
+#ivhikkpbbl .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ysxnccsxxs .gt_group_heading {
+#ivhikkpbbl .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -592,7 +581,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   text-align: left;
 }
 
-#ysxnccsxxs .gt_empty_group_heading {
+#ivhikkpbbl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -607,15 +596,15 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   vertical-align: middle;
 }
 
-#ysxnccsxxs .gt_from_md > :first-child {
+#ivhikkpbbl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ysxnccsxxs .gt_from_md > :last-child {
+#ivhikkpbbl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ysxnccsxxs .gt_row {
+#ivhikkpbbl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -634,7 +623,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   overflow-x: hidden;
 }
 
-#ysxnccsxxs .gt_stub {
+#ivhikkpbbl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -647,7 +636,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   padding-right: 5px;
 }
 
-#ysxnccsxxs .gt_stub_row_group {
+#ivhikkpbbl .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -661,15 +650,15 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   vertical-align: top;
 }
 
-#ysxnccsxxs .gt_row_group_first td {
+#ivhikkpbbl .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ysxnccsxxs .gt_row_group_first th {
+#ivhikkpbbl .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ysxnccsxxs .gt_summary_row {
+#ivhikkpbbl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -679,16 +668,16 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   padding-right: 5px;
 }
 
-#ysxnccsxxs .gt_first_summary_row {
+#ivhikkpbbl .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ysxnccsxxs .gt_first_summary_row.thick {
+#ivhikkpbbl .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ysxnccsxxs .gt_last_summary_row {
+#ivhikkpbbl .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -698,7 +687,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   border-bottom-color: #D3D3D3;
 }
 
-#ysxnccsxxs .gt_grand_summary_row {
+#ivhikkpbbl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -708,7 +697,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   padding-right: 5px;
 }
 
-#ysxnccsxxs .gt_first_grand_summary_row {
+#ivhikkpbbl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -718,7 +707,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   border-top-color: #D3D3D3;
 }
 
-#ysxnccsxxs .gt_last_grand_summary_row_top {
+#ivhikkpbbl .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -728,11 +717,11 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   border-bottom-color: #D3D3D3;
 }
 
-#ysxnccsxxs .gt_striped {
+#ivhikkpbbl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ysxnccsxxs .gt_table_body {
+#ivhikkpbbl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -741,7 +730,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   border-bottom-color: #D3D3D3;
 }
 
-#ysxnccsxxs .gt_footnotes {
+#ivhikkpbbl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -755,7 +744,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   border-right-color: #D3D3D3;
 }
 
-#ysxnccsxxs .gt_footnote {
+#ivhikkpbbl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -764,7 +753,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   padding-right: 5px;
 }
 
-#ysxnccsxxs .gt_sourcenotes {
+#ivhikkpbbl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -778,7 +767,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   border-right-color: #D3D3D3;
 }
 
-#ysxnccsxxs .gt_sourcenote {
+#ivhikkpbbl .gt_sourcenote {
   font-size: 90%;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -786,63 +775,63 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
   padding-right: 5px;
 }
 
-#ysxnccsxxs .gt_left {
+#ivhikkpbbl .gt_left {
   text-align: left;
 }
 
-#ysxnccsxxs .gt_center {
+#ivhikkpbbl .gt_center {
   text-align: center;
 }
 
-#ysxnccsxxs .gt_right {
+#ivhikkpbbl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ysxnccsxxs .gt_font_normal {
+#ivhikkpbbl .gt_font_normal {
   font-weight: normal;
 }
 
-#ysxnccsxxs .gt_font_bold {
+#ivhikkpbbl .gt_font_bold {
   font-weight: bold;
 }
 
-#ysxnccsxxs .gt_font_italic {
+#ivhikkpbbl .gt_font_italic {
   font-style: italic;
 }
 
-#ysxnccsxxs .gt_super {
+#ivhikkpbbl .gt_super {
   font-size: 65%;
 }
 
-#ysxnccsxxs .gt_footnote_marks {
+#ivhikkpbbl .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ysxnccsxxs .gt_asterisk {
+#ivhikkpbbl .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ysxnccsxxs .gt_indent_1 {
+#ivhikkpbbl .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ysxnccsxxs .gt_indent_2 {
+#ivhikkpbbl .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ysxnccsxxs .gt_indent_3 {
+#ivhikkpbbl .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ysxnccsxxs .gt_indent_4 {
+#ivhikkpbbl .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ysxnccsxxs .gt_indent_5 {
+#ivhikkpbbl .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -980,8 +969,138 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
 </figure>
 </div>
 </div>
+<p>A partir dos dados obtidos do modelo, é possível identificar dois grupos, além de uma característica do ministro de referência, Alexandre de Moraes. O fato de quase todos os coeficientes significativos serem negativos indica que o ritmo de julgamento do ministro Alexandre de Moraes é o mais rápido do Tribunal para ADPFs estabelecendo um padrão elevando com o qual seus pares são comparados.</p>
+<p>Os resultados mais contundentes do modelo apontam para um grupo de ministros cujo ritmo de julgamento é significativamente mais lento que o da linha de base. À frente deste grupo estão os Ministros Cristiano Zanin e André Mendonça, com Razões de Risco de 0.20 e 0.21, respectivamente. Isso significa que a taxa de julgamento de ADPFs sob suas relatorias é aproximadamente 80% mais lenta que a do Ministro Moraes. Este é um resultado contraintuitivo, pois se poderia esperar que novos ministros fossem mais ágeis para marcar posição ou reduzir acervos. O fato de que os dois nomeados mais recentes, provenientes de polos políticos antagônicos (Mendonça indicado por Jair Bolsonaro e Zanin por Luiz Inácio Lula da Silva), exibem um comportamento estatístico semelhante sugere que a causa da lentidão não é ideológica. A explicação mais plausível reside em um “efeito de aprendizado” ou em uma cautela adicional de recém-chegados ao lidar com a complexidade e a sensibilidade política inerentes às ADPFs. Suas trajetórias prévias, como advogado de defesa em um caso de alta notoriedade (Zanin) e como Advogado-Geral da União (Mendonça), podem ter cultivado um estilo mais meticuloso e de construção de caso, em contraste com a celeridade executiva de Moraes. Outro fator pode ser o fato desses ministros terem herdado processos antigos de ministros aposentados, aumentando o efeito do tempo sobre seus processos.</p>
+<p>O segundo grupo revela ministros cujo ritmo de julgamento não é estatisticamente distinguível do da linha de base, o ministro Alexandre de Moraes. Este grupo inclui os ministros Cármen Lúcia, Celso de Mello, Ricardo Lewandowski, Dias Toffoli e Marco Aurélio. A ausência de um efeito estatisticamente significativo é, em si, um achado relevante. Sugere que estes ministros compõem a “mediana” da Corte em termos de celeridade para ADPFs, com os demais se desviando significativamente para um ritmo mais lento.</p>
+<p>A análise demonstra, portanto, que a identidade do relator é uma variável-chave na equação da celeridade processual. Contudo, para além das características individuais dos julgadores, existem mecanismos processuais internos ao Tribunal que são projetados para influenciar o ritmo dos julgamentos. Dentre eles, destaca-se a aplicação do rito abreviado. A investigação se volta agora para este fator, buscando determinar se sua utilização cumpre, na prática, a promessa de acelerar a entrega da prestação jurisdicional.</p>
+<p>Primeiramente, é preciso destacar que o rito abreviado não está previsto na Lei nº 9882/1999 – que regulamenta a ADPF, mas é amplamente utilizado de modo genérico no controle concentrado, embora só esteja previsto na regulamentação da ADI, ADO e ADC. Segundo esse rito, havendo medida cautelar, o relator, após prazo de dez dias para inforações e cinco dias para manifestação do Advogado-Geral da União e o Procurador-Geral da República, pode submeter o processo direto ao plenário para julgar definitivamente a ação - sem a necessidade de avaliar a liminar previamente.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["tem_rito_art_12"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Não","2":"751"},{"1":"Sim","2":"136"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>No escopo dos processos analisados, cerca de 136 processo adotaram o rito abreviado. Mas, o rito abreviado reduz o tempo de julgaento da ação? Conforme se observa na <a href="#fig-adpf-rito-2" class="quarto-xref">Figura&nbsp;<span>4.8</span></a>, as ações sem o rito abreviado são encerradas mais rapidamente do que as ações com o rito abreviado, o que é contraintuitivo. Isso pode ser explicado, principalmente, pelo fato de que boa parte das ações foram extintas sem resolução de mérito - antes mesmo de se discutir a viabilidade do rito abreviado.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-adpf-rito-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-adpf-rito-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.8- Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental ajuizada entre 2014-2024 em relação ao rito abreviado
+</figcaption>
+<div aria-describedby="fig-adpf-rito-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="04_adpfs_files/figure-html/fig-adpf-rito-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figura&nbsp;4.8- Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental ajuizada entre 2014-2024 em relação ao rito abreviado"><img src="04_adpfs_files/figure-html/fig-adpf-rito-2-1.png" class="img-fluid figure-img" width="7200"></a>
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>A fim de testar os efeitos da variável sobre o tempo, o modelo de Cox confirmou que possuir o rito abreviado diminui o risco do processo encerrar, isto é, o rito abreviado tem efeito retardatário (<span class="math inline">\(\beta = -0,2136\)</span>; <span class="math inline">\(exp(\beta) = 0,8077\)</span>; <span class="math inline">\(p = 0,0421\)</span>). No entanto, como foi possível observar na <a href="#fig-adpf-rito-2" class="quarto-xref">Figura&nbsp;<span>4.8</span></a>, as linhas se cruzam em um determinado momento, sugerindo que os riscos não são proporcionais - o que viola os pressupostos modelo. O teste dos resíduos de Schoenfeld confirmou essa constatação - os riscos não são proporcionais (<span class="math inline">\(p &lt; 0,05\)</span>). A linha suavizada que representa a tendência dos resíduos ao longo do tempo não é horizontal, exibindo uma inclinação positiva. Isso indica que o efeito da variável sobre o risco não é constante, mas sim varia em função do tempo, aumentando progressivamente.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-adpf-rito-3" class="quarto-float quarto-figure quarto-figure-center anchored" width="4200">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-adpf-rito-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.9
+</figcaption>
+<div aria-describedby="fig-adpf-rito-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="04_adpfs_files/figure-html/fig-adpf-rito-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figura&nbsp;4.9- "><img src="04_adpfs_files/figure-html/fig-adpf-rito-3-1.png" id="fig-adpf-rito-3" class="img-fluid figure-img" width="4200"></a>
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>Para corrigir a violação, optou-se por ajustar modelo de Cox com um coeficiente dependente do tempo (<em>time-dependent coefficient</em>). Foi incluído um termo de interação entre a variável e uma função linear do tempo.</p>
+<div class="cell">
+<div id="tbl-adpf-rito-4" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-adpf-rito-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;4.3
+</figcaption>
+<div aria-describedby="tbl-adpf-rito-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">tem_rito_art_12</td>
+<td style="text-align: right;">-0.7301032</td>
+<td style="text-align: right;">0.1648282</td>
+<td style="text-align: right;">-4.429479</td>
+<td style="text-align: right;">9.4e-06</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tt(tem_rito_art_12)</td>
+<td style="text-align: right;">0.0007168</td>
+<td style="text-align: right;">0.0001543</td>
+<td style="text-align: right;">4.646110</td>
+<td style="text-align: right;">3.4e-06</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>A interpretação dos coeficientes revela uma dinâmica complexa. O coeficiente principal corresponde a um HR inicial de 0,48, indicando um forte efeito protetor no tempo zero. Contudo, o coeficiente positivo para o termo de interação demonstra que este efeito protetor se dissipa progressivamente com o passar do tempo. O HR evolui, atingindo o valor de 1,0 (ausência de efeito) no tempo aproximado de 1018 dias, e se inverte para um fator de risco em tempos subsequentes (HR = 1,41 em t = 1500 dias).</p>
+<p>Ocorre que, conforme anotado anteriormente, o rito abreviado apresenta um efeito contraintuitivo de prolongar o prazo de conclusão do processo. Considerando que o resultado do processo pode influenciar no seu tempo, a próxima análise visa estimar o tempo de conclusão do processo com relação ao tipo de resultado.</p>
+<p>A <a href="#fig-adpf-resultado-2" class="quarto-xref">Figura&nbsp;<span>4.10</span></a> ilustra a distribuição dos resultados das Arguições de Descumprimento de Preceito Fundamental (ADPF) ajuizadas no Supremo Tribunal Federal. A análise dos dados revela uma proeminente concentração de ações julgadas como “Sem mérito”, superando a marca de 400 casos. Este resultado é expressivamente superior às demais categorias, indicando que uma parcela majoritária das ADPFs sequer tem seu mérito analisado pela Corte, sendo extintas por questões processuais preliminares, como a ausência de requisitos de admissibilidade.</p>
+<p>Em um segundo patamar de frequência, as ações julgadas “Procedente”, com aproximadamente 125 casos, representam o segundo grupo mais expressivo, sinalizando o acolhimento material dos pedidos em número considerável. Logo após, surgem as ações consideradas “Prejudicado”, com cerca de 75 ocorrências, e “Procedente em parte”, com aproximadamente 50. A categoria com menor incidência é a de “Improcedente”, com menos de 50 casos, o que sugere que, uma vez admitida a ação, a chance de uma negativa total ao pedido é a menor entre todos os desfechos possíveis.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-adpf-resultado-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-adpf-resultado-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.10- Resultado das arguições de descumprimento de preceito fundamental
+</figcaption>
+<div aria-describedby="fig-adpf-resultado-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="04_adpfs_files/figure-html/fig-adpf-resultado-2-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figura&nbsp;4.10- Resultado das arguições de descumprimento de preceito fundamental"><img src="04_adpfs_files/figure-html/fig-adpf-resultado-2-1.png" class="img-fluid figure-img" width="4200"></a>
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>A análise de sobrevivência indicou uma relação entre o resultado e a duração do processo. Os processos extintos “Sem mérito” são os mais céleres, com um tempo mediano de 282 dias para sua conclusão. Este dado reforça a ideia de que a triagem inicial de requisitos processuais funciona como um filtro rápido, que impede o prosseguimento de ações que não atendem às condições formais de conhecimento, otimizando o tempo da Corte.</p>
+<p>Por outro lado, as ações que chegam a uma decisão de mérito apresentam uma duração consideravelmente maior. De forma notável, os processos julgados “Improcedentes” são os mais longos, com uma mediana de 990 dias. Este é um tempo superior ao das ações “Procedentes” (750 dias) e “Procedentes em parte” (639 dias).</p>
+<p>A <a href="#fig-adpf-resultado-3" class="quarto-xref">Figura&nbsp;<span>4.11</span></a> ilustra esses resultados:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-adpf-resultado-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-adpf-resultado-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.11- Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental ajuizada entre 2014-2024 em relação ao resultado
+</figcaption>
+<div aria-describedby="fig-adpf-resultado-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="04_adpfs_files/figure-html/fig-adpf-resultado-3-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figura&nbsp;4.11- Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental ajuizada entre 2014-2024 em relação ao resultado"><img src="04_adpfs_files/figure-html/fig-adpf-resultado-3-1.png" class="img-fluid figure-img" width="4200"></a>
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>A aplicação do modelo de riscos de Cox aprofunda a análise, permitindo quantificar a velocidade de resolução das ADPFs com base no seu resultado, tendo como referência a categoria “Improcedente” (a mais lenta). O modelo como um todo é estatisticamente robusto (p &lt; 0.001), indicando que o tipo de resultado é um fator preditivo determinante para a duração do processo. A análise das razões de risco revela que as ações extintas “Sem mérito” possuem uma chance 140% maior de serem concluídas a qualquer momento em comparação com as julgadas improcedentes.</p>
+<p>Da mesma forma, as ações declaradas “Prejudicadas” também demonstram uma celeridade notável, com uma chance de resolução 89% maior em relação ao grupo de referência. Ambas as categorias apresentam resultados com alta significância estatística (p &lt; 0.01). Em contrapartida, os resultados para “Procedente” e “Procedente em parte” não mostraram uma diferença estatisticamente significativa em relação ao tempo de julgamento das “Improcedentes”, sugerindo que, uma vez admitida para análise de mérito, a duração do processo até sua decisão final tende a ser similar, independentemente de a Corte acolher ou rejeitar o pedido.</p>
+<p>Analisando individualmente os resíduos cada categoria, observa-se que o efeito dos resultados “Sem mérito”, “Procedente” e “Prejudicado” varia significativamente ao longo do tempo. Isso significa que a magnitude do “risco” de um processo ser finalizado para essas categorias não é constante. Por exemplo, a celeridade de um processo “Sem mérito” é muito mais acentuada nos meses iniciais do que em estágios mais tardios do processo judicial.</p>
+<p>Complementando análise, observou-se que as ações com o rito abreviado não influenciam na aceleração do processo. A hipótese é de que as ações são extintas sem resolução de mérito, tornando o indicador do modelo sobre o rito abreviado falso. Por isso, foi criado um modelo que interege as duas variáveis: rito abreviado e resultado.</p>
+<p>A aplicação do rito abreviado, concebido para acelerar o julgamento de mérito, não impacta os processos de maneira uniforme, apresentando resultados por vezes contraintuitivos quando cruzado com o desfecho da ação. O achado mais expressivo está na categoria “Sem mérito”: enquanto as ações sem o rito especial são resolvidas em uma mediana de apenas 215 dias, aquelas submetidas ao rito levam 654 dias.</p>
+<p>Essa aparente contradição é metodologicamente significativa. O rito abreviado pressupõe a superação das questões de admissibilidade para focar no mérito. Portanto, os processos que seguem por essa via e, ainda assim, terminam “sem mérito” são exceções complexas, cujo vício processual só foi detectado em fase avançada. De forma similarmente inesperada, as ações “Procedentes” e “Prejudicadas” também foram mais lentas quando submetidas ao rito abreviado.</p>
+<p>Em contrapartida, o efeito acelerador do rito abreviado funcionou como o esperado nas ações julgadas “Improcedentes” (reduzindo o tempo de 1003 para 756 dias) e “Procedentes em parte” (de 674 para 589 dias). Fica claro, portanto, que o impacto do rito abreviado não é absoluto, mas sim contextual. Sua aplicação revela dinâmicas processuais complexas no STF, onde a interação entre o procedimento adotado e a natureza do caso define o verdadeiro ritmo do processo judicial.</p>
+<section id="considerações-parciais" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="considerações-parciais"><span class="header-section-number">4.1</span> Considerações parciais</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1422,7 +1541,7 @@ Tabela&nbsp;4.2- Modelo de Cox de uma análise de sobrevivência das ADPF em rel
     }
   });
   </script>
-<nav class="page-navigation column-page-right">
+<nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
       <a href="./03_revisao.html" class="pagination-link" aria-label="Revisão de Literatura">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Revisão de Literatura</span></span>

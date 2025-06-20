@@ -5,14 +5,21 @@ library(ggplot2)
 library(survival)
 library(survminer)
 library(gt)
+library(decJ)
 
 knitr::opts_chunk$set(
-  warning = FALSE, error = FALSE, message = FALSE
+  warning = FALSE, error = FALSE, message = FALSE,
+  fig_width = 12,
+  fig_height = 8,
+  fig_dpi = 600,
+  echo = FALSE
 )
 
 cores <- c("#D9523F", "#D1CFC2", "#ACBCCC", "#588383", "#AA6F4E", "#8898A1")
 
 clean_processos <- readRDS('DATA/CLEAN/clean_processos.rds')
+clean_decisoes <- readRDS('DATA/CLEAN/clean_decisoes.rds')
+adpf_rec <- readRDS('DATA/MISC/adpf_rec.rds')
 ```
 
 A intensidade da judicialização da política no Brasil pode ser diretamente aferida pela análise do volume de ações de controle concentrado de constitucionalidade ajuizadas no Supremo Tribunal Federal (STF). Instrumentos como a Ação Direta de Inconstitucionalidade (ADI), a Ação Declaratória de Constitucionalidade (ADC), a Ação Direta de Inconstitucionalidade por Omissão (ADO) e, notadamente, a Arguição de Descumprimento de Preceito Fundamental (ADPF) constituem os principais canais pelos quais questões políticas são submetidas a um veredito sobre sua compatibilidade com a Constituição. Desde a promulgação da Carta de 1988, um total de `r clean_processos |> dplyr::select(classe, numero) |> dplyr::distinct() |> nrow()` ações dessa natureza foram propostas, evidenciando a consolidação do STF como uma arena de disputas de alta relevância.
@@ -522,3 +529,280 @@ m_cox |>
 #| echo: false
 rs_mcox <- cox.zph(m_cox, terms = FALSE)
 ```
+
+A partir dos dados obtidos do modelo, é possível identificar dois grupos, além de uma característica do ministro de referência, Alexandre de Moraes. O fato de quase todos os coeficientes significativos serem negativos indica que o ritmo de julgamento do ministro Alexandre de Moraes é o mais rápido do Tribunal para ADPFs estabelecendo um padrão elevando com o qual seus pares são comparados. 
+
+Os resultados mais contundentes do modelo apontam para um grupo de ministros cujo ritmo de julgamento é significativamente mais lento que o da linha de base. À frente deste grupo estão os Ministros Cristiano Zanin e André Mendonça, com Razões de Risco de 0.20 e 0.21, respectivamente. Isso significa que a taxa de julgamento de ADPFs sob suas relatorias é aproximadamente 80% mais lenta que a do Ministro Moraes. Este é um resultado contraintuitivo, pois se poderia esperar que novos ministros fossem mais ágeis para marcar posição ou reduzir acervos. O fato de que os dois nomeados mais recentes, provenientes de polos políticos antagônicos (Mendonça indicado por Jair Bolsonaro e Zanin por Luiz Inácio Lula da Silva), exibem um comportamento estatístico semelhante sugere que a causa da lentidão não é ideológica. A explicação mais plausível reside em um "efeito de aprendizado" ou em uma cautela adicional de recém-chegados ao lidar com a complexidade e a sensibilidade política inerentes às ADPFs. Suas trajetórias prévias, como advogado de defesa em um caso de alta notoriedade (Zanin) e como Advogado-Geral da União (Mendonça), podem ter cultivado um estilo mais meticuloso e de construção de caso, em contraste com a celeridade executiva de Moraes. Outro fator pode ser o fato desses ministros terem herdado processos antigos de ministros aposentados, aumentando o efeito do tempo sobre seus processos.
+
+O segundo grupo revela ministros cujo ritmo de julgamento não é estatisticamente distinguível do da linha de base, o ministro Alexandre de Moraes. Este grupo inclui os ministros Cármen Lúcia, Celso de Mello, Ricardo Lewandowski, Dias Toffoli e Marco Aurélio. A ausência de um efeito estatisticamente significativo é, em si, um achado relevante. Sugere que estes ministros compõem a "mediana" da Corte em termos de celeridade para ADPFs, com os demais se desviando significativamente para um ritmo mais lento.
+
+A análise demonstra, portanto, que a identidade do relator é uma variável-chave na equação da celeridade processual. Contudo, para além das características individuais dos julgadores, existem mecanismos processuais internos ao Tribunal que são projetados para influenciar o ritmo dos julgamentos. Dentre eles, destaca-se a aplicação do rito abreviado. A investigação se volta agora para este fator, buscando determinar se sua utilização cumpre, na prática, a promessa de acelerar a entrega da prestação jurisdicional.
+
+Primeiramente, é preciso destacar que o rito abreviado não está previsto na Lei nº 9882/1999 – que regulamenta a ADPF, mas é amplamente utilizado de modo genérico no controle concentrado, embora só esteja previsto na regulamentação da ADI, ADO e ADC. Segundo esse rito, havendo medida cautelar, o relator, após prazo de dez dias para inforações e cinco dias para manifestação do Advogado-Geral da União e o Procurador-Geral da República, pode submeter o processo direto ao plenário para julgar definitivamente a ação - sem a necessidade de avaliar a liminar previamente.
+
+```{r adpf-rito-1}
+#| echo: false
+
+clean_processos |>
+  dplyr::select(classe, numero, tem_rito_art_12, data_autuacao) |>
+  dplyr::filter(
+    classe == "ADPF",
+    lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024
+  ) |>
+  dplyr::distinct() |>
+  dplyr::group_by(tem_rito_art_12) |>
+  dplyr::summarise(n = dplyr::n())
+
+```
+
+
+No escopo dos processos analisados, cerca de 136 processo adotaram o rito abreviado. Mas, o rito abreviado reduz o tempo de julgaento da ação? Conforme se observa na @fig-adpf-rito-2, as ações sem o rito abreviado são encerradas mais rapidamente do que as ações com o rito abreviado, o que é contraintuitivo. Isso pode ser explicado, principalmente, pelo fato de que boa parte das ações foram extintas sem resolução de mérito - antes mesmo de se discutir a viabilidade do rito abreviado.
+
+```{r, fig-adpf-rito-2}
+#| fig-cap: "Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental ajuizada entre 2014-2024 em relação ao rito abreviado"
+#| fig-width: 12
+#| fig-height: 8
+#| fig-dpi: 600
+#| echo: false
+
+processos_surv <- clean_processos |>
+  dplyr::select(classe, numero, data_autuacao, data_baixa, tem_rito_art_12) |>
+  dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024) |>
+  dplyr::distinct() |>
+  dplyr::mutate(
+    evento = ifelse(!is.na(data_baixa), 1 , 0)
+  ) |>
+  tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  dplyr::mutate(
+    tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1)
+  )
+
+# Cria o modelo
+estimador_km <- survfit(Surv(tempo, evento) ~ tem_rito_art_12, data = processos_surv)
+
+# Salva o modelo
+saveRDS(estimador_km, "DATA/MODELOS/modelo_05.rds")
+
+ggsurvplot(
+  estimador_km,
+  data = processos_surv,
+  pval = TRUE,
+  conf.int = FALSE,
+  surv.median.line = "hv",
+  # risk.table = TRUE,
+  xlab = "Tempo (dias)",
+  ylab = "Probabilidade de Sobrevivência",
+  palette = c(cores[4], cores[5]),
+  ggtheme = decJ::theme_decJ(),
+  legend.labs = c("Não", "Sim"),
+  legend.title = "Rito abreviado"
+)
+
+decJ::save_decJ("PLOT/surv_04.png", l = 24, dpi = 300)
+
+```
+
+A fim de testar os efeitos da variável sobre o tempo, o modelo de Cox confirmou que possuir o rito abreviado diminui o risco do processo encerrar, isto é, o rito abreviado tem efeito retardatário ($\beta = -0,2136$; $exp(\beta) = 0,8077$; $p = 0,0421$). No entanto, como foi possível observar na @fig-adpf-rito-2, as linhas se cruzam em um determinado momento, sugerindo que os riscos não são proporcionais - o que viola os pressupostos modelo. O teste dos resíduos de Schoenfeld confirmou essa constatação - os riscos não são proporcionais ($p < 0,05$). A linha suavizada que representa a tendência dos resíduos ao longo do tempo não é horizontal, exibindo uma inclinação positiva. Isso indica que o efeito da variável sobre o risco não é constante, mas sim varia em função do tempo, aumentando progressivamente.
+
+```{r, fig-adpf-rito-3}
+#| echo: false
+
+m_cox <- coxph(Surv(tempo, evento) ~ tem_rito_art_12, data = processos_surv)
+
+teste_mcox <- cox.zph(m_cox, terms = FALSE)
+ggcoxzph(teste_mcox)
+```
+
+Para corrigir a violação, optou-se por ajustar modelo de Cox com um coeficiente dependente do tempo (*time-dependent coefficient*). Foi incluído um termo de interação entre a variável e uma função linear do tempo. 
+
+```{r, tbl-adpf-rito-4}
+#| echo: false
+
+processos_surv$tem_rito_art_12 <- ifelse(processos_surv$tem_rito_art_12 == "Sim", 1, 0)
+
+m_cox <- coxph(
+  formula = Surv(tempo, evento) ~ tem_rito_art_12 + tt(tem_rito_art_12),
+  data = processos_surv,
+  tt = function(x, t, ...) {
+    x * t
+  }
+)
+
+saveRDS(m_cox, "DATA/MODELOS/modelo_06.rds")
+
+m_cox |> broom::tidy() |> knitr::kable()
+```
+
+A interpretação dos coeficientes revela uma dinâmica complexa. O coeficiente principal corresponde a um HR inicial de 0,48, indicando um forte efeito protetor no tempo zero. Contudo, o coeficiente positivo para o termo de interação demonstra que este efeito protetor se dissipa progressivamente com o passar do tempo. O HR evolui, atingindo o valor de 1,0 (ausência de efeito) no tempo aproximado de 1018 dias, e se inverte para um fator de risco em tempos subsequentes (HR = 1,41 em t = 1500 dias).
+
+Ocorre que, conforme anotado anteriormente, o rito abreviado apresenta um efeito contraintuitivo de prolongar o prazo de conclusão do processo. Considerando que o resultado do processo pode influenciar no seu tempo, a próxima análise visa estimar o tempo de conclusão do processo com relação ao tipo de resultado.
+
+```{r, dec-trata-adpf}
+#| echo: false
+
+clean_decisoes_final <- 
+  clean_decisoes |>
+  dplyr::filter(classe == "ADPF", numero %in% adpf_rec$numero, subgrupo == "Decisão Final") |>
+  dplyr::mutate(
+    resultado = dplyr::case_when(
+      andamento_agrupado == "Procedente" ~ "Procedente",
+      andamento_agrupado == "Improcedente" ~ "Improcedente",
+      andamento_agrupado == "Procedente em parte" ~ "Procedente em parte",
+      andamento_agrupado == "Prejudicado" ~ "Prejudicado",
+      TRUE ~ "Sem mérito"
+    )
+  )
+
+clean_decisoes_final_pt2 <- clean_decisoes_final |>
+  dplyr::filter(
+    resultado == "Procedente" | resultado == "Improcedente" | resultado == "Procedente em parte"
+  ) |>
+  dplyr::select(classe, numero, resultado) |>
+  dplyr::distinct() |>
+  dplyr::mutate(numero = as.numeric(numero))
+
+clean_decisoes_final_pt3 <- clean_decisoes_final |>
+  dplyr::filter(resultado == "Prejudicado") |>
+  dplyr::select(classe, numero, resultado) |>
+  dplyr::distinct() |>
+  dplyr::mutate(numero = as.numeric(numero))
+
+adpf_rec_teste <- adpf_rec |>
+  dplyr::left_join(
+    clean_decisoes_final_pt2,
+    by = dplyr::join_by(numero)
+  ) |>
+  dplyr::left_join(
+    clean_decisoes_final_pt3,
+    by = dplyr::join_by(numero),
+    keep = FALSE,
+    relationship = "one-to-one"
+  )
+
+adpf_rec_teste <- adpf_rec_teste |>
+  mutate(
+    resultado = ifelse(is.na(resultado.x), resultado.y, resultado.x)
+  ) |>
+  dplyr::select(numero, resultado)
+
+
+decisoes_final <- adpf_rec_teste
+decisoes_final$numero <- as.numeric(decisoes_final$numero)
+
+rm(clean_decisoes_final_pt2, clean_decisoes_final_pt3, adpf_rec_teste)
+```
+
+```{r, adpf-resultado-1}
+#| echo: false
+
+processos_resultado <- clean_processos |>
+  dplyr::filter(classe == "ADPF", numero %in% adpf_rec$numero, em_tramitacao == "Não") |>
+  dplyr::select(
+    numero, data_autuacao, data_baixa, tem_rito_art_12, em_tramitacao
+  ) |>
+  dplyr::distinct() |>
+  dplyr::mutate(numero = as.numeric(numero)) |>
+  dplyr::left_join(
+    decisoes_final,
+    by = "numero"
+  ) |>
+  tidyr::replace_na(list(resultado = "Sem mérito")) |>
+  dplyr::select(-em_tramitacao) |>
+  dplyr::mutate(
+    evento = ifelse(!is.na(data_baixa), 1 , 0)
+  ) |>
+  tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  dplyr::mutate(
+    tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1)
+  )
+```
+
+A @fig-adpf-resultado-2 ilustra a distribuição dos resultados das Arguições de Descumprimento de Preceito Fundamental (ADPF) ajuizadas no Supremo Tribunal Federal. A análise dos dados revela uma proeminente concentração de ações julgadas como "Sem mérito", superando a marca de 400 casos. Este resultado é expressivamente superior às demais categorias, indicando que uma parcela majoritária das ADPFs sequer tem seu mérito analisado pela Corte, sendo extintas por questões processuais preliminares, como a ausência de requisitos de admissibilidade.
+
+Em um segundo patamar de frequência, as ações julgadas "Procedente", com aproximadamente 125 casos, representam o segundo grupo mais expressivo, sinalizando o acolhimento material dos pedidos em número considerável. Logo após, surgem as ações consideradas "Prejudicado", com cerca de 75 ocorrências, e "Procedente em parte", com aproximadamente 50. A categoria com menor incidência é a de "Improcedente", com menos de 50 casos, o que sugere que, uma vez admitida a ação, a chance de uma negativa total ao pedido é a menor entre todos os desfechos possíveis.
+
+```{r, fig-adpf-resultado-2}
+#| echo: false
+#| fig-cap: "Resultado das arguições de descumprimento de preceito fundamental"
+
+processos_resultado |>
+  dplyr::group_by(resultado) |>
+  dplyr::summarise(n = dplyr::n()) |>
+  ggplot() +
+  geom_col(aes(x = resultado, y = n)) +
+  scale_y_continuous(expand = c(0,0), limits = c(0, 450)) +
+  labs(
+    x = "Resultado",
+    y = "Número de processos"
+  ) +
+  decJ::theme_decJ(y_num = TRUE)
+```
+
+A análise de sobrevivência indicou uma relação entre o resultado e a duração do processo. Os processos extintos "Sem mérito" são os mais céleres, com um tempo mediano de 282 dias para sua conclusão. Este dado reforça a ideia de que a triagem inicial de requisitos processuais funciona como um filtro rápido, que impede o prosseguimento de ações que não atendem às condições formais de conhecimento, otimizando o tempo da Corte.
+
+Por outro lado, as ações que chegam a uma decisão de mérito apresentam uma duração consideravelmente maior. De forma notável, os processos julgados "Improcedentes" são os mais longos, com uma mediana de 990 dias. Este é um tempo superior ao das ações "Procedentes" (750 dias) e "Procedentes em parte" (639 dias).
+
+A @fig-adpf-resultado-3 ilustra esses resultados:
+
+```{r, fig-adpf-resultado-3}
+#| fig-cap: "Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental ajuizada entre 2014-2024 em relação ao resultado"
+#| echo: false
+
+estimador_km <- survfit(Surv(tempo, evento) ~ resultado, data = processos_resultado)
+
+# Salva o modelo
+saveRDS(estimador_km, "DATA/MODELOS/modelo_07.rds")
+
+ggsurvplot(
+  estimador_km,
+  data = processos_resultado,
+  pval = TRUE,
+  conf.int = FALSE,
+  surv.median.line = "hv",
+  # risk.table = TRUE,
+  xlab = "Tempo (dias)",
+  ylab = "Probabilidade de Sobrevivência",
+  palette = c(cores[1],cores[2],cores[3], cores[4], cores[5]),
+  ggtheme = decJ::theme_decJ()
+)
+
+decJ::save_decJ("PLOT/surv_05.png", l = 24, dpi = 300)
+```
+
+A aplicação do modelo de riscos de Cox aprofunda a análise, permitindo quantificar a velocidade de resolução das ADPFs com base no seu resultado, tendo como referência a categoria "Improcedente" (a mais lenta). O modelo como um todo é estatisticamente robusto (p < 0.001), indicando que o tipo de resultado é um fator preditivo determinante para a duração do processo. A análise das razões de risco revela que as ações extintas "Sem mérito" possuem uma chance 140% maior de serem concluídas a qualquer momento em comparação com as julgadas improcedentes.
+
+Da mesma forma, as ações declaradas "Prejudicadas" também demonstram uma celeridade notável, com uma chance de resolução 89% maior em relação ao grupo de referência. Ambas as categorias apresentam resultados com alta significância estatística (p < 0.01). Em contrapartida, os resultados para "Procedente" e "Procedente em parte" não mostraram uma diferença estatisticamente significativa em relação ao tempo de julgamento das "Improcedentes", sugerindo que, uma vez admitida para análise de mérito, a duração do processo até sua decisão final tende a ser similar, independentemente de a Corte acolher ou rejeitar o pedido.
+
+```{r, adpf-resultado-4}
+#| echo: false
+
+m_cox <- coxph(Surv(tempo, evento) ~ resultado, data = processos_resultado)
+
+saveRDS(m_cox, "DATA/MODELOS/modelo_08.rds")
+
+
+teste_mcox <- cox.zph(m_cox, terms = FALSE)
+```
+
+Analisando individualmente os resíduos cada categoria, observa-se que o efeito dos resultados "Sem mérito", "Procedente" e "Prejudicado" varia significativamente ao longo do tempo. Isso significa que a magnitude do "risco" de um processo ser finalizado para essas categorias não é constante. Por exemplo, a celeridade de um processo "Sem mérito" é muito mais acentuada nos meses iniciais do que em estágios mais tardios do processo judicial.
+
+Complementando análise, observou-se que as ações com o rito abreviado não influenciam na aceleração do processo. A hipótese é de que as ações são extintas sem resolução de mérito, tornando o indicador do modelo sobre o rito abreviado falso. Por isso, foi criado um modelo que interege as duas variáveis: rito abreviado e resultado.
+
+```{r adpf-resultado-5}
+estimador_km <- survfit(Surv(tempo, evento) ~ resultado + tem_rito_art_12, data = processos_resultado)
+
+# Salva o modelo
+saveRDS(estimador_km, "DATA/MODELOS/modelo_09.rds")
+
+m_cox <- coxph(Surv(tempo, evento) ~ (tem_rito_art_12 + resultado), data = processos_resultado)
+
+saveRDS(m_cox, "DATA/MODELOS/modelo_10.rds")
+```
+
+A aplicação do rito abreviado, concebido para acelerar o julgamento de mérito, não impacta os processos de maneira uniforme, apresentando resultados por vezes contraintuitivos quando cruzado com o desfecho da ação. O achado mais expressivo está na categoria "Sem mérito": enquanto as ações sem o rito especial são resolvidas em uma mediana de apenas 215 dias, aquelas submetidas ao rito levam 654 dias.
+
+Essa aparente contradição é metodologicamente significativa. O rito abreviado pressupõe a superação das questões de admissibilidade para focar no mérito. Portanto, os processos que seguem por essa via e, ainda assim, terminam "sem mérito" são exceções complexas, cujo vício processual só foi detectado em fase avançada. De forma similarmente inesperada, as ações "Procedentes" e "Prejudicadas" também foram mais lentas quando submetidas ao rito abreviado.
+
+Em contrapartida, o efeito acelerador do rito abreviado funcionou como o esperado nas ações julgadas "Improcedentes" (reduzindo o tempo de 1003 para 756 dias) e "Procedentes em parte" (de 674 para 589 dias). Fica claro, portanto, que o impacto do rito abreviado não é absoluto, mas sim contextual. Sua aplicação revela dinâmicas processuais complexas no STF, onde a interação entre o procedimento adotado e a natureza do caso define o verdadeiro ritmo do processo judicial.
+
+## Considerações parciais
