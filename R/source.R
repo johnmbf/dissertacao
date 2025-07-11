@@ -1,5 +1,29 @@
+# PACOTES ---------------------------------------------------------------------
+
 library(chromote)
 library(httr2)
+library(ggplot2)
+library(survival)
+library(survminer)
+library(gt)
+library(decJ)
+library(quanteda.textplots)
+library(factoextra)
+library(FactoMineR)
+library(ggrepel)
+
+# OBJETOS ---------------------------------------------------------------------
+
+cores <- c(decJ::utilitario_tscolor("1989"), decJ::utilitario_tscolor("taylorSwift"))
+
+clean_processos <- readRDS("DATA/CLEAN/clean_processos.rds")
+clean_decisoes <- readRDS("DATA/CLEAN/clean_decisoes.rds")
+clean_legitimados <- readRDS("DATA/CLEAN/clean_legitimados.rds")
+
+adpf_rec <- readRDS("DATA/MISC/adpf_rec.rds")
+dic_legitimados <- readRDS("DATA/MISC/dic_legitimados.rds")
+
+# FUNÇÕES ---------------------------------------------------------------------
 
 extrair_texto_juris_stf <- function(dir) {
   lista_dec <- list.files(dir, full.names = TRUE)
@@ -11,7 +35,7 @@ extrair_texto_juris_stf <- function(dir) {
       doc_id = stringr::str_split_i(doc, "\\/", -1) |> stringr::str_remove("\\.pdf")
     )
 
-  areas <- readRDS("area.rds")
+  areas <- readRDS("DATA/MISC/area.rds")
 
   purrr::map2_df(lista_dec$doc, lista_dec$doc_id, ~ {
     p <- tabulizer::get_n_pages(.x)

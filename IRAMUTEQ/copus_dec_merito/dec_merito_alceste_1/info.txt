@@ -1,0 +1,21 @@
+
++-+-+-+-+-+-+-+-+
+|i|R|a|M|u|T|e|Q| - Wed Jul  9 20:53:27 2025
++-+-+-+-+-+-+-+-+
+
+
+Number of texts: 194
+Number of text segments: 40921
+Number of forms: 21003
+Number of occurrences: 1671778
+Número de lemas: 20701
+Number of active forms: 19769
+Número de formas suplementares: 917
+Número de formas ativas com a frequência >= 3: 10721
+Média das formas por segmento: 40.853791
+Number of clusters: 4
+38097 segments classified on 40921 (93.10%)
+
+###########################
+tempo : 0h 11m 49s
+###########################

@@ -11,4 +11,3 @@ Esse livro foi gerado pela última vez em `r Sys.Date()` nas seguintes condiçõ
 
 sessioninfo::session_info()
 ```
-

@@ -1,0 +1,802 @@
+## Legislar pelo Supremo Tribunal Federal? Os partidos políticos no Supremo
+
+Vinícius Zuccolotto (2016) em sua dissertação estudou como o judiciário serve de arena estratégica para a atuação dos partidos políticos. A premissa fundamental dele é a de que o judiciário deve ser compreendido não apenas em sua função jurídica clássica, mas também como uma arena política. Essa concepção da arena judicial como espaço estratégia para a política baseia-se no entendimento de que os atores políticos, incluindo os partidos, utilizam os tribunais de forma deliberada para alcançar seus objetivos, que podem ir além da mera vitória legal em um caso específico.
+
+Os partidos políticos são considerados atores centrais e privilegiados, pois possuem a capacidade de se mover e articular em diferentes "arenas" ou "mesas de jogo": a judicial, a parlamentar, a administrativa e a social. Eles atuam em múltiplas frentes simultaneamente, adaptando suas estratégias conforme o contexto e buscando viabilizar a satisfação de suas variadas demandas por meio dos instrumentos disponíveis (Zuccolotto, 2016).
+
+Um dos argumentos empíricos centrais explorados é a relação entre a posição do partido em relação ao governo federal e o uso da via judicial. A pesquisa afirma a sugestão da literatura de que as ações judiciais são um recurso privilegiado pelas oposições ou por grupos menos representados no Legislativo (Zuccolotto, 2016).
+
+No entanto, o estudo revela uma nuance importante durante os governos do Presidente Lula (2003-2010): houve um aumento significativo de ADI propostas por partidos que faziam parte da coalizão governista, em comparação com os governos FHC (1995-2002).  Esse fenômeno é interpretado como "fogo amigo" e atribuído ao tamanho maior e à heterogeneidade ideológica da coalizão lulista, que aumentariam a probabilidade de conflitos internos e divergências com o próprio Executivo (Zuccolotto, 2016).
+
+Outro achado empírico relevante é a identificação dos partidos de esquerda como os usuários mais frequentes de ADI. A atuação sistemática da esquerda na oposição aos governos FHC e a continuidade de algumas políticas na gestão Lula, mesmo com um partido de esquerda no poder, são apontadas como fatores que influenciaram essa maior recorrência à via judicial (Zuccolotto, 2016).
+
+A análise também examina a relação entre o tamanho dos partidos e o acionamento judicial. Contrariando parte da literatura, o estudo aponta que, quando consideradas as ações propostas individualmente, os partidos grandes ajuízam mais ADI do que os pequenos. Contudo, os partidos pequenos demonstraram ter resultados melhores (maior taxa de procedência total ou parcial) entre as ações que efetivamente foram julgadas (Zuccolotto, 2016).
+
+Um aspecto que se mostrou eficaz na busca por resultados judiciais favoráveis foi a formação de blocos ou alianças entre partidos para propor ADI. Embora os blocos tenham proposto menos ações no período geral, eles obtiveram uma taxa de sucesso significativamente maior do que os partidos agindo individualmente (Zuccolotto, 2016).
+
+As conclusões principais do trabalho de Zuccolotto convergem para a ideia de que o STF se consolidou como uma arena estratégica viável e importante para os partidos políticos brasileiros. Os partidos utilizam as ações de controle concentrado não apenas na busca de vitórias judiciais, mas também como uma ferramenta para expressar posicionamentos políticos, obter visibilidade pública e influenciar o debate político, especialmente quando a via legislativa não é suficiente ou desejável (Zuccolotto, 2016).
+
+Esse estudo apresentado acima demonstrou a capacidade dos partidos políticos de transformarem o plenário do Supremo em arena política principalmente por meio da ADI a fim de realizar seus interesses. O que se busca agora é, sob a mesma perspectiva, observar a atuação dos partidos políticos no STF, mas quando do uso da ADPF.
+
+Como observado no capítulo anterior, os partidos políticos foram responsáveis por 366 arguições – maior legitimado em termos de ações ajuizadas entre 2014 e 2024, ultrapassando confederações sindicais ou entidades de classe que ocupavam a primeira posição no período anterior levantado por Juliana Pontes (2013).
+
+A @fig-leg-2 destacou a proeminência dos partidos políticos na proposição de arguições de descumprimento de preceito fundamental. A @fig-leg-tempo-1 apresenta o ajuizamento ao longo do tempo.
+
+```{r, fig-leg-tempo-1}
+data_temp <- clean_processos |>
+  dplyr::filter(
+    classe == "ADPF",
+    numero %in% adpf_rec$numero
+  ) |>
+  dplyr::left_join(
+    legitimados_adpf,
+    by = "numero"
+  ) |>
+  dplyr::select(numero, data_autuacao, tipo) |>
+  dplyr::distinct() |>
+  dplyr::mutate(
+    ano = lubridate::year(data_autuacao),
+    is_partido = ifelse(tipo == "Partidos", "Sim", "Não")
+  ) |>
+  dplyr::group_by(ano, tipo) |>
+  dplyr::mutate(n = dplyr::n()) |>
+  dplyr::select(ano, tipo, is_partido, n) |>
+  dplyr::ungroup() |>
+  dplyr::distinct()
+
+ggplot() +
+  geom_col(aes(x = ano, y = n, fill = tipo), data = data_temp |> dplyr::filter(is_partido == "Não"), position = "dodge") +
+  geom_line(aes(x = ano, y = n), color = cores[4], linewidth = 2, data = data_temp |> dplyr::filter(is_partido == "Sim")) +
+  labs(
+    x = "Ano",
+    y = "Nº de Ações"
+  ) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 90)) +
+  scale_x_continuous(breaks = seq(2014, 2024, by = 2)) +
+  scale_fill_manual(
+    name = "Legitimado",
+    values = cores
+  ) +
+  decJ::theme_decJ()
+
+decJ::save_decJ("PLOT/cap_5-1 - fig 1.png", l = 24, dpi = 300)
+
+rm(data_temp)
+```
+
+A trajetória da linha no gráfico, que representa o número de ADPFs ajuizadas por partidos políticos, é uma expressão da judicialização da política no período analisado. Suas flutuações não são aleatórias; elas funcionam como um sismógrafo da estabilidade política do país, com cada pico e vale correspondendo a eventos políticos cruciais.
+
+O período de 2014 a 2018 demonstra uma ascensão significativa, embora comparativamente moderada, no uso de ADPFs por partidos políticos. Essa tendência, que se inicia em meio a uma profunda crise econômica e política, reflete o acirramento do conflito que culminou no impeachment da presidenta Dilma Rousseff em 2016. A inclinação ascendente da linha durante esses anos sinaliza a transformação do STF em uma arena crucial para disputas que não encontravam solução nos âmbitos Legislativo e Executivo. Um exemplo paradigmático é a emblemática ADPF 378, ajuizada pelo PCdoB, que compeliu o STF a definir as regras processuais do impeachment. Este ato de judicialização ilustra como os partidos, especialmente os minoritários ou de oposição, começaram a alavancar estrategicamente a ADPF não apenas para contestar políticas substantivas, mas para que o Judiciário arbitrasse as próprias regras do combate político durante um período de extremo estresse institucional. 
+
+A característica mais notável dos dados é a explosão sem precedentes de ADPFs ajuizadas por partidos políticos entre 2019 e 2022, com um ápice inequívoco em 2021. Este surto de litigância está ligado à presidência de Jair Bolsonaro. O uso frequente de decretos por parte de sua administração e sua postura de confronto com outras instituições provocaram uma reação igualmente intensa dos partidos de oposição. Carentes de maioria legislativa para bloquear a agenda do governo, partidos como REDE, PSB, PT, PSOL e PDT recorreram sistematicamente ao STF, utilizando a ADPF como uma forma de "veto judicial". Essa estratégia converteu a Suprema Corte no principal fórum de oposição, onde desacordos fundamentais sobre política ambiental, saúde pública, direitos humanos e a separação de poderes foram litigados, marcando o auge da judicialização da política no período analisado.   
+
+A pandemia de COVID-19, iniciada em 2020, funcionou como um potente acelerador para a tendência de judicialização partidária, contribuindo decisivamente para o pico observado no gráfico. A gestão controversa e muitas vezes negacionista da crise sanitária pelo governo federal desencadeou uma onda de ADPFs por parte dos partidos de oposição. Essas ações buscavam compelir o governo a adotar medidas eficazes, como a criação de um plano nacional coordenado, a garantia da aquisição de vacinas (ADPFs 754 e 756) e a proteção de comunidades vulneráveis, como os povos indígenas (ADPF 709) e os moradores de favelas (ADPF 635). Essa profusão de litígios demonstra como, em momentos de crise nacional aguda, onde a ação (ou inação) executiva é percebida como uma ameaça direta a direitos fundamentais como a vida e a saúde, os partidos políticos utilizam a ADPF como um mecanismo de emergência para exigir a intervenção judicial e a aplicação de obrigações constitucionais. 
+
+Após o pico de 2020-2021, o gráfico revela uma queda no número de ADPFs ajuizadas por partidos, mas os valores para 2022, 2023 e de 2024 permanecem substancialmente mais elevados que a linha de base anterior a 2018. Isso sugere um "novo normal", no qual um alto nível de judicialização se tornou uma característica entrincheirada do cenário político brasileiro. A diminuição em relação ao pico pode ser atribuída ao arrefecimento da fase mais aguda da pandemia e às dinâmicas políticas de um ano eleitoral (em 2022) e de uma nova administração (em 2023). Contudo, a persistência de um número elevado de ajuizamentos indica que a estratégia de recorrer ao STF foi normalizada. A contínua polarização do sistema político garante que os partidos, seja no governo ou na oposição, agora vejam o Judiciário como uma arena permanente e legítima para a luta política.
+
+Revela-se uma mudança estrutural na democracia brasileira: o papel dos partidos políticos na definição da agenda constitucional do Supremo Tribunal. Diferentemente da litigância mais institucional do PGR e da OAB, as fortes oscilações nas ADPFs partidárias demonstram uma relação com o ciclo político de governo e oposição. Esse fenômeno, que a literatura acadêmica denomina "partidarização" do controle de constitucionalidade, significa que as questões sobre o que constitui um "preceito fundamental" são cada vez mais enquadradas pela ótica do conflito partidário. Isso acarreta implicações profundas, transformando o STF em um árbitro da governança cotidiana e de disputas políticas.
+
+### O que mais demanda
+
+A análise dos principais assuntos objeto de Arguições de Descumprimento de Preceito Fundamental (ADPFs) ajuizadas por partidos políticos entre 2014 e 2024, conforme representado na Figura 13, oferece uma visão geral de concentração de processos em duas categorias principais: "Direito Administrativo e outras matérias de Direito Público" e "Controle de Constitucionalidade". Essa temática demonstra que o epicentro do confronto político na arena judicial não se restringe à contestação de leis em sentido estrito, mas avança sobre o controle do próprio aparato estatal, a condução de políticas públicas e a definição das regras fundamentais do jogo político.
+
+```{r fig-leg-assunto-1}
+partidos_assunto <-
+  dplyr::left_join(
+    legitimados_adpf |> dplyr::select(numero, tipo) |> dplyr::distinct(),
+    clean_processos |> dplyr::filter(classe == "ADPF") |> dplyr::select(-classe),
+    by = "numero"
+  ) |>
+  dplyr::select(
+    numero, tipo, assunto_relacionado
+  ) |>
+  dplyr::mutate(
+    assunto_relacionado = stringr::str_trim(assunto_relacionado)
+  ) |>
+  dplyr::distinct()
+
+partidos_assunto |>
+  dplyr::filter(tipo == "Partidos") |>
+  dplyr::select(numero, assunto_relacionado) |>
+  dplyr::distinct() |>
+  tidyr::drop_na() |>
+  ggplot() +
+  geom_bar(
+    aes(y = forcats::fct_lump_n(assunto_relacionado, 10, other_level = "OUTROS") |> forcats::fct_infreq()),
+    fill = cores[6]
+  ) +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 300)) +
+  labs(
+    x = "Número de processos",
+    y = "Assunto"
+  ) +
+  decJ::theme_decJ(x_num = TRUE)
+
+decJ::save_decJ("PLOT/cap_5-1 - fig 2.png", l = 24, dpi = 300)
+```
+
+A proeminência dessas áreas sugere que os partidos políticos utilizam a ADPF de forma estratégica e sistemática não apenas como um instrumento de oposição legislativa, mas como uma ferramenta para auditar, influenciar e, em última instância, disputar o controle sobre a máquina governamental e a interpretação da ordem constitucional (Villela, 2019). Este padrão indica a consolidação o STF como uma arena decisória para conflitos que transcendem a mera legalidade, adentrando o mérito da governança e da administração pública.
+
+A categoria "Direito Administrativo e outras matérias de Direito Público" como o tema mais recorrente nas ADPFs partidárias é um sintoma inequívoco da intensificação do controle judicial sobre o Poder Executivo. Este dado revela que os partidos, especialmente os de oposição, converteram o STF em um fórum privilegiado para a fiscalização e contestação de atos administrativos, decretos, portarias e, crucialmente, omissões governamentais na implementação de políticas públicas (GODOY, 2022). A Constituição de 1988, ao detalhar um vasto rol de direitos sociais e deveres estatais, tornou a ação governamental amplamente justiçável, permitindo que a inércia ou a atuação administrativa contrária aos preceitos fundamentais seja questionada diretamente na Suprema Corte (COSTA, 2013). Casos emblemáticos como a ADPF 854, que questionou as práticas do "orçamento secreto" por violação a princípios da administração pública como transparência e impessoalidade, e a ADPF 760, que visou compelir o governo a agir contra o desmatamento na Amazônia, ilustram como a ADPF é manejada para exercer um controle concreto sobre a gestão pública, transformando o Judiciário em um ator central na avaliação da eficácia e da constitucionalidade das políticas governamentais.
+
+A categoria "Controle de Constitucionalidade" pode ser interpretada como uma forma de "meta-litígio", na qual os partidos não questionam uma política específica, mas as próprias regras do jogo político e da separação de poderes, demandando que o STF atue como o árbitro final das competências constitucionais (LIMA; SILVEIRA, 2025).
+
+As categorias de frequência intermediária e baixa, como "COVID-19", "Direito Ambiental", "Orçamento" e "Direito Eleitoral", ilustram a dupla natureza da judicialização estratégica: reativa e proativa. O tema "COVID-19" exemplifica a judicialização reativa, impulsionada por uma crise nacional aguda. Durante a pandemia, a inércia e os conflitos federativos levaram os partidos a acionarem o STF para solucionar impasses urgentes sobre medidas sanitárias, aquisição de vacinas e transparência de dados, posicionando a Corte como uma gestora de crise e árbitra do pacto federativo (ABBOUD; GAVAZZONI, 2023; OLIVEIRA; MADEIRA, 2021). Em contraste, temas como "Direito Ambiental", "Orçamento" e "Direito Eleitoral" representam a judicialização proativa ou de "agenda-setting". Nesses casos, os partidos utilizam a ADPF para pautar debates, construir barreiras contra retrocessos ou para moldar as regras da competição política a seu favor, como nas disputas sobre financiamento de campanha e tempo de propaganda eleitoral.
+
+Em síntese, o gráfico em análise funciona como um barômetro do período de 2014 a 2024, mapeando as fraturas e arenas de conflito. A distribuição temática das ADPFs ajuizadas por partidos políticos evidencia uma prática madura e institucionalizada de judicialização, na qual a via judicial não é um recurso de exceção, mas um componente central e permanente da estratégia política, tanto para governar quanto para exercer oposição (VILLELA, 2019). Este fenômeno, por sua vez, consolidou o Supremo Tribunal Federal não como um espectador relutante, mas como uma instituição indispensável e protagonista no cenário político nacional, cuja decisão reflete e, em muitos casos, define os rumos dos debates sociais, econômicos e institucionais do país.
+
+### Análise: contra quem mais demanda?
+
+Uma vez mapeado os assuntos, passa-se a análise de quem os legitimados demandam. Obviamente, por ser um processo objetivo, a ADPF não possui um “polo passivo” tradicional, já que é a norma em abstrato que está sendo julgada. Todavia, é contra o ato da autoridade que os legitimados demandam e é na perspectiva do confronto contra a autoridade que emanou o ato que parte essa análise.
+
+```{r, leg-demanda-1}
+#| column: margin
+
+legitimados_adpf |>
+  dplyr::filter(tipo == "Partidos") |>
+  dplyr::select(numero, passivo) |>
+  dplyr::distinct() |>
+  dplyr::group_by(passivo) |>
+  dplyr::summarise(n = dplyr::n()) |>
+  dplyr::ungroup() |>
+  dplyr::arrange(desc(n)) |>
+  dplyr::slice_head(n = 10) |>
+  knitr::kable(col.names = c("Legitimado Passivo", "Número"))
+```
+
+```{r fig-leg-demanda-2}
+legitimados_adpf |>
+  dplyr::filter(tipo == "Partidos") |>
+  dplyr::select(numero, passivo) |>
+  dplyr::distinct() |>
+  dplyr::group_by(passivo) |>
+  dplyr::summarise(n = dplyr::n()) |>
+  dplyr::ungroup() |>
+  dplyr::slice_max(n = 10, order_by = n) |>
+  dplyr::slice_head(n = 10) |>
+  ggplot() +
+  geom_col(aes(x = n, y = reorder(passivo, n)), fill = cores[6]) +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 120)) +
+  labs(
+    x = "Número de processos",
+    y = "Autoridade"
+  ) +
+  decJ::theme_decJ(x_num = TRUE)
+
+decJ::save_decJ("PLOT/cap_5-1 - fig 3.png", l = 24, dpi = 300)
+```
+
+A análise da distribuição do polo passivo apresenta uma esmagadora concentração de ações contra o "Presidente da República", o "Congresso Nacional" e a "União" evidenciando uma estratégia consolidada por parte das agremiações partidárias, especialmente as de oposição, que veem no STF um campo de batalha alternativo para reverter derrotas políticas e legislativas. A ADPF, com seu objeto amplo que abarca qualquer "ato do Poder Público" e seu caráter subsidiário, transformou-se em um instrumento de alta voltagem política, utilizado para contestar desde atos normativos até políticas públicas e omissões governamentais.
+
+A proeminência do "Presidente da República" como o principal alvo das ADPFs reflete a centralidade do chefe do Executivo nos embates políticos do período, uma tendência que se acentuou drasticamente durante o governo de Jair Bolsonaro (2019-2022). Essa judicialização massiva foi, em grande parte, uma resposta ao que a literatura acadêmica denominou "infralegalismo autoritário" (VIEIRA; GLEZER; BARBOSA, 2022): o uso sistemático de decretos e atos infralegais para contornar o processo legislativo e implementar uma agenda ideológica. A gestão da pandemia de COVID-19, o tema mais judicializado do período, seguiu roteiro semelhante, com ADPFs questionando a omissão na compra de vacinas (ADPFs 754 e 756), a falta de transparência na divulgação de dados (ADPF 690) e a conduta do próprio presidente em relação às medidas sanitárias (ADPF 845). Contudo, é crucial notar que essa tática antecede o governo Bolsonaro, tendo sido empregada para desafiar medidas estruturais da gestão de Michel Temer, como a Reforma Trabalhista (Lei 13.467/17), objeto da ADPF 324.
+
+Quando o polo passivo se desloca para o "Congresso Nacional", a ADPF assume a função de uma apelação direta de uma derrota parlamentar para a arena judicial. Por outro lado, o acionamento da "União" como polo passivo pode indicar contextos de questionamentos mais difusos, que miram políticas públicas sistêmicas, omissões administrativas ou conflitos federativos. Isso inclui desde a responsabilidade da União em garantir o financiamento de políticas nacionais até a sua atuação em disputas fiscais, como a inscrição indevida de estados em cadastros de inadimplentes, o que demonstra a amplitude de conflitos que são canalizados para o STF.
+
+A análise das categorias subsequentes, como os ministérios, revela uma transição do controle de constitucionalidade em abstrato para uma forma de supervisão e microgestão de políticas públicas. Os partidos não se limitam a contestar grandes reformas, mas também portarias, resoluções e a própria execução orçamentária. Essa tendência força o STF a se aprofundar em questões técnicas e administrativas, um papel para o qual a Corte tem buscado desenvolver novos parâmetros. Essa abordagem foi visível no julgamento da "ADPF das Favelas" (ADPF 635), onde o STF não apenas impôs restrições às operações policiais, mas também demandou a elaboração de um plano para a redução da letalidade, com monitoramento contínuo, o que resultou em uma queda reportada de 52% nas mortes decorrentes de intervenção policial no Rio de Janeiro entre 2019 e 2023.
+
+Finalmente, a presença de órgãos do próprio Judiciário, como o "Tribunal Superior Eleitoral" (TSE) e o "Superior Tribunal de Justiça" (STJ), no polo passivo das ADPFs, consolida o STF como o árbitro final de todo o sistema jurídico nacional. Os partidos políticos atuam como catalisadores de tensões intra-institucionais, provocando a Suprema Corte para uniformizar a interpretação do direito. A ADPF 416, ajuizada pelo Partido da Mulher Brasileira contra uma resolução do TSE que alterava a distribuição de fundo partidário e tempo de propaganda, é um exemplo de como as regras do jogo político são levadas à arbitragem do STF. De forma ainda mais incisiva, a ADPF 993, proposta pelo Solidariedade, questionou diretamente uma tese jurisprudencial consolidada pelo STJ, e a jurisprudência do STF tem admitido o cabimento de ADPF contra enunciados de súmula, desde que satisfeito o requisito da subsidiariedade. Esse fenômeno demonstra que a judicialização transcende o embate clássico entre os Poderes Executivo e Legislativo, estendendo-se para a resolução de conflitos internos ao próprio sistema de justiça, com o STF exercendo um papel de cúpula incontestável.
+
+### Legislação Demandada
+
+Diferentemente da ADI que se presta para leis e atos normativos, a ADPF possui um objeto mais amplo: ato do poder público. Dessa forma, ela representa mais do que um mero instrumento de controle de constitucionalidade. Nesse cenário, a próxima análise representada na Figura 16 se constitui da legislação relacionada à ADPF – isto é, o ato do poder público que vem a ser questionado. A proeminência visual de cada termo na Figura 16 funciona como um indicador de frequência e da relevância dos atos que são levados ao Supremo. 
+
+```{r legis-1}
+partidos_legislacao <-
+  clean_processos |>
+  dplyr::filter(classe == "ADPF", numero %in% adpf_rec$numero) |>
+  dplyr::select(-classe) |>
+  dplyr::select(numero, legislacao) |>
+  tidyr::drop_na() |>
+  dplyr::left_join(
+    legitimados_adpf,
+    by = "numero"
+  ) |>
+  dplyr::filter(tipo == "Partidos") |>
+  dplyr::select(numero, legislacao) |>
+  dplyr::distinct()
+```
+
+```{r fig-legis-2}
+corpus_legis <- quanteda::corpus(
+  partidos_legislacao,
+  text_field = "legislacao"
+)
+
+tok_legis <- quanteda::tokens(
+  corpus_legis,
+  remove_punct = TRUE,
+  remove_symbols = TRUE,
+  remove_numbers = TRUE,
+  remove_separators = TRUE
+)
+
+tok_legis <- quanteda::tokens_remove(
+  tok_legis,
+  pattern = quanteda::stopwords("pt")
+)
+
+tok_legis <- quanteda::tokens_remove(
+  tok_legis,
+  pattern = c(
+    "nº",
+    "art",
+    "face",
+    "1º",
+    "2º",
+    "n",
+    "sobre",
+    "artigo",
+    "covid-19",
+    "contra",
+    "dezembro",
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "inciso",
+    "caput"
+  )
+)
+
+dfm_legis <- quanteda::dfm(tok_legis)
+
+textplot_wordcloud(dfm_legis, max_words = 50)
+```
+
+A proeminência dos termos lei e decreto no centro da nuvem de palavras indica que o principal foco das ações recai sobre os atos normativos nucleares do Legislativo e do Executivo. O fato de serem os alvos mais frequentes de impugnação demonstra o uso da ADPF como arena estratégia de contestação política, reforçando o papel do Tribunal para além do mero exercício do controle jurídico formal, posicionando-o como árbitro de disputas políticas. 
+
+A presença dos termos “municipal” e “município” releva uma das características marcantes dessa classe processual: a possibilidade de impugnar leis e atos normativos municipais – categorias que não podem ser colocadas frente a uma ADI. Conforme a jurisprudência consolidada do STF, a ADI não é o instrumento cabível para o controle abstrato de leis municipais em confronto direto com a Constituição Federal, criando uma lacuna sistêmica no controle de constitucionalidade. A ADPF, a partir de sua regulamentação pela Lei nº 9.882/99, preencheu essa lacuna, tornando-se o principal, e por vezes único, canal para que o Tribunal exerça essa fiscalização de forma concentrada.
+
+A frequência com que atos municipais são questionados, conforme sugere a nuvem de palavras, ilustra a consolidação do STF como o "árbitro de grandes crises da Federação", intervindo diretamente em questões locais que vão desde políticas urbanas e tributárias até temas de grande repercussão nacional, como as leis inspiradas no movimento "Escola sem Partido" e normas sobre saúde pública, como a exigência de vacinação.
+
+A visualização de termos como portaria e resolução, ainda que com menor destaque que lei e decreto, demonstra que o alcance fiscalizatório da ADPF transcende os atos normativos primários, penetrando na esfera da administração pública e na regulamentação infralegal.
+
+A presença do termo “outros” é particularmente interessante: representa a vocação residual e expansiva da ADPF para abranger um universo de "atos do poder público" que escapam a outras formas de controle concentrado, incluindo atos de efeitos concretos, omissões estatais e, como a jurisprudência tem admitido, até mesmo decisões judiciais reiteradas que configurem um padrão de violação a preceitos fundamentais.
+
+Em uma visão de conjunto, a nuvem de palavras funciona como uma heurística visual que encapsula a expansão da jurisdição constitucional no Brasil na última década. A configuração gráfica, com lei, decreto e os entes federativos no centro, e uma miríade de outros termos representando atos infralegais (portaria) e áreas de políticas públicas relacionadas à ministério ou secretarias (saúde, educação) em sua órbita, espelha a estrutura do próprio fenômeno da judicialização. Este processo parte de um núcleo de controle sobre as grandes deliberações políticas e se irradia para todos os níveis da federação e para as mais diversas espécies de atos estatais.
+
+### Partidos
+
+Assim como dentro do Congresso Nacional, os partidos podem atuar tanto individualmente como em conjunto. 
+
+```{r colig-1}
+#| fig-cap: "Partidos políticos que mais ajuizaram arguições de descumprimento de preceito fundamental entre 2014 e 2024"
+
+legitimados_adpf |>
+  dplyr::select(numero, ativo, tipo) |>
+  dplyr::filter(tipo == "Partidos") |>
+  dplyr::distinct() |>
+  dplyr::group_by(ativo) |>
+  dplyr::summarise(n = dplyr::n()) |>
+  dplyr::slice_max(n = 15, order_by = n) |>
+  ggplot() +
+  geom_col(aes(x = n, y = reorder(ativo, n)), fill = cores[6]) +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 70)) +
+  labs(
+    x = "Número de processos",
+    y = "Partido"
+  ) +
+  decJ::theme_decJ(x_num = TRUE)
+
+decJ::save_decJ("PLOT/cap_5-1 - fig 5.png", l = 24, dpi = 300)
+```
+
+
+### Resposta por tipo
+
+```{r, leg-resultado-1}
+clean_decisoes_final <-
+  clean_decisoes |>
+  dplyr::filter(classe == "ADPF", numero %in% adpf_rec$numero, subgrupo == "Decisão Final") |>
+  dplyr::mutate(
+    resultado = dplyr::case_when(
+      andamento_agrupado == "Procedente" ~ "Procedente",
+      andamento_agrupado == "Improcedente" ~ "Improcedente",
+      andamento_agrupado == "Procedente em parte" ~ "Procedente em parte",
+      andamento_agrupado == "Prejudicado" ~ "Prejudicado",
+      TRUE ~ "Sem mérito"
+    )
+  )
+
+clean_decisoes_final_pt2 <- clean_decisoes_final |>
+  dplyr::filter(
+    resultado == "Procedente" | resultado == "Improcedente" | resultado == "Procedente em parte"
+  ) |>
+  dplyr::select(classe, numero, resultado) |>
+  dplyr::distinct() |>
+  dplyr::mutate(numero = as.numeric(numero))
+
+clean_decisoes_final_pt3 <- clean_decisoes_final |>
+  dplyr::filter(resultado == "Prejudicado") |>
+  dplyr::select(classe, numero, resultado) |>
+  dplyr::distinct() |>
+  dplyr::mutate(numero = as.numeric(numero))
+
+adpf_rec_teste <- adpf_rec |>
+  dplyr::left_join(
+    clean_decisoes_final_pt2,
+    by = dplyr::join_by(numero)
+  ) |>
+  dplyr::left_join(
+    clean_decisoes_final_pt3,
+    by = dplyr::join_by(numero),
+    keep = FALSE,
+    relationship = "one-to-one"
+  )
+
+adpf_rec_teste <- adpf_rec_teste |>
+  mutate(
+    resultado = ifelse(is.na(resultado.x), resultado.y, resultado.x)
+  ) |>
+  dplyr::select(numero, resultado)
+
+
+decisoes_final <- adpf_rec_teste
+decisoes_final$numero <- as.numeric(decisoes_final$numero)
+legitimados_adpf$numero <- legitimados_adpf$numero |> as.numeric()
+
+rm(clean_decisoes_final_pt2, clean_decisoes_final_pt3, adpf_rec_teste)
+
+processos_resultado <- clean_processos |>
+  dplyr::filter(classe == "ADPF", numero %in% adpf_rec$numero) |>
+  dplyr::select(
+    numero, data_autuacao, data_baixa, tem_rito_art_12, em_tramitacao
+  ) |>
+  dplyr::distinct() |>
+  dplyr::mutate(numero = as.numeric(numero)) |>
+  dplyr::left_join(
+    decisoes_final,
+    by = "numero"
+  ) |>
+  dplyr::mutate(resultado = dplyr::case_when(
+    em_tramitacao == "Não" & !is.na(resultado) ~ resultado,
+    em_tramitacao == "Não" & is.na(resultado) ~ "Sem mérito",
+    em_tramitacao == "Sim" ~ "Sem julgamento"
+  )) |>
+  dplyr::left_join(
+    legitimados_adpf,
+    by = "numero"
+  )
+
+rm(decisoes_final, clean_decisoes_final)
+```
+
+```{r fig-leg-resultado-2}
+processos_resultado |>
+  dplyr::select(numero, resultado, tipo) |>
+  dplyr::distinct() |>
+  dplyr::group_by(resultado, tipo) |>
+  dplyr::summarise(n = dplyr::n()) |>
+  dplyr::ungroup() |>
+  tidyr::drop_na() |>
+  ggplot() +
+  geom_col(aes(y = n, x = resultado, fill = resultado)) +
+  facet_wrap(~tipo, scales = "free_y") +
+  scale_fill_manual(
+    values = cores,
+    name = NULL
+  ) +
+  decJ::theme_decJ() +
+  theme(
+    legend.position = "bottom",
+    axis.title = element_blank(),
+    axis.text.x = element_blank(),
+  )
+
+decJ::save_decJ("PLOT/cap_5-1 - fig 6.png", l = 24, dpi = 300)
+```
+
+### Tempo de resposta
+
+```{r, leg-surv-1}
+# Cria uma tabela para análise de sobrevivência
+processos_surv <- clean_processos |>
+  dplyr::select(classe, numero, data_autuacao, data_baixa) |>
+  dplyr::distinct() |>
+  dplyr::filter(
+    lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024,
+    classe == "ADPF"
+  ) |>
+  dplyr::select(-classe) |>
+  dplyr::mutate(
+    evento = ifelse(!is.na(data_baixa), 1, 0)
+  ) |>
+  tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  dplyr::mutate(
+    tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1),
+    numero = as.numeric(numero)
+  ) |>
+  dplyr::left_join(
+    legitimados_adpf,
+    by = "numero"
+  ) |>
+  tidyr::drop_na(tipo) |>
+  dplyr::select(numero, data_autuacao, data_baixa, evento, tempo, tipo) |>
+  dplyr::distinct()
+
+processos_surv$tipo <- as.factor(processos_surv$tipo)
+
+# Cria o modelo nulo
+estimador_km <- survfit(Surv(tempo, evento) ~ tipo, data = processos_surv)
+
+# Salva o modelo nulo
+saveRDS(estimador_km, "DATA/MODELOS/modelo_cap 5 - m_01.rds")
+```
+
+```{r, fig-leg-surv-2}
+ggsurvplot(
+  estimador_km,
+  data = processos_surv,
+  pval = FALSE,
+  conf.int = FALSE,
+  # surv.median.line = "hv",
+  palette = cores,
+  # risk.table = TRUE,
+  xlab = "Tempo (dias)",
+  ylab = "Probabilidade de Sobrevivência",
+  ggtheme = decJ::theme_decJ()
+)
+
+decJ::save_decJ("PLOT/cap_5-1 - fig 7.png", l = 24, dpi = 300)
+```
+
+```{r, leg-surv-3}
+processos_surv$tipo <- relevel(processos_surv$tipo, ref = "Partidos")
+m_cox <- coxph(Surv(tempo, evento) ~ tipo, data = processos_surv)
+
+saveRDS(m_cox, "DATA/MODELOS/modelo_12.rds")
+
+teste_mcox <- cox.zph(m_cox, terms = FALSE)
+```
+
+```{r, leg-surv-4}
+# Cria uma tabela para análise de sobrevivência
+processos_surv <- clean_processos |>
+  dplyr::select(classe, numero, data_autuacao, data_baixa) |>
+  dplyr::distinct() |>
+  dplyr::filter(
+    lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024,
+    classe == "ADPF"
+  ) |>
+  dplyr::select(-classe) |>
+  dplyr::mutate(
+    evento = ifelse(!is.na(data_baixa), 1, 0)
+  ) |>
+  tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  dplyr::mutate(
+    tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1),
+    numero = as.numeric(numero)
+  ) |>
+  dplyr::left_join(
+    legitimados_adpf,
+    by = "numero"
+  ) |>
+  tidyr::drop_na(tipo) |>
+  dplyr::filter(tipo == "Partidos") |>
+  dplyr::select(numero, data_autuacao, data_baixa, evento, tempo, tipo) |>
+  dplyr::distinct()
+
+processos_surv$tipo <- as.factor(processos_surv$tipo)
+
+# Cria o modelo nulo
+estimador_km <- survfit(Surv(tempo, evento) ~ 1, data = processos_surv)
+
+# Salva o modelo nulo
+saveRDS(estimador_km, "DATA/MODELOS/modelo_13.rds")
+```
+
+```{r, fig-leg-surv-5}
+ggsurvplot(
+  estimador_km,
+  data = processos_surv,
+  pval = FALSE,
+  conf.int = FALSE,
+  surv.median.line = "hv",
+  # risk.table = TRUE,
+  xlab = "Tempo (dias)",
+  ylab = "Probabilidade de Sobrevivência",
+  ggtheme = decJ::theme_decJ()
+)
+
+decJ::save_decJ("PLOT/cap_5-1 - fig 8.png", l = 24, dpi = 300)
+```
+
+```{r}
+processos_surv$numero <- as.numeric(processos_surv$numero)
+processos_surv <- processos_surv |>
+  dplyr::left_join(
+    processos_resultado,
+    by = "numero"
+  ) |>
+  dplyr::select(
+    numero,
+    evento,
+    tempo,
+    tipo = tipo.x,
+    tem_rito_art_12,
+    resultado,
+    ativo
+  )
+```
+
+```{r}
+estimador_km <- survfit(Surv(tempo, evento) ~ tem_rito_art_12, data = processos_surv)
+
+ggsurvplot(
+  estimador_km,
+  data = processos_surv,
+  pval = FALSE,
+  conf.int = FALSE,
+  # surv.median.line = "hv",
+  palette = cores,
+  # risk.table = TRUE,
+  xlab = "Tempo (dias)",
+  ylab = "Probabilidade de Sobrevivência",
+  ggtheme = decJ::theme_decJ()
+)
+```
+
+```{r}
+estimador_km <- survfit(Surv(tempo, evento) ~ tem_rito_art_12, data = processos_surv |> dplyr::filter(resultado != "Sem mérito" & resultado != "Prejudicado"))
+
+ggsurvplot(
+  estimador_km,
+  data = processos_surv,
+  pval = FALSE,
+  conf.int = FALSE,
+  # surv.median.line = "hv",
+  palette = cores,
+  # risk.table = TRUE,
+  xlab = "Tempo (dias)",
+  ylab = "Probabilidade de Sobrevivência",
+  ggtheme = decJ::theme_decJ()
+)
+```
+
+```{r}
+estimador_km <- survfit(Surv(tempo, evento) ~ resultado, data = processos_surv |> dplyr::filter(resultado != "Sem julgamento"))
+
+ggsurvplot(
+  estimador_km,
+  data = processos_surv,
+  pval = FALSE,
+  conf.int = FALSE,
+  # surv.median.line = "hv",
+  palette = cores,
+  # risk.table = TRUE,
+  xlab = "Tempo (dias)",
+  ylab = "Probabilidade de Sobrevivência",
+  ggtheme = decJ::theme_decJ()
+)
+```
+
+### conteúdo das decisões
+
+```{r, eval=FALSE}
+clean_acordaos <- readRDS("DATA/CLEAN/clean_acordaos.rds")
+clean_monocraticas <- readRDS("DATA/CLEAN/clean_monocraticas.rds")
+legitimados_adpf$numero <- as.numeric(legitimados_adpf$numero)
+
+clean_monocraticas <- clean_monocraticas |>
+  dplyr::left_join(
+    legitimados_adpf |> dplyr::select(numero, tipo),
+    by = "numero"
+  )
+
+processos_resultado <- processos_resultado |>
+  dplyr::select(numero, tipo, resultado) |>
+  dplyr::distinct()
+
+dec_adpf <- dplyr::left_join(
+  clean_acordaos,
+  legitimados_adpf |> dplyr::select(numero, tipo) |> dplyr::distinct(),
+  by = "numero"
+)
+
+dec_adpf <- dec_adpf |>
+  dplyr::bind_rows(
+    clean_monocraticas
+  )
+
+dec_adpf <- dplyr::filter(
+  dec_adpf,
+  numero %in% adpf_rec$numero,
+  tipo == "Partidos"
+)
+
+# acordaos <- extrair_texto_juris_stf("DATA/ACORDAOS/")
+# saveRDS(acordaos, "DATA/ACORDAOS/acordaos.rds")
+
+acordaos <- readRDS("DATA/ACORDAOS/acordaos.rds")
+
+dec_adpf <- dec_adpf |>
+  dplyr::mutate(
+    doc_id = stringr::str_split_i(url, "=", -1)
+  ) |>
+  dplyr::rename(
+    ementa = texto
+  ) |>
+  dplyr::select(-tipo) |>
+  dplyr::left_join(
+    processos_resultado,
+    by = "numero"
+  ) |>
+  dplyr::filter(tipo == "Partidos") |>
+  dplyr::select(-tipo)
+
+dec_adpf <- dec_adpf |>
+  dplyr::left_join(
+    acordaos,
+    by = "doc_id"
+  )
+
+dec_adpf <- dec_adpf |>
+  dplyr::mutate(texto = ifelse(is.na(texto), ementa, texto)) |>
+  dplyr::select(-ementa, -url, -doc_id) |>
+  dplyr::filter(resultado != "Sem julgamento")
+
+dec_adpf <- dec_adpf |> tidyr::drop_na(texto)
+
+dec_adpf <- dec_adpf |> dplyr::distinct()
+
+dec_adpf <- dec_adpf |> dplyr::mutate(
+  texto = decJ::utilitario_remover_acentos(texto),
+  texto = gsub("ü", "u", texto),
+  texto = gsub("Ü", "U", texto),
+  texto = stringr::str_remove_all(texto, "º")
+)
+
+saveRDS(dec_adpf, "DATA/CLEAN/dec_adpf.rds")
+```
+
+```{r}
+dec_adpf <- readRDS("DATA/CLEAN/dec_adpf.rds")
+
+## Criação de um corpus
+corpus_adpf <- quanteda::corpus(
+  dec_adpf,
+  docid_field = "id",
+  text_field = "texto"
+)
+
+## Criação dos tokens
+
+tokens_adpf <- quanteda::tokens(
+  corpus_adpf,
+  remove_punct = T,
+  remove_symbols = T,
+  remove_numbers = T,
+  remove_url = T,
+  remove_separators = T,
+  split_hyphens = T,
+  split_tags = T
+)
+
+tokens_adpf <- quanteda::tokens_tolower(
+  tokens_adpf
+)
+
+## Criação dos dicionários
+
+dicionario.Criar <- function(token, n = 2, arquivo) {
+  ngrams <- quanteda::tokens_ngrams(
+    token,
+    n = n,
+    concatenator = " "
+  )
+
+  ngrams.dfm <- quanteda::dfm(ngrams)
+  ngrams.freq <- quanteda::topfeatures(ngrams.dfm, n = 500)
+
+  write.csv2(ngrams.freq,
+    file = paste(arquivo, n, "gram.csv", sep = ""),
+    quote = F,
+    row.names = T,
+    fileEncoding = "UTF-8"
+  )
+}
+
+## Aplicar sobre 6 grams
+# dicionario.Criar(tokens_adpf, n = 6, "DATA/MISC/")
+dic_6 <- read.delim("DATA/MISC/DIC/dic6.txt", header = FALSE)
+tokens_adpf <- quanteda::tokens_compound(
+  tokens_adpf,
+  pattern = quanteda::phrase(dic_6$V1),
+  concatenator = "_"
+)
+
+## Aplicar sobre 5 grams
+# dicionario.Criar(tokens_adpf, n = 5, "DATA/MISC/")
+dic_5 <- read.delim("DATA/MISC/DIC/dic5.txt", header = FALSE)
+tokens_adpf <- quanteda::tokens_compound(
+  tokens_adpf,
+  pattern = quanteda::phrase(dic_5$V1),
+  concatenator = "_"
+)
+
+## Aplicar sobre 4 grams
+# dicionario.Criar(tokens_adpf, n = 4, "DATA/MISC/")
+dic_4 <- read.delim("DATA/MISC/DIC/dic4.txt", header = FALSE)
+tokens_adpf <- quanteda::tokens_compound(
+  tokens_adpf,
+  pattern = quanteda::phrase(dic_4$V1),
+  concatenator = "_"
+)
+
+## Aplicar sobre 3 grams
+# dicionario.Criar(tokens_adpf, n = 3, "DATA/MISC/")
+dic_3 <- read.delim("DATA/MISC/DIC/dic3.txt", header = FALSE)
+tokens_adpf <- quanteda::tokens_compound(
+  tokens_adpf,
+  pattern = quanteda::phrase(dic_3$V1),
+  concatenator = "_"
+)
+
+## Aplicar sobre 2 grams
+# dicionario.Criar(tokens_adpf, n = 2, "DATA/MISC/")
+dic_2 <- read.delim("DATA/MISC/DIC/dic2.txt", header = FALSE)
+tokens_adpf <- quanteda::tokens_compound(
+  tokens_adpf,
+  pattern = quanteda::phrase(dic_2$V1),
+  concatenator = "_"
+)
+
+## Lematização
+lemas <- read.delim("DATA/MISC/lexique_pt.txt", header = FALSE, col.names = c("palavra", "lema", "cat"))
+lemas <- lemas |>
+  dplyr::mutate(
+    dplyr::across(c(palavra, lema), decJ::utilitario_remover_acentos)
+  )
+tokens_adpf <- quanteda::tokens_replace(
+  tokens_adpf,
+  lemas$palavra,
+  lemas$lema
+)
+
+# Salvar para colocar no iramuteq
+iramuteq <- sapply(tokens_adpf, paste, collapse = " ") |>
+  as.data.frame() |>
+  tibble::rownames_to_column()
+names(iramuteq) <- c("id", "texto")
+```
+
+```{r}
+dec_adpf$texto <- NULL
+
+corpus_iramuteq <- dplyr::left_join(
+  dec_adpf,
+  iramuteq,
+  by = "id"
+)
+```
+
+```{r eval=FALSE}
+# criar o corpus pro iramuteq
+
+iramuteq <- corpus_iramuteq |>
+  dplyr::mutate(
+    codigo = paste0(
+      "\n**** *id_",
+      id,
+      " *adpf_",
+      numero,
+      " *uf_",
+      uf,
+      " *dt_",
+      lubridate::year(as.Date(data)),
+      " *res_",
+      resultado |> stringr::str_replace_all("\\s", "_")
+    )
+  ) |>
+  dplyr::select(codigo, texto) |>
+  dplyr::relocate(.before = codigo)
+
+readr::write_delim(iramuteq, "IRAMUTEQ/acordaos.txt", delim = "\n", col_names = FALSE, quote = "none")
+```

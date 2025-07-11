@@ -1,0 +1,652 @@
+# A arguição de descumprimento de preceito fundamental, o que foi ? {#sec-adpf}
+
+```{r, setup-adpfs, include=FALSE}
+library(ggplot2)
+library(survival)
+library(survminer)
+library(gt)
+library(decJ)
+
+knitr::opts_chunk$set(
+  warning = FALSE, error = FALSE, message = FALSE,
+  fig_width = 12,
+  fig_height = 8,
+  fig_dpi = 600,
+  echo = FALSE
+)
+
+cores <- c("#D9523F", "#D1CFC2", "#ACBCCC", "#588383", "#AA6F4E", "#8898A1")
+
+clean_processos <- readRDS('DATA/CLEAN/clean_processos.rds')
+clean_decisoes <- readRDS('DATA/CLEAN/clean_decisoes.rds')
+adpf_rec <- readRDS('DATA/MISC/adpf_rec.rds')
+```
+
+A intensidade da judicialização da política no Brasil pode ser diretamente aferida pela análise do volume de ações de controle concentrado de constitucionalidade ajuizadas no Supremo Tribunal Federal (STF). Instrumentos como a Ação Direta de Inconstitucionalidade (ADI), a Ação Declaratória de Constitucionalidade (ADC), a Ação Direta de Inconstitucionalidade por Omissão (ADO) e, notadamente, a Arguição de Descumprimento de Preceito Fundamental (ADPF) constituem os principais canais pelos quais questões políticas são submetidas a um veredito sobre sua compatibilidade com a Constituição. Desde a promulgação da Carta de 1988, um total de 8.355 ações dessa natureza foram propostas, evidenciando a consolidação do STF como uma arena de disputas de alta relevância.
+
+A distribuição dessas ações, contudo, não é homogênea ao longo do tempo. Conforme ilustra o panorama quantitativo, o período de 2014 a 2024 se destaca por uma escalada sem precedentes no número de processos, com um ápice em 2021. Essa variação anual não é um dado isolado; ela pode refletir a conjuntura política do país. Períodos de maior conflito, marcados por eventos como a Operação Lava Jato, o impeachment presidencial e a pandemia de COVID-19, sugerem que o STF foi instado a atuar como árbitro em disputas cruciais entre atores políticos e sobre a condução de políticas públicas.
+
+Dentro deste universo de ações, este capítulo se debruça especificamente sobre a Arguição de Descumprimento de Preceito Fundamental. A ADPF se destaca como um instrumento de particular interesse devido à sua crescente utilização e flexibilidade para contestar não apenas leis, mas um vasto leque de atos do poder público, incluindo omissões. O objetivo é, portanto, realizar uma análise aprofundada do que representou a ADPF nos últimos dez anos, investigando os padrões de seu ajuizamento, os temas veiculados e, principalmente, os fatores que determinam a longevidade de sua tramitação no Tribunal.
+
+Desde a promulgação da Constituição de 1988 foram ajuizadas 8355 ações de controle concentrado, distribuídas heterogeneamente ao longo do período. A @fig-3 abaixo representa o número de ações de controle concentrado ajuizadas por ano, o período destacado em laranja se refere ao recorte temporal desta pesquisa (2014-2024) e a linha cinza a tendência:
+
+```{r, fig-3, echo=FALSE}
+#| fig-cap: "Número de ações de controle concentrado ajuizadas desde 1988 no Supremo Tribunal Federal"
+#| fig-width: 12
+#| fig-height: 8
+#| fig-dpi: 600
+
+clean_processos |>
+  # seleciona as colunas
+  dplyr::select(classe, numero, data_autuacao) |>
+  # deixa apenas as colunas únicas
+  dplyr::distinct() |>
+  dplyr::mutate(
+    # cria uma coluna para indicar se a ação está ou não no recorte de pesquisa (2014-2024)
+    recorte = ifelse(lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024, "1", "0"),
+    # cria uma coluna com o ano
+    ano = lubridate::year(data_autuacao)
+  ) |> 
+  dplyr::group_by(ano) |> 
+  dplyr::mutate(n = dplyr::n()) |>
+  dplyr::ungroup() |>
+  dplyr::select(ano, n, recorte) |>
+  dplyr::distinct() |>
+  ggplot(aes(x = ano, y = n)) +
+  geom_col(aes(fill = recorte)) +
+  geom_smooth(se = FALSE, color = cores[6]) +
+  scale_fill_manual(
+    breaks = NULL,
+    values = c("1" = cores[5], "0" = cores[4])
+  ) +
+  scale_x_continuous(
+    breaks = seq(1988, lubridate::year(Sys.Date()), by = 4)
+  ) +
+  scale_y_continuous(
+    expand = c(0,0),
+    limits = c(0,600)
+  ) +
+  labs(
+    y = "Número de Processos",
+    x = "Ano"
+  ) +
+  decJ::theme_decJ(y_num = TRUE)
+
+decJ::save_decJ("PLOT/figura_3", l = 24, dpi = 300)
+```
+
+O período de 1988 à 2013 apresenta um crescimento gradual e não linear com pico entre 2003-2004 seguido de um vale. A linha de tendência suavizada confirma esse movimento ascendente, indicado que, apesar das flutuações anuais, o recurso ao Judiciário se consolida de forma consistente nas duas primeiras décadas de redemocratização.
+
+A partir de 2014, o podemos perceber uma escalada no número de processos, tendo seu ápice em 2021. Os anos que sucederam 2014 foram marcados pela Operação Lava Jato, Impeachment da ex-Presidente Dilma Roussef, COVID-19, etc., sugerindo que o Supremo Tribunal Federal passou a ser arbitrado não apenas sobre a constitucionalidade das leis, mas sobre decisões políticas cruciais e disputas entre atores políticos e condução de políticas públicas. Por fim, o segmento final do gráfico induz um novo regime com a queda abrupta no número de processos retornando a patamares anteriores à 2019. 
+
+Corroborando a relevância desses números, um estudo de Nunes (2022) aponta que, entre 1º de janeiro de 2019 e 30 de dezembro de 2022, durante o governo Bolsonaro, foram ajuizadas 262 ADI por partidos políticos perante o STF. A comparação desse dado específico com o total de ADI recebidas pelo tribunal pode revelar a proporção da judicialização que é diretamente impulsionada por atores políticos partidários. 
+
+A variação anual no número de ações, portanto, não é um dado isolado. Ela pode refletir a conjuntura política – períodos de maior conflito tendem a gerar mais demandas judiciais – assim como estratégias específicas dos atores envolvidos, como o uso mais intenso do judiciário pela oposição para contestar ações governamentais. 
+
+A análise gráfica permite identificar momentos de intensificação (picos) ou retração (vales) na propositura de ações judiciais. A correlação desses movimentos com eventos políticos significativos – como eleições, crises institucionais, mudanças de governo, escândalos de corrupção ou pandemias – é crucial para compreender a dinâmica da judicialização.
+
+Dentre as ações de controle concentrado previstas no sistema de revisão judicial, destaca-se a arguição de descumprimento de preceito fundamental. A ADPF foi prevista na Constituição Federal de 1988 desde a sua promulgação, mas apenas passou a ser utilizada após a Lei nº 9.882/1999, e a sua criação preencheu lacunas que permitiu exercer o controle de constitucionalidade sobre atos que estavam, até então, descobertos do controle – como leis municipais ou ainda normas pré-constitucionais. Diante disso, a ADPF foi desenhada como uma ação subsidiária e genérica, destinada a evitar ou reparar lesão a preceito fundamental, resultante de ato do poder público.
+
+Um dos traços marcantes da ADPF é a opção do constituinte e do legislador por não fornecer um rol taxativo do que seriam os "preceitos fundamentais". Essa indeterminação conceitual transferiu para a doutrina e, principalmente, para a jurisprudência do STF, a tarefa de densificar o conteúdo desta expressão. O Tribunal consolidou o entendimento de que preceitos fundamentais não se limitam aos princípios fundamentais expressos nos artigos 1º a 4º da Constituição, nem se confundem exclusivamente com as cláusulas pétreas do artigo 60, § 4º. O conceito é mais amplo, abrangendo um espectro de normas que formam a "espinha dorsal" da Constituição e que lhe conferem identidade e estrutura. Incluem-se nesta categoria os direitos e garantias individuais e coletivos, os princípios sensíveis que estruturam a federação, e as normas que definem a organização essencial do Estado Democrático de Direito. Esta concepção aberta é o que confere ao instituto sua vitalidade, permitindo sua adaptação a novas e imprevistas controvérsias constitucionais, como demonstrado em julgamentos complexos que abordaram desde direitos reprodutivos até o reconhecimento de novas entidades familiares.
+
+A flexibilidade conceitual, no entanto, revela-se uma característica de dupla face. Por um lado, ela arma o STF com uma ferramenta potente e adaptável para proteger o núcleo da Constituição contra ameaças que o legislador de 1999 não poderia prever. Casos como a ADPF 132 e a ADPF 54 só foram possíveis porque o Tribunal pôde enquadrar as questões subjacentes como violações a preceitos de dignidade e liberdade, mesmo sem uma menção explícita na lei. Por outro lado, essa mesma abertura é a fonte das críticas de uso político da ação.  A ausência de um critério rígido permite que uma vasta gama de controvérsias seja levada ao STF sob o manto da violação de um preceito fundamental, alimentando acusações de que o Tribunal estaria extrapolando suas funções e atuando como um legislador positivo.
+
+O artigo 1º da Lei 9.882/99 define um objeto vasto e, por sua natureza subsidiária, residual para a ADPF: "evitar ou reparar lesão a preceito fundamental, resultante de ato do Poder Público". A jurisprudência do STF tem interpretado a expressão "ato do Poder Público" de forma extremamente ampla, consolidando a ADPF como um instrumento polivalente que alcança hipóteses não cobertas pelas demais ações de controle concentrado. Seu objeto pode incluir: 
+
+a)	Leis ou atos normativos municipais: Diferentemente da ADI, cujo escopo se restringe a normas federais e estaduais, a ADPF firmou-se como o instrumento por excelência para o controle concentrado da constitucionalidade de normas municipais em face da Constituição Federal.   
+b)	Direito pré-constitucional: A ADPF pacificou uma longa controvérsia doutrinária ao se estabelecer como a via adequada para a análise da recepção (ou não recepção) de leis e atos normativos anteriores à Constituição de 1988. O julgamento da ADPF 130, que declarou a não recepção da Lei de Imprensa de 1967, é o exemplo dessa função.  
+
+c)	Atos não-normativos e de efeitos concretos: A ação pode ser utilizada para questionar atos administrativos, decisões judiciais (desde que não transitadas em julgado) e outros atos do poder público que, embora desprovidos de caráter normativo geral e abstrato, causem lesão a preceito fundamental. 
+
+d)	Controvérsia constitucional relevante: O parágrafo único do artigo 1º da lei também prevê o cabimento da ADPF para dirimir "controvérsia constitucional relevante" sobre a aplicação de normas, o que evidencia seu papel na pacificação da jurisprudência nacional e na garantia da segurança jurídica, evitando decisões conflitantes em diferentes instâncias do Judiciário. 
+
+Essa amplitude de objeto posiciona a ADPF como a ferramenta final de unificação do ordenamento jurídico sob a égide da Constituição de 1988. Enquanto a ADI e a ADC possuem um escopo limitado a leis federais e estaduais editadas após a Constituição, a ADPF foi desenhada para preencher todas as lacunas remanescentes. Isso significa que, enquanto a ADI realiza uma fiscalização prospectiva do ordenamento, a ADPF promove uma depuração completa, alcançando todo o acervo legislativo e de atos do poder público, independentemente de sua origem federativa ou de sua data de edição. 
+
+Dessa forma, a ADPF não é apenas mais uma ação de controle, mas o mecanismo que assegura a supremacia da Constituição de 1988 sobre todo o direito brasileiro, consolidando o poder do STF como seu guardião final.
+
+O requisito mais controverso e definidor da ADPF é o princípio da subsidiariedade, cravado no artigo 4º, § 1º, da Lei 9.882/99: "Não será admitida arguição de descumprimento de preceito fundamental quando houver qualquer outro meio eficaz de sanar a lesividade". Este princípio confere à ADPF um caráter residual. O Supremo Tribunal Federal tem reiteradamente afirmado que a existência de um meio processual alternativo e idôneo – como a Ação Direta de Inconstitucionalidade (ADI), a Ação Declaratória de Constitucionalidade (ADC), a Ação Direta de Inconstitucionalidade por Omissão (ADO) ou mesmo a Reclamação Constitucional – impede o conhecimento da ADPF. 
+
+A análise da "eficácia" do meio alternativo é realizada pelo Tribunal em termos de sua capacidade de resolver a controvérsia constitucional de forma ampla, geral e imediata, com a mesma força e abrangência que uma decisão em ADPF.   
+
+A aplicação deste princípio pelo STF é alvo de críticas e controvérsia reside na definição do que constitui um "meio eficaz". Uma interpretação excessivamente literal do dispositivo poderia, em tese, inviabilizar completamente a ADPF, pois no sistema jurídico brasileiro o controle difuso de constitucionalidade, exercido incidentalmente em qualquer ação judicial, é sempre um meio disponível para questionar a validade de um ato perante a Constituição. A discussão se aprofundou com a introdução do instituto da repercussão geral, que também visa à pacificação de teses constitucionais com efeitos que transcendem o caso concreto, gerando um debate sobre a sobreposição de funções e a necessidade de repensar o papel residual da ADPF.
+
+A jurisprudência vacilante e a aplicação por vezes rigorosa da subsidiariedade revelam uma tensão fundamental: por um lado, a ADPF foi criada para ser a mais potente ferramenta de defesa da Constituição; por outro, o STF a maneja com extrema cautela, muitas vezes preferindo não atuar se houver qualquer outra porta processual aberta, mesmo que mais estreita. Na prática, o princípio da subsidiariedade transcende sua função de mero requisito processual para operar como uma válvula de controle institucional. Por meio dele, o STF gerencia ativamente seu próprio poder e sua pauta de julgamentos.
+
+Os dados mostram que, desde a sua regulamentação, já foram ajuizadas 1217 ADPF. A @fig-4 abaixo mostra a distribuição de ADPF ao longo do tempo, com destaque do período de estudo de 2014 a 2024 e linha de tendência:
+
+```{r, fig-4}
+#| fig-cap: "Número de Arguição de Descumprimento de Preceito Fundamental ajuizadas por ano"
+#| fig-width: 12
+#| fig-height: 8
+#| fig-dpi: 600
+#| echo: false
+
+clean_processos |>
+  # seleciona as colunas
+  dplyr::select(classe, numero, data_autuacao) |>
+  dplyr::filter(classe == "ADPF") |>
+  # deixa apenas as colunas únicas
+  dplyr::distinct() |>
+  dplyr::mutate(
+    # cria uma coluna para indicar se a ação está ou não no recorte de pesquisa (2014-2024)
+    recorte = ifelse(lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024, "1", "0"),
+    # cria uma coluna com o ano
+    ano = lubridate::year(data_autuacao)
+  ) |> 
+  dplyr::group_by(ano) |> 
+  dplyr::mutate(n = dplyr::n()) |>
+  dplyr::ungroup() |>
+  dplyr::select(ano, n, recorte) |>
+  dplyr::distinct() |>
+  ggplot(aes(x = ano, y = n)) +
+  geom_col(aes(fill = recorte)) +
+  geom_smooth(se = FALSE, color = cores[6]) +
+  scale_fill_manual(
+    breaks = NULL,
+    values = c("1" = cores[5], "0" = cores[4])
+  ) +
+  scale_x_continuous(
+    breaks = seq(1988, lubridate::year(Sys.Date()), by = 4)
+  ) +
+  scale_y_continuous(
+    expand = c(0,0),
+    limits = c(0,200)
+  ) +
+  labs(
+    y = "Número de Processos",
+    x = "Ano"
+  ) +
+  decJ::theme_decJ(y_num = TRUE)
+
+decJ::save_decJ("PLOT/figura_4", l = 24, dpi = 300)
+```
+
+Nota-se que a ADPF foi uma ação de controle pouco utilizada inicialmente, mas que, ao longo do tempo, recebeu atenção dos legitimados para a sua proposição. No primeiro período de 2000 a 2014, observa-se um volume de ações relativamente baixo e estável, as flutuações anuais são modestas, e raramente ultrapassando a marca de 40 processos. A partir de 2015, o cenário muda completamente, atingindo picos de mais de 150 processos em 2021. A curva de tendência coincide com o período de pandemia e Governo Bolsonaro (2019-2022). Após o ápice, a análise para os anos subsequentes revela um movimento de arrefecimento, com uma queda considerável no número de ajuizamentos. Contudo, os patamares de 2022 a 2024, embora menores que o pico, permanecem significativamente superior à média do período anterior a 2016.  Isso pode indicar o estabelecimento de um “novo normal” na utilização da ADPF.
+
+O uso crescente da ADPF pode indicar tanto uma maior conscientização dos atores jurídicos e políticos sobre seu potencial quanto uma percepção de que outros instrumentos processuais ou os canais políticos tradicionais são insuficientes para lidar com certas violações de direitos ou impasses institucionais. A ADPF permite contestar não apenas leis ou atos normativos específicos, mas também atos do poder público de natureza diversa, incluindo omissões ou um conjunto de atos que, cumulativamente, gerem lesão a preceito fundamental. Um aumento no número de ADPFs pode sugerir que os problemas levados ao STF são cada vez mais de natureza estrutural ou difusa, transcendendo a simples inconstitucionalidade de uma lei ou ato normativo.
+
+A pandemia não apenas gerou novas demandas por direitos (como acesso a leitos, medicamentos e vacinas), mas também expôs e intensificou tensões federativas preexistentes. A ausência de uma coordenação nacional clara e a divergência de posturas entre o governo federal e os governos estaduais e municipais levaram a uma profusão de conflitos que desaguaram no STF, que atuou como árbitro dessas disputas. Decisões sobre a autonomia de instituições federais de ensino para exigir comprovante de vacina, contrariando diretrizes do Ministério da Educação, ou a suspensão de atos da FUNAI que negavam proteção a terras indígenas não homologadas durante a crise sanitária, são exemplos dessa mediação de conflitos verticais (entre o governo federal e outros entes ou instituições) e horizontais (entre diferentes políticas públicas) pelo Supremo.
+
+Observado o crescimento no número de ADPF ajuizadas por ano, é possível verificar quais ramos do direito e assunto estão sendo discutidos nessas ações:
+
+```{r, fig-5}
+#| fig-cap: "Dez principais ramos do direito (a) e assuntos (b) das Arguições de Descumprimento de Preceito Fundamental ajuizadas entre 2014-2024"
+#| fig-subcap: 
+#|   - "Ramo do Direito"
+#|   - "Assunto Relacionado"
+#| fig-width: 12
+#| fig-height: 8
+#| fig-dpi: 600
+#| echo: false
+#| layout-ncol: 2
+
+clean_processos |>
+  dplyr::select(classe, numero, ramo_do_direito, data_autuacao) |>
+  dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024) |>
+  dplyr::select(-data_autuacao) |>
+  dplyr::distinct() |>
+  dplyr::group_by(ramo_do_direito) |>
+  dplyr::summarise(n = dplyr::n()) |> 
+  tidyr::drop_na() |> 
+  dplyr::slice_max(n = 10, order_by = n) |>
+  ggplot(aes(x = n, y = reorder(ramo_do_direito, n))) +
+  geom_col(fill = cores[4]) +
+  scale_x_continuous(expand = c(0,0), limits = c(0,870)) +
+  labs(
+    x = "Número de Processos",
+    y = "Ramo do Direito"
+  ) +
+  decJ::theme_decJ(x_num= TRUE)
+
+clean_processos |>
+  dplyr::select(classe, numero, assunto_relacionado, data_autuacao) |>
+  dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024) |>
+  dplyr::select(-data_autuacao) |>
+  dplyr::distinct() |>
+  dplyr::group_by(assunto_relacionado) |>
+  dplyr::summarise(n = dplyr::n()) |> 
+  tidyr::drop_na() |> 
+  dplyr::slice_max(n = 10, order_by = n) |>
+  ggplot(aes(x = n, y = reorder(assunto_relacionado, n))) +
+  geom_col(fill = cores[4]) +
+  scale_x_continuous(expand = c(0,0), limits = c(0,870)) +
+  labs(
+    x = "Número de Processos",
+    y = "Assunto"
+  ) +
+  decJ::theme_decJ(x_num= TRUE)
+
+```
+
+Uma vez mapeado o "o quê" — os temas que dominam o universo das ADPFs —, a análise se volta para o "quem": os membros do Tribunal responsáveis por conduzir esses processos. A forma como o Supremo Tribunal Federal processa essa avalanche de demandas de alta complexidade política não é homogênea, sendo crucial entender como a carga processual se distribui entre os ministros e se há concentração de relatorias, um fator que pode influencia diretamente o andamento e o destino das arguições.
+
+```{r, adpf-3}
+#| eval: false
+
+clean_processos |>
+  dplyr::select(classe, numero, relator_atual, data_autuacao) |>
+  dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024) |>
+  dplyr::distinct() |>
+  tidyr::drop_na(relator_atual) |> 
+  dplyr::group_by(relator_atual) |>
+  dplyr::summarise(n = dplyr::n()) |>
+  dplyr::ungroup() |>
+  dplyr::filter(relator_atual != "MINISTRO PRESIDENTE")
+
+```
+
+No que tange aos ministros relatores das arguições, a média de relatorias por ministro é de aproximadamente 58,6 processos, no entanto com uma alta variabilidade. Por exemplo, a Ministra Cármen Lúcia relata 91 processos, enquanto o Min. Flávio Dino apenas 23. Isso se dá, obviamente, pelo tempo de tribunal. Além do fato de que os dados considerando o relator atual do processo, e não o relator inicial. Isso quer dizer, quando um ministro se aposenta sem que os processos tenham encerrado, é designado um novo relator – é esse novo relator que recebe o dado. Observa-se que os Ministros Celso de Mello e Marco Aurélio possuem de 2014 a 2024 apenas 27 e 31 processos, respectivamente.
+
+A constatação de uma distribuição achatada das relatorias leva naturalmente à pergunta seguinte: essa concentração de poder processual impacta a celeridade dos julgamentos? Deixando a análise estática da distribuição de casos, o estudo avança para uma perspectiva dinâmica, buscando mensurar o tempo de vida de uma ADPF dentro do Tribunal. É preciso, primeiramente, estabelecer uma linha de base para entender quanto tempo, em média, uma arguição leva para ser concluída, antes de investigar os fatores que podem acelerar ou retardar esse processo.
+
+Assim com as ações de controle concentrado em geral, as ADPF possuem tempo próprio de resposta pelo STF cujos prazos podem ser influenciados a depender de diferentes fatores. No momento, analisa-se em relação a um modelo nulo – independentemente de qualquer variável, em relação ao relator e em relação ao tipo de legitimado.
+
+
+```{r, adpf-surv-4}
+#| echo: false
+
+processos_surv <- clean_processos |>
+  dplyr::select(classe, numero, data_autuacao, data_baixa) |>
+  dplyr::filter(classe == "ADPF") |>
+  dplyr::distinct() |>
+  dplyr::mutate(
+    evento = ifelse(!is.na(data_baixa), 1 , 0)
+  ) |>
+  tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  dplyr::mutate(
+    tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1)
+  )
+
+# Cria o modelo nulo
+estimador_km <- survfit(Surv(tempo, evento) ~ 1, data = processos_surv)
+
+# Salva o modelo nulo
+saveRDS(estimador_km, "DATA/MODELOS/modelo_01.rds")
+
+m <- estimador_km |> broom::glance() |> dplyr::pull(median) |> lubridate::ddays() / lubridate::dyears(1)
+m <- m |> round(2)
+```
+
+O modelo nulo para um conjunto de 1217 processos, considerando que em 995 ocorreram o evento de interesse e 222 casos censurados (quando o processo não foi concluído ainda) indica que a mediana do tempo de sobrevivência foi de 746 dias, ou seja, metade das ADPF da amostra levaram aproximadamente 2,04 anos para serem baixadas.
+
+```{r, fig-6}
+#| fig-cap: "Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental"
+#| fig-width: 12
+#| fig-height: 8
+#| fig-dpi: 600
+#| echo: false
+
+rm(m)
+
+ggsurvplot(
+  estimador_km,
+  data = processos_surv,
+  pval = FALSE,
+  conf.int = FALSE,
+  surv.median.line = "hv",
+  # risk.table = TRUE,
+  xlab = "Tempo (dias)",
+  ylab = "Probabilidade de Sobrevivência",
+  palette = cores[4],
+  ggtheme = decJ::theme_decJ()
+)
+
+decJ::save_decJ("PLOT/figura_6", l = 24, dpi = 300)
+```
+
+Saber que metade das ADPFs é encerrada em pouco mais de dois anos oferece um panorama geral valioso, mas oculta as variações significativas que existem caso a caso. O que explica por que algumas ações são decididas em meses, enquanto outras aguardam anos? O primeiro fator a ser testado é a influência do ministro relator. Utilizando o modelo de riscos proporcionais de Cox, é possível ir além da média e quantificar o efeito que cada relator individualmente exerce sobre a celeridade processual. A partir desse ponto, considere que estão sendo avaliadas apenas as ADPF ajuizadas entre 2014 e 2024, e não mais sobre todo o período. 
+
+```{r, adpf-surv-7}
+#| echo: false
+
+processos_surv <- clean_processos |>
+  dplyr::select(classe, numero, data_autuacao, data_baixa, relator_atual) |>
+  tidyr::drop_na(relator_atual) |>
+  dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024, relator_atual != "MINISTRO PRESIDENTE") |>
+  dplyr::distinct() |>
+  dplyr::mutate(
+    evento = ifelse(!is.na(data_baixa), 1 , 0)
+  ) |>
+  tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  dplyr::mutate(
+    tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1)
+  )
+
+m_cox <- coxph(Surv(tempo, evento) ~ relator_atual, data = processos_surv)
+
+# Salva o modelo
+saveRDS(m_cox, "DATA/MODELOS/modelo_02.rds")
+```
+
+A @tbl-adpf-surv-8 representa os resultados da regressão de Cox analisando o tempo de baixa de cada processo em razão de cada relator, tomando como referência o Min. Alexandre de Moraes:
+
+```{r, tbl-adpf-surv-8}
+#| tbl-cap: "Modelo de Cox de uma análise de sobrevivência das ADPF em relação ao ministro relator"
+#| echo: false
+
+m_cox_broom <- broom::tidy(m_cox)
+m_cox_broom |>
+  dplyr::mutate(HR = exp(estimate)) |>
+  dplyr::mutate(
+    dplyr::across(2:6, ~{round(.x, 2)})
+  ) |>
+  writexl::write_xlsx("DATA/EXCEL/modelo_02.xlsx")
+
+m_cox |>
+  broom::tidy() |>
+  dplyr::mutate(
+    term = stringr::str_remove_all(term, "relator_atual"),
+    HR = exp(estimate)) |>
+      gt() |>
+  fmt_number(
+    columns = everything(),
+    decimals = 2,
+    dec_mark = ",",
+    sep_mark = "."
+  ) |>
+  tab_options(
+    # Remove a borda superior e inferior da tabela
+    table.border.top.style = "hidden",
+    table.border.bottom.style = "hidden",
+    # Adiciona uma linha sólida abaixo do cabeçalho
+    column_labels.border.bottom.style = "solid",
+    column_labels.border.bottom.width = px(2),
+    # Remove as linhas verticais
+    column_labels.vlines.style = "hidden",
+    table_body.vlines.style = "hidden",
+    # Adiciona uma linha sólida na parte inferior do corpo da tabela
+    table_body.border.bottom.style = "solid",
+    table_body.border.bottom.width = px(2),
+    # Remove as linhas horizontais do corpo da tabela
+    table_body.hlines.style = "hidden",
+    # Centraliza o título da tabela
+    heading.align = "center",
+    # Posiciona a nota de rodapé
+    source_notes.padding = px(10)
+  ) |>
+  # Alinhar os cabeçalhos das colunas ao centro
+  cols_align(
+    align = "center",
+    columns = everything()
+  )
+```
+
+A análise dos resultados do modelo de regressão de Cox, demonstra que a variável relator possui um impacto estatisticamente significante na taxa de conclusão das ADPFs. Este resultado global sublinha a relevância do papel do ministro relator na dinâmica processual e na efetividade da judicialização da política, indicando que a identidade do magistrado não é um fator neutro na temporalidade da tramitação das ações. 
+
+Observa-se uma heterogeneidade notável entre os ministros no que tange à taxa de conclusão das ADPFs. Ministros como André Mendonça (HR = 0.21, p = 0,00) e Cristiano Zanin (HR = 0.20, p = 0) apresentam os menores riscos, indicando uma taxa de conclusão significativamente mais baixa para as ADPFs sob sua relatoria. Isso implica que as ações sob a responsabilidade desses ministros tendem a ter um tempo de sobrevivência consideravelmente maior, ou seja, demoram mais para serem concluídas, em comparação com a referência. Outros ministros com HR significativamente abaixo de 1 incluem Flávio Dino (HR = 0.36), Luiz Fux (HR = 0.40), Nunes Marques (HR = 0.46), Edson Fachin (HR = 0.58), Gilmar Mendes (HR = 0.69) e Luís Roberto Barroso (HR = 0.69). Para esses magistrados, a taxa de conclusão das ADPFs é igualmente inferior à da referência, embora em magnitudes variadas. Essa constatação sugere que a gestão processual, a complexidade dos casos que lhes são distribuídos ou até mesmo a filosofia jurídica de cada relator podem influenciar diretamente a celeridade ou a morosidade na resolução dessas importantes ações de controle concentrado de constitucionalidade.
+
+Em contraste, alguns ministros não demonstram um impacto estatisticamente significativo na taxa de conclusão das ADPFs ou seus riscos se aproximam de 1, indicando que a duração das ações sob sua relatoria não difere substancialmente da média ou da categoria de referência. Este grupo inclui Ministros como Cármen Lúcia (HR = 1,10, p = 0,53), Celso de Mello (HR = 1,19, p = 0,44), Dias Toffoli (HR = 0,80, p = 0,19), Marco Aurélio (HR = 0.79, p = 0.28) e Ricardo Lewandowski (HR = 1.33, p = 0.14). Embora Ricardo Lewandowski apresente um risco acima de 1, sugerindo uma taxa de conclusão potencialmente mais alta, o p-valor associado indica que essa diferença não é estatisticamente significativa. Da mesma forma, a Ministra Rosa Weber apresenta um risco abaixo de 1, mas seu p-valor, embora próximo da significância, não permite inferir um impacto estatisticamente distinto. A ausência de significância estatística para esses relatores sugere que, para as ADPFs sob sua responsabilidade, a dinâmica de tramitação se alinha mais com o padrão geral observado, sem acelerações ou desacelerações pronunciadas que possam ser atribuídas unicamente à sua atuação como relator.
+
+
+```{r, adpf-surv-9}
+#| echo: false
+rs_mcox <- cox.zph(m_cox, terms = FALSE)
+```
+
+A análise demonstra, portanto, que a identidade do relator é uma variável-chave na equação da celeridade processual. Contudo, para além das características individuais dos julgadores, existem mecanismos processuais internos ao Tribunal que são projetados para influenciar o ritmo dos julgamentos. Dentre eles, destaca-se a aplicação do rito abreviado. A investigação se volta agora para este fator, buscando determinar se sua utilização cumpre, na prática, a promessa de acelerar a entrega da prestação jurisdicional.
+
+Primeiramente, é preciso destacar que o rito abreviado não está previsto na Lei nº 9882/1999 – que regulamenta a ADPF, mas é amplamente utilizado de modo genérico no controle concentrado, embora só esteja previsto na regulamentação da ADI, ADO e ADC. Segundo esse rito, havendo medida cautelar, o relator, após prazo de dez dias para informações e cinco dias para manifestação do Advogado-Geral da União e o Procurador-Geral da República, pode submeter o processo direto ao plenário para julgar definitivamente a ação - sem a necessidade de avaliar a liminar previamente.
+
+```{r adpf-rito-1}
+#| include: false
+
+clean_processos |>
+  dplyr::select(classe, numero, tem_rito_art_12, data_autuacao) |>
+  dplyr::filter(
+    classe == "ADPF",
+    lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024
+  ) |>
+  dplyr::distinct() |>
+  dplyr::group_by(tem_rito_art_12) |>
+  dplyr::summarise(n = dplyr::n())
+
+```
+
+No escopo dos processos analisados, cerca de 136 processos adotaram o rito abreviado. Mas, o rito abreviado reduz o tempo de julgamento da ação? Conforme se observa na @fig-adpf-rito-2, as ações sem o rito abreviado são encerradas mais rapidamente do que as ações com o rito abreviado, o que é contraintuitivo. Isso pode ser explicado, principalmente, pelo fato de que boa parte das ações foram extintas sem resolução de mérito - antes mesmo de se discutir a viabilidade do rito abreviado.
+
+```{r, fig-adpf-rito-2}
+#| fig-cap: "Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental ajuizada entre 2014-2024 em relação ao rito abreviado"
+#| fig-width: 12
+#| fig-height: 8
+#| fig-dpi: 600
+#| echo: false
+
+processos_surv <- clean_processos |>
+  dplyr::select(classe, numero, data_autuacao, data_baixa, tem_rito_art_12) |>
+  dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024) |>
+  dplyr::distinct() |>
+  dplyr::mutate(
+    evento = ifelse(!is.na(data_baixa), 1 , 0)
+  ) |>
+  tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  dplyr::mutate(
+    tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1)
+  )
+
+# Cria o modelo
+estimador_km <- survfit(Surv(tempo, evento) ~ tem_rito_art_12, data = processos_surv)
+
+# Salva o modelo
+saveRDS(estimador_km, "DATA/MODELOS/modelo_05.rds")
+
+ggsurvplot(
+  estimador_km,
+  data = processos_surv,
+  pval = TRUE,
+  conf.int = FALSE,
+  surv.median.line = "hv",
+  # risk.table = TRUE,
+  xlab = "Tempo (dias)",
+  ylab = "Probabilidade de Sobrevivência",
+  palette = c(cores[4], cores[5]),
+  ggtheme = decJ::theme_decJ(),
+  legend.labs = c("Não", "Sim"),
+  legend.title = "Rito abreviado"
+)
+
+decJ::save_decJ("PLOT/figura_7", l = 24, dpi = 300)
+```
+
+A fim de testar os efeitos da variável sobre o tempo, o modelo de Cox confirmou que possuir o rito abreviado diminui o risco do processo encerrar, isto é, o rito abreviado tem efeito retardatário ($\beta = -0,2136$; $exp(\beta) = 0,8077$; $p = 0,0421$). No entanto, como foi possível observar na @fig-adpf-rito-2, as linhas se cruzam em um determinado momento, sugerindo que os riscos não são proporcionais - o que viola os pressupostos modelo. O teste dos resíduos de Schoenfeld confirmou essa constatação - os riscos não são proporcionais ($p < 0,05$). A linha suavizada que representa a tendência dos resíduos ao longo do tempo não é horizontal, exibindo uma inclinação positiva. Isso indica que o efeito da variável sobre o risco não é constante, mas sim varia em função do tempo, aumentando progressivamente.
+
+```{r, fig-adpf-rito-3}
+#| echo: false
+
+m_cox <- coxph(Surv(tempo, evento) ~ tem_rito_art_12, data = processos_surv)
+
+teste_mcox <- cox.zph(m_cox, terms = FALSE)
+```
+
+Para corrigir a violação, optou-se por ajustar modelo de Cox com um coeficiente dependente do tempo (*time-dependent coefficient*). Foi incluído um termo de interação entre a variável e uma função linear do tempo. 
+
+```{r, tbl-adpf-rito-4}
+#| echo: false
+
+processos_surv$tem_rito_art_12 <- ifelse(processos_surv$tem_rito_art_12 == "Sim", 1, 0)
+
+m_cox <- coxph(
+  formula = Surv(tempo, evento) ~ tem_rito_art_12 + tt(tem_rito_art_12),
+  data = processos_surv,
+  tt = function(x, t, ...) {
+    x * t
+  }
+)
+
+saveRDS(m_cox, "DATA/MODELOS/modelo_06.rds")
+
+m_cox |> broom::tidy() |> knitr::kable()
+```
+
+A interpretação dos coeficientes revela uma dinâmica complexa. O coeficiente principal corresponde a um HR inicial de 0,48, indicando um forte efeito protetor no tempo zero. Contudo, o coeficiente positivo para o termo de interação demonstra que este efeito protetor se dissipa progressivamente com o passar do tempo. O HR evolui, atingindo o valor de 1,0 (ausência de efeito) no tempo aproximado de 1018 dias, e se inverte para um fator de risco em tempos subsequentes (HR = 1,41 em t = 1500 dias).
+
+Ocorre que, conforme anotado anteriormente, o rito abreviado apresenta um efeito contraintuitivo de prolongar o prazo de conclusão do processo. Considerando que o resultado do processo pode influenciar no seu tempo, a próxima análise visa estimar o tempo de conclusão do processo com relação ao tipo de resultado.
+
+```{r, dec-trata-adpf}
+#| echo: false
+
+clean_decisoes_final <- 
+  clean_decisoes |>
+  dplyr::filter(classe == "ADPF", numero %in% adpf_rec$numero, subgrupo == "Decisão Final") |>
+  dplyr::mutate(
+    resultado = dplyr::case_when(
+      andamento_agrupado == "Procedente" ~ "Procedente",
+      andamento_agrupado == "Improcedente" ~ "Improcedente",
+      andamento_agrupado == "Procedente em parte" ~ "Procedente em parte",
+      andamento_agrupado == "Prejudicado" ~ "Prejudicado",
+      TRUE ~ "Sem mérito"
+    )
+  )
+
+clean_decisoes_final_pt2 <- clean_decisoes_final |>
+  dplyr::filter(
+    resultado == "Procedente" | resultado == "Improcedente" | resultado == "Procedente em parte"
+  ) |>
+  dplyr::select(classe, numero, resultado) |>
+  dplyr::distinct() |>
+  dplyr::mutate(numero = as.numeric(numero))
+
+clean_decisoes_final_pt3 <- clean_decisoes_final |>
+  dplyr::filter(resultado == "Prejudicado") |>
+  dplyr::select(classe, numero, resultado) |>
+  dplyr::distinct() |>
+  dplyr::mutate(numero = as.numeric(numero))
+
+adpf_rec_teste <- adpf_rec |>
+  dplyr::left_join(
+    clean_decisoes_final_pt2,
+    by = dplyr::join_by(numero)
+  ) |>
+  dplyr::left_join(
+    clean_decisoes_final_pt3,
+    by = dplyr::join_by(numero),
+    keep = FALSE,
+    relationship = "one-to-one"
+  )
+
+adpf_rec_teste <- adpf_rec_teste |>
+  mutate(
+    resultado = ifelse(is.na(resultado.x), resultado.y, resultado.x)
+  ) |>
+  dplyr::select(numero, resultado)
+
+
+decisoes_final <- adpf_rec_teste
+decisoes_final$numero <- as.numeric(decisoes_final$numero)
+
+rm(clean_decisoes_final_pt2, clean_decisoes_final_pt3, adpf_rec_teste)
+```
+
+```{r, adpf-resultado-1}
+#| echo: false
+
+processos_resultado <- clean_processos |>
+  dplyr::filter(classe == "ADPF", numero %in% adpf_rec$numero, em_tramitacao == "Não") |>
+  dplyr::select(
+    numero, data_autuacao, data_baixa, tem_rito_art_12, em_tramitacao
+  ) |>
+  dplyr::distinct() |>
+  dplyr::mutate(numero = as.numeric(numero)) |>
+  dplyr::left_join(
+    decisoes_final,
+    by = "numero"
+  ) |>
+  tidyr::replace_na(list(resultado = "Sem mérito")) |>
+  dplyr::select(-em_tramitacao) |>
+  dplyr::mutate(
+    evento = ifelse(!is.na(data_baixa), 1 , 0)
+  ) |>
+  tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  dplyr::mutate(
+    tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1)
+  )
+```
+
+A @fig-adpf-resultado-2 ilustra a distribuição dos resultados das Arguições de Descumprimento de Preceito Fundamental (ADPF) ajuizadas no Supremo Tribunal Federal. A análise dos dados revela uma proeminente concentração de ações julgadas como "Sem mérito", superando a marca de 400 casos. Este resultado é expressivamente superior às demais categorias, indicando que uma parcela majoritária das ADPFs sequer tem seu mérito analisado pela Corte, sendo extintas por questões processuais preliminares, como a ausência de requisitos de admissibilidade.
+
+Em um segundo patamar de frequência, as ações julgadas "Procedente", com aproximadamente 125 casos, representam o segundo grupo mais expressivo, sinalizando o acolhimento material dos pedidos em número considerável. Logo após, surgem as ações consideradas "Prejudicado", com cerca de 75 ocorrências, e "Procedente em parte", com aproximadamente 50. A categoria com menor incidência é a de "Improcedente", com menos de 50 casos, o que sugere que, uma vez admitida a ação, a chance de uma negativa total ao pedido é a menor entre todos os desfechos possíveis.
+
+```{r, fig-adpf-resultado-2}
+#| echo: false
+#| fig-cap: "Resultado das arguições de descumprimento de preceito fundamental"
+
+processos_resultado |>
+  dplyr::group_by(resultado) |>
+  dplyr::summarise(n = dplyr::n()) |>
+  ggplot() +
+  geom_col(aes(x = resultado, y = n)) +
+  scale_y_continuous(expand = c(0,0), limits = c(0, 450)) +
+  labs(
+    x = "Resultado",
+    y = "Número de processos"
+  ) +
+  decJ::theme_decJ(y_num = TRUE)
+```
+
+A análise de sobrevivência indicou uma relação entre o resultado e a duração do processo. Os processos extintos "Sem mérito" são os mais céleres, com um tempo mediano de 282 dias para sua conclusão. Este dado reforça a ideia de que a triagem inicial de requisitos processuais funciona como um filtro rápido, que impede o prosseguimento de ações que não atendem às condições formais de conhecimento, otimizando o tempo da Corte.
+
+Por outro lado, as ações que chegam a uma decisão de mérito apresentam uma duração consideravelmente maior. De forma notável, os processos julgados "Improcedentes" são os mais longos, com uma mediana de 990 dias. Este é um tempo superior ao das ações "Procedentes" (750 dias) e "Procedentes em parte" (639 dias).
+
+A @fig-adpf-resultado-3 ilustra esses resultados:
+
+```{r, fig-adpf-resultado-3}
+#| fig-cap: "Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental ajuizada entre 2014-2024 em relação ao resultado"
+#| echo: false
+
+estimador_km <- survfit(Surv(tempo, evento) ~ resultado, data = processos_resultado)
+
+# Salva o modelo
+saveRDS(estimador_km, "DATA/MODELOS/modelo_07.rds")
+
+ggsurvplot(
+  estimador_km,
+  data = processos_resultado,
+  pval = TRUE,
+  conf.int = FALSE,
+  surv.median.line = "hv",
+  # risk.table = TRUE,
+  xlab = "Tempo (dias)",
+  ylab = "Probabilidade de Sobrevivência",
+  palette = c(cores[1],cores[2],cores[3], cores[4], cores[5]),
+  ggtheme = decJ::theme_decJ()
+)
+
+decJ::save_decJ("PLOT/surv_05.png", l = 24, dpi = 300)
+```
+
+A aplicação do modelo de riscos de Cox aprofunda a análise, permitindo quantificar a velocidade de resolução das ADPFs com base no seu resultado, tendo como referência a categoria "Improcedente" (a mais lenta). O modelo como um todo é estatisticamente robusto (p < 0.001), indicando que o tipo de resultado é um fator preditivo determinante para a duração do processo. A análise das razões de risco revela que as ações extintas "Sem mérito" possuem uma chance 140% maior de serem concluídas a qualquer momento em comparação com as julgadas improcedentes.
+
+Da mesma forma, as ações declaradas "Prejudicadas" também demonstram uma celeridade notável, com uma chance de resolução 89% maior em relação ao grupo de referência. Ambas as categorias apresentam resultados com alta significância estatística (p < 0.01). Em contrapartida, os resultados para "Procedente" e "Procedente em parte" não mostraram uma diferença estatisticamente significativa em relação ao tempo de julgamento das "Improcedentes", sugerindo que, uma vez admitida para análise de mérito, a duração do processo até sua decisão final tende a ser similar, independentemente de a Corte acolher ou rejeitar o pedido.
+
+```{r, adpf-resultado-4}
+#| echo: false
+
+m_cox <- coxph(Surv(tempo, evento) ~ resultado, data = processos_resultado)
+
+saveRDS(m_cox, "DATA/MODELOS/modelo_08.rds")
+
+
+teste_mcox <- cox.zph(m_cox, terms = FALSE)
+```
+
+Analisando individualmente os resíduos cada categoria, observa-se que o efeito dos resultados "Sem mérito", "Procedente" e "Prejudicado" varia significativamente ao longo do tempo. Isso significa que a magnitude do "risco" de um processo ser finalizado para essas categorias não é constante. Por exemplo, a celeridade de um processo "Sem mérito" é muito mais acentuada nos meses iniciais do que em estágios mais tardios do processo judicial.
+
+Complementando análise, observou-se que as ações com o rito abreviado não influenciam na aceleração do processo. A hipótese é de que as ações são extintas sem resolução de mérito, tornando o indicador do modelo sobre o rito abreviado falso. Por isso, foi criado um modelo que interege as duas variáveis: rito abreviado e resultado.
+
+```{r adpf-resultado-5}
+estimador_km <- survfit(Surv(tempo, evento) ~ resultado + tem_rito_art_12, data = processos_resultado)
+
+# Salva o modelo
+saveRDS(estimador_km, "DATA/MODELOS/modelo_09.rds")
+
+m_cox <- coxph(Surv(tempo, evento) ~ (tem_rito_art_12 + resultado), data = processos_resultado)
+
+saveRDS(m_cox, "DATA/MODELOS/modelo_10.rds")
+```
+
+A aplicação do rito abreviado, concebido para acelerar o julgamento de mérito, não impacta os processos de maneira uniforme, apresentando resultados por vezes contraintuitivos quando cruzado com o desfecho da ação. O achado mais expressivo está na categoria "Sem mérito": enquanto as ações sem o rito especial são resolvidas em uma mediana de apenas 215 dias, aquelas submetidas ao rito levam 654 dias.
+
+Essa aparente contradição é metodologicamente significativa. O rito abreviado pressupõe a superação das questões de admissibilidade para focar no mérito. Portanto, os processos que seguem por essa via e, ainda assim, terminam "sem mérito" são exceções complexas, cujo vício processual só foi detectado em fase avançada. De forma similarmente inesperada, as ações "Procedentes" e "Prejudicadas" também foram mais lentas quando submetidas ao rito abreviado.
+
+Em contrapartida, o efeito acelerador do rito abreviado funcionou como o esperado nas ações julgadas "Improcedentes" (reduzindo o tempo de 1003 para 756 dias) e "Procedentes em parte" (de 674 para 589 dias). Fica claro, portanto, que o impacto do rito abreviado não é absoluto, mas sim contextual. Sua aplicação revela dinâmicas processuais complexas no STF, onde a interação entre o procedimento adotado e a natureza do caso define o verdadeiro ritmo do processo judicial.
+
+## Considerações parciais

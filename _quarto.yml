@@ -33,6 +33,7 @@ book:
     - 02_metodologia.qmd
     - 03_revisao.qmd
     - 04_adpfs.qmd
+    - 05_core.qmd
   appendices: 
     - code.qmd
 

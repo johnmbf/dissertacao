@@ -1,0 +1,14 @@
+[spec]
+uuid = d0166567-cdc9-4cda-a376-1d1bfb0c7319
+indice = chi2
+pathout = C:\Users\jonathan.ferreira\Documents\PESSOAL\R\dissertacao\IRAMUTEQ\corpus_dec_sem_merito\dec_sem_merito_spec_1
+clnb = 156
+encoding = cp1252
+mineff = 10
+lem = 1
+time = 0h 0m 39s
+typeformes = 0
+ira = C:\Users\jonathan.ferreira\Documents\PESSOAL\R\dissertacao\IRAMUTEQ\corpus_dec_sem_merito\dec_sem_merito_spec_1\Analyse.ira
+corpus = f3f55daa-b386-4300-b4c3-d10366b78794
+type = spec
+name = dec_sem_merito_spec_1

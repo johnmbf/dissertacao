@@ -1,0 +1,25 @@
+[alceste]
+mincl = 0
+encoding = cp1252
+classif_mode = 1
+mode.patate = 0
+nbforme_uce = 0
+expressions = 1
+pathout = C:\Users\jonathan.ferreira\Documents\PESSOAL\R\dissertacao\IRAMUTEQ\corpus_dec_sem_merito\dec_sem_merito_alceste_2
+uuid = bdba142e-2f9a-4c2b-837c-7d7237183916
+svdmethod = irlba
+nbactives = 6332
+ira = C:\Users\jonathan.ferreira\Documents\PESSOAL\R\dissertacao\IRAMUTEQ\corpus_dec_sem_merito\dec_sem_merito_alceste_2\Analyse.ira
+corpus = f3f55daa-b386-4300-b4c3-d10366b78794
+type = alceste
+clnb = 5
+minforme = 2
+lem = 1
+eff_min_forme = 3
+tailleuc1 = 30
+max_actives = 11708
+name = dec_sem_merito_alceste_2
+nbcl_p1 = 20
+time = 0h 2m 5s
+nbcl = 4
+tailleuc2 = 20

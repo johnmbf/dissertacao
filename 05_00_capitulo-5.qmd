@@ -1,0 +1,117 @@
+# Interações no campo do processo constitucional: as arguições de descumprimento de preceito fundamental ajuizadas por partidos políticos e Presidente da República {#sec-core}
+
+```{r, setup-core, include=FALSE}
+knitr::opts_chunk$set(
+  warning = FALSE, error = FALSE, message = FALSE,
+  fig_dpi = 300,
+  fig.width = 12,
+  fig.height = 8,
+  echo = FALSE,
+  fig.path = "PLOT/"
+)
+
+source("R/source.R")
+```
+
+```{r, leg-1}
+# Tratamentos iniciais
+
+legitimados_adpf <- clean_legitimados |>
+  dplyr::filter(
+    classe == "ADPF",
+    numero %in% adpf_rec$numero
+  ) |>
+  dplyr::select(-classe) |>
+  dplyr::rename(ativo = legitimado_polo_ativo, passivo = legitimado_polo_passivo) |>
+  dplyr::mutate(
+    ativo = decJ::utilitario_remover_acentos(ativo),
+    passivo = decJ::utilitario_remover_acentos(passivo)
+  ) |>
+  dplyr::left_join(dic_legitimados,
+    by = c("ativo" = "antigo")
+  ) |>
+  dplyr::mutate(
+    ativo = dplyr::coalesce(novo, ativo)
+  ) |>
+  dplyr::mutate(
+    tipo = tipo |> as.factor() |> forcats::fct_recode(
+      "Outros" = "0",
+      "Presidente" = "1",
+      "Mesa do SF" = "2",
+      "Mesa do CD" = "3",
+      "Mesa da AL" = "4",
+      "Governador" = "5",
+      "PGR" = "6",
+      "OAB" = "7",
+      "Partidos" = "8",
+      "Entidades" = "9"
+    )
+  ) |>
+  dplyr::select(-novo) |>
+  tidyr::drop_na()
+```
+
+A análise quantitativa da distribuição de Arguições de Descumprimento de Preceito Fundamental (ADPF) ajuizadas perante o Supremo Tribunal Federal (STF) entre 2014 e 2024, segmentada por tipo de legitimado, oferece um outro panorama para a compreensão do fenômeno da judicialização da política no Brasil. A @fig-leg-2 não representa apenas uma fotografia estatística, mas também um mapa da conflitualidade política, revelando as estratégias, os recursos de poder e as motivações dos diversos atores habilitados pelo art. 103 da Constituição Federal a provocar a jurisdição constitucional concentrada. A presente análise propõe-se a dissecar esses dados, argumentando que o perfil do litigante da ADPF funciona como um claro indicador de quem detém o poder institucional, quem o contesta e como o STF se consolidou como a arena central para essas disputas. Essa dinâmica, que transcende o papel de um tribunal como mero legislador negativo, na qual as mais relevantes controvérsias políticas, sociais e econômicas da nação são, em última instância, deliberadas e decididas no âmbito do Poder Judiciário. A estrutura desta análise inicial seguirá a distribuição dos legitimados.
+
+
+```{r, fig-leg-2}
+legitimados_adpf |>
+  dplyr::select(numero, tipo) |>
+  dplyr::distinct() |>
+  dplyr::group_by(tipo) |>
+  dplyr::summarise(n = dplyr::n()) |>
+  dplyr::ungroup() |>
+  ggplot() +
+  geom_col(aes(x = n, y = reorder(tipo, n)), fill = cores[6]) +
+  labs(
+    x = "Número de processos",
+    y = "Legitimado"
+  ) +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 380)) +
+  decJ::theme_decJ(x_num = TRUE)
+
+decJ::save_decJ("PLOT/cap_5 - leg_ativos.png", l = 24, dpi = 300)
+```
+A proeminência dos partidos políticos como os principais proponentes de ADPFs no período analisado é o dado mais saliente da @fig-leg-2 e supõe a utilização do controle de constitucionalidade como uma ferramenta de embate político.
+Essa realidade quantitativa não deve ser interpretada como uma simples atividade jurídica, mas como a manifestação de uma estratégia política consolidada, especialmente por parte dos partidos de oposição, que transformam o STF em uma espécie de "terceira casa" do processo político. Quando derrotados na arena legislativa, onde prevalece a lógica majoritária, os partidos minoritários transferem o conflito para a esfera judicial, onde uma única decisão favorável pode funcionar como um veto a uma política governamental ou a uma lei aprovada pela maioria. 
+
+Esta prática não é recente, mas sim um padrão histórico da Nova República: durante os governos de Fernando Henrique Cardoso, o Partido dos Trabalhadores (PT) foi o litigante mais assíduo; nos governos do PT, o Partido da Social Democracia Brasileira (PSDB) e os Democratas (DEM) assumiram esse papel; e, no governo de Jair Bolsonaro, os partidos de oposição seguiram a mesma trilha, recorrendo com frequência ao STF para barrar a agenda governista (Araújo, 2022).
+
+O período de 2014 a 2024, portanto, representa a continuação e a intensificação dessa dinâmica. A elevada frequência de ajuizamentos por partidos pode ser vista como um termômetro da polarização política. O período em análise, que abrange o impeachment da Presidente Dilma Rousseff, os governos de Michel Temer e Jair Bolsonaro, e a subsequente reconfiguração política, foi marcado por uma acentuada fragmentação e antagonismo, tornando o consenso legislativo uma raridade. Nesse contexto, a ausência de canais eficazes para negociação e compromisso no Congresso Nacional resulta diretamente no transbordamento desses conflitos para o Judiciário. A contagem de ADPFs torna-se, assim, um reflexo da saúde da democracia representativa. 
+
+Ademais, os objetivos estratégicos dos partidos ao acionar o STF transcendem a mera busca pela vitória jurídica. Como aponta a literatura (Araújo, 2022; Silva; Gasparetto, 2024), a litigância serve também para "satisfazer seus eleitores após a derrota" no Congresso, manter a relevância política e pautar o debate público. O ajuizamento de uma ADPF gera cobertura midiática, enquadra as ações do governo como constitucionalmente suspeitas e permite que a oposição mantenha a iniciativa narrativa  (Araújo, 2022). 
+
+A ADPF 760, por exemplo, ajuizada por uma coalizão de sete partidos de oposição contra as políticas ambientais do governo federal, ilustra perfeitamente essa ação política coletiva por via judicial. Essa dinâmica alimenta o que se pode descrever como um ciclo: à medida que os partidos recorrem mais ao STF, o poder e a centralidade política da Corte aumentam, tornando-a um palco ainda mais atrativo para disputas futuras (Barbosa; Carvalho, 2020). 
+
+Para além da função de veto, os partidos de oposição utilizam a ADPF de forma proativa para definir a agenda pública e judicial. Ao protocolar uma ação de grande repercussão, como a ADPF 347 sobre o "estado de coisas inconstitucional" do sistema carcerário, proposta pelo Partido Socialismo e Liberdade (PSOL), ou a ADPF 442 sobre a descriminalização do aborto, um partido pode forçar um debate nacional sobre temas que seriam marginalizados em um Legislativo de perfil conservador. O ato de litigar, nesse caso, torna-se uma vitória política em si, independentemente do resultado, pois utiliza o prestígio e a visibilidade do STF para amplificar uma mensagem e contornar o bloqueio parlamentar.  
+
+O segundo lugar de proposituras, ocupado pelas "Entidades" (confederações sindicais e entidades de classe de âmbito nacional), revela um vetor distinto e igualmente crucial da judicialização. Enquanto a litigância partidária está frequentemente ligada à dinâmica do poder político, a atuação dessas entidades representa a mobilização da sociedade civil organizada em defesa de políticas públicas substantivas e de direitos setoriais, sociais e econômicos. 
+
+Este fenômeno contribui para uma "democratização" do acesso à justiça constitucional, ainda que de forma limitada e sujeita a rigorosos critérios jurisprudenciais (Santos, 2023). O perfil dessas entidades é vasto, abrangendo desde associações representativas de categorias profissionais e econômicas até organizações dedicadas à promoção de direitos humanos e de minorias. Casos emblemáticos como a ADPF 54, ajuizada pela Confederação Nacional dos Trabalhadores na Saúde (CNTS) para descriminalizar a interrupção da gestação de fetos anencefálicos, demonstram como esses atores levam à Corte questões fundamentais de saúde pública, dignidade humana e direitos reprodutivos, que tocam o cerne da cidadania. 
+
+O volume expressivo de ações é ainda mais notável quando se consideram as barreiras de acesso impostas pelo próprio STF. A jurisprudência da Corte consolidou a exigência de que uma entidade de classe demonstre "âmbito nacional", requisito que tem sido interpretado de forma restritiva como a comprovação de associados em, no mínimo, nove estados da Federação. A Corte frequentemente nega o conhecimento de ações com base nesse critério, considerando a parte ilegítima. A persistência e o sucesso relativo das entidades em figurar como o segundo maior grupo de litigantes, apesar desses obstáculos, sublinham a percepção de que o STF é uma arena indispensável para a tutela de seus interesses.   
+
+Essa dinâmica alimenta um debate acadêmico sobre a necessidade de uma interpretação mais "generosa" dos requisitos de legitimidade, a fim de ampliar o acesso da sociedade civil ao controle de constitucionalidade (Santos, 2023; Santos; Scaff, 2023). A própria pressão exercida por esse volume de litigância pode estar, gradualmente, influenciando a Corte a rever suas posições, como sinalizado em alguns julgados que admitem uma maior abertura para organizações representativas de minorias sociais. 
+
+A análise comparativa entre a litigância partidária e a das entidades revela uma distinção fundamental na natureza da judicialização que cada uma promove. Enquanto os partidos tendem a judicializar a política — questionando atos de nomeação, decretos presidenciais ou o processo legislativo —, as entidades judicializam a política pública, contestando o conteúdo de normas e ações governamentais em áreas como saúde, meio ambiente, educação e direitos humanos. 
+
+Adicionalmente, ao definir critérios estritos de legitimidade o STF exerce um poder sutil (Taylor; Da Ros, 2008), mas profundo, de regulação da própria vida associativa nacional. Ao decidir se uma entidade tem ou não o direito de ser ouvida, a Corte confere ou nega legitimidade e importância nacional a determinados segmentos da sociedade civil, moldando, em última instância, quais vozes terão direito de serem ouvidas.  
+
+A análise dos principais atores estatais institucionais — Governadores e o Procurador-Geral da República (PGR) — revela lógicas de atuação distintas, embora ambos figurem como litigantes significativos.  Os Governadores emergem como os principais defensores judiciais da autonomia subnacional no seio do federalismo conflituoso brasileiro, ao passo que o PGR se posiciona como um guardião da ordem constitucional geral, com uma atuação marcada por uma calculada contenção estratégica. 
+A terceira posição ocupada pelos Governadores na @fig-leg-2 de ajuizamentos é um indício do papel do STF como árbitro supremo da Federação. As suas ações concentram-se em conflitos federativos clássicos, como disputas sobre competências tributárias e partilha de recursos, notabilizadas pela chamada "guerra fiscal"  (Leoni, 2022; Rocha, 2018). 
+
+O Procurador-Geral da República, por sua vez, ocupa a quarta posição, um dado analiticamente rico. Como "legitimado universal", dispensado de demonstrar pertinência temática e detentor de um alto índice de sucesso em suas manifestações, o uso relativamente moderado da ADPF pelo PGR sugere uma atuação pautada pela seletividade e pela estratégia (Hartmann; Ferreira; Rego, 2016; Oliveira; Ribeiro, 2022). Essa contenção é influenciada pela natureza dual de seu cargo: chefe de um Ministério Público independente, mas também um nomeado político do Presidente da República. 
+
+Essa dualidade pode gerar tensões, especialmente ao considerar a propositura de ações contra o governo que o indicou, moldando um perfil de atuação que, historicamente, se tornou mais aberto à judicialização da política, mas ainda assim calculado. Consequentemente, a litigância do PGR frequentemente se concentra em garantir a uniformidade da ordem jurídica nacional. 
+
+A frequência de ADPFs ajuizadas por governadores pode, portanto, ser utilizada como um índice quantitativo das tensões no federalismo brasileiro. Um aumento no número de ações provavelmente se correlaciona com períodos de maior divergência política entre o governo federal e estados influentes, ou com políticas federais que ameaçam a autonomia fiscal e administrativa dos entes subnacionais. Em contraste, o padrão de atuação do PGR revela uma função de "regulador do sistema" - ele não atua primariamente como uma força de oposição ou como um defensor de interesses setoriais, mas como um agente de manutenção da coerência e integridade da ordem jurídica nacional, utilizando sua legitimidade universal para corrigir desvios e preservar a higidez do sistema constitucional como um todo.   
+O dado negativo mais eloquente da @fig-leg-2 é a quase total ausência de ADPFs ajuizadas pelo Presidente da República e pelas Mesas Diretoras do Congresso Nacional (Câmara dos Deputados e Senado Federal) e das Assembleias Legislativas. Esse "silêncio institucional" não é um sinal de fraqueza, mas, paradoxalmente, o mais claro indicador de seu poder. Como principais arquitetos e executores das leis e políticas públicas, eles não possuem incentivos estruturais para contestar a constitucionalidade de um sistema que eles próprios dirigem (Araújo, 2022; Couto, 2019). 
+
+O poder desses atores é exercido primordialmente pela via política – através da sanção ou veto, da edição de decretos e do controle da pauta legislativa, e não pela via judicial. No teatro do controle de constitucionalidade, o seu papel é principalmente o de réu, não o de autor (Couto, 2019). São as suas ações que são contestadas por partidos de oposição, entidades da sociedade civil e governadores.
+A distribuição das proposituras na @fig-leg-2 desenha, com clareza, uma fronteira entre os "insiders" e os "outsiders" do poder político. Os insiders – Presidente e Mesas Legislativas, que controlam o aparato estatal, não necessitam da litigância como ferramenta primária. Os outsiders – partidos de oposição e grupos da sociedade civil,  que estão excluídos ou em minoria dentro desse aparato, recorrem aos tribunais como um caminho alternativo para influenciar as decisões políticas.
+
+A @fig-leg-2, portanto, funciona como um diagrama de poder, mapeando as linhas de batalha da política brasileira. A ausência de litigância por parte dos ocupantes do poder também demonstra que a ADPF não é utilizada como um instrumento de "autocontrole" ou "autocorreção". Um presidente não ajuíza uma ADPF para questionar a constitucionalidade de uma lei que acabou de sancionar, nem a Mesa do Congresso o faz em relação a uma norma que acabou de aprovar. Isso pode parecer óbvio, mas revela uma característica fundamental do sistema brasileiro: o controle de constitucionalidade é um processo primordialmente externo e adversarial. A lógica da manutenção do poder, que evita qualquer sinal de fraqueza ou hesitação, sobrepõe-se a uma eventual lógica jurídica de buscar esclarecimento judicial. A partir dos dados e da literatura, podemos mapear o art. 103 da Constituição Federal da seguinte forma:
+
+A análise integrada dos dados sobre o ajuizamento de ADPFs entre 2014 e 2024 oferece um retrato da estrutura do poder político e do conflito no Brasil. A distribuição das ações por tipo de legitimado não é aleatória; ela reflete e enriquece as principais teorias sobre a judicialização da política. A hegemonia dos partidos de oposição e o ativismo das entidades da sociedade civil demonstram o papel do Judiciário como uma arena política alternativa para aqueles com poder limitado nas instituições majoritárias. Os padrões de litigância dos Governadores e do Procurador-Geral da República, por sua vez, ilustram a função do STF como árbitro final do pacto federativo e o complexo papel do Ministério Público como um regulador sistêmico influenciado por dinâmicas políticas. Por fim, o silêncio dos legitimados que ocupam o centro do poder Executivo e Legislativo funciona como uma poderosa prova negativa, confirmando que seu poder se exerce por meio de instrumentos políticos primários, e não pela via do litígio.
+
+A @fig-leg-2 é um diagrama das forças que disputam influência no coração do sistema político brasileiro, evidenciando as tensões inerentes entre o poder judicial e a representação democrática. Nas próximas seções, esta dissertação explora especificamente a atuação dos partidos políticos e do Presidente da República – cuja atuação é aparentemente antagônica.

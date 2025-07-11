@@ -1,0 +1,1478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
+         http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+<!-- Created by igraph -->
+  <key id="v_name" for="node" attr.name="name" attr.type="string"/>
+  <key id="v_x" for="node" attr.name="x" attr.type="double"/>
+  <key id="v_y" for="node" attr.name="y" attr.type="double"/>
+  <key id="v_weight" for="node" attr.name="weight" attr.type="double"/>
+  <key id="v_color" for="node" attr.name="color" attr.type="string"/>
+  <key id="v_frequences" for="node" attr.name="frequences" attr.type="double"/>
+  <key id="v_label" for="node" attr.name="label" attr.type="string"/>
+  <key id="e_weight" for="edge" attr.name="weight" attr.type="double"/>
+  <graph id="G" edgedefault="undirected">
+    <node id="n0">
+      <data key="v_name">pedido</data>
+      <data key="v_x">3.31336760457199</data>
+      <data key="v_y">-1.24152873143274</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">529</data>
+      <data key="v_label">pedido</data>
+    </node>
+    <node id="n1">
+      <data key="v_name">ministro</data>
+      <data key="v_x">-1.05753322291011</data>
+      <data key="v_y">-0.0930531371832916</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">664</data>
+      <data key="v_label">ministro</data>
+    </node>
+    <node id="n2">
+      <data key="v_name">eleicao</data>
+      <data key="v_x">1.72377973454233</data>
+      <data key="v_y">0.273601535144302</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">237</data>
+      <data key="v_label">eleicao</data>
+    </node>
+    <node id="n3">
+      <data key="v_name">eleitoral</data>
+      <data key="v_x">1.26630334968929</data>
+      <data key="v_y">-0.0231432020682922</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">301</data>
+      <data key="v_label">eleitoral</data>
+    </node>
+    <node id="n4">
+      <data key="v_name">perda</data>
+      <data key="v_x">-3.60435551931054</data>
+      <data key="v_y">-2.97786208350415</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">236</data>
+      <data key="v_label">perda</data>
+    </node>
+    <node id="n5">
+      <data key="v_name">relator</data>
+      <data key="v_x">-1.06436942640331</data>
+      <data key="v_y">-0.355484381313777</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">506</data>
+      <data key="v_label">relator</data>
+    </node>
+    <node id="n6">
+      <data key="v_name">brasilia</data>
+      <data key="v_x">-1.30828859951682</data>
+      <data key="v_y">-0.583410933656329</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">217</data>
+      <data key="v_label">brasilia</data>
+    </node>
+    <node id="n7">
+      <data key="v_name">merito</data>
+      <data key="v_x">2.96010832733409</data>
+      <data key="v_y">-0.919589950901324</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">331</data>
+      <data key="v_label">merito</data>
+    </node>
+    <node id="n8">
+      <data key="v_name">inelegibilidade</data>
+      <data key="v_x">2.05534555366534</data>
+      <data key="v_y">0.412188280223539</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">168</data>
+      <data key="v_label">inelegibilidade</data>
+    </node>
+    <node id="n9">
+      <data key="v_name">decisao</data>
+      <data key="v_x">1.02606770234225</data>
+      <data key="v_y">-0.388446658820787</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">700</data>
+      <data key="v_label">decisao</data>
+    </node>
+    <node id="n10">
+      <data key="v_name">superveniente</data>
+      <data key="v_x">-3.29104524051452</data>
+      <data key="v_y">-2.66354876304299</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">159</data>
+      <data key="v_label">superveniente</data>
+    </node>
+    <node id="n11">
+      <data key="v_name">julgamento</data>
+      <data key="v_x">-0.333898471547567</data>
+      <data key="v_y">-0.146666438735771</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">332</data>
+      <data key="v_label">julgamento</data>
+    </node>
+    <node id="n12">
+      <data key="v_name">voto</data>
+      <data key="v_x">-0.574228913112367</data>
+      <data key="v_y">-0.373185041556368</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">211</data>
+      <data key="v_label">voto</data>
+    </node>
+    <node id="n13">
+      <data key="v_name">presente</data>
+      <data key="v_x">1.52427100656369</data>
+      <data key="v_y">-0.784608077882575</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">528</data>
+      <data key="v_label">presente</data>
+    </node>
+    <node id="n14">
+      <data key="v_name">regimento_interno</data>
+      <data key="v_x">-1.92518593201212</data>
+      <data key="v_y">-0.421024084061193</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">135</data>
+      <data key="v_label">regimento_interno</data>
+    </node>
+    <node id="n15">
+      <data key="v_name">tribunal_superior_eleitoral</data>
+      <data key="v_x">1.457927194624</data>
+      <data key="v_y">0.0481630629050793</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">130</data>
+      <data key="v_label">tribunal_superior_eleitoral</data>
+    </node>
+    <node id="n16">
+      <data key="v_name">objeto</data>
+      <data key="v_x">-3.53596028517447</data>
+      <data key="v_y">-3.18213842877988</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">408</data>
+      <data key="v_label">objeto</data>
+    </node>
+    <node id="n17">
+      <data key="v_name">auto</data>
+      <data key="v_x">-1.03649025683038</data>
+      <data key="v_y">0.588596890204101</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">302</data>
+      <data key="v_label">auto</data>
+    </node>
+    <node id="n18">
+      <data key="v_name">acordao</data>
+      <data key="v_x">0.988087611948647</data>
+      <data key="v_y">0.100418444897165</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">192</data>
+      <data key="v_label">acordao</data>
+    </node>
+    <node id="n19">
+      <data key="v_name">liminar</data>
+      <data key="v_x">3.58004650073118</data>
+      <data key="v_y">-1.55117803846667</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">169</data>
+      <data key="v_label">liminar</data>
+    </node>
+    <node id="n20">
+      <data key="v_name">julgar</data>
+      <data key="v_x">-2.55204719736828</data>
+      <data key="v_y">-1.90384673494695</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">315</data>
+      <data key="v_label">julgar</data>
+    </node>
+    <node id="n21">
+      <data key="v_name">ristf</data>
+      <data key="v_x">-1.68275074398175</data>
+      <data key="v_y">-1.1702819464603</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">101</data>
+      <data key="v_label">ristf</data>
+    </node>
+    <node id="n22">
+      <data key="v_name">plenario</data>
+      <data key="v_x">-0.497425578883488</data>
+      <data key="v_y">-0.171092599993032</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">281</data>
+      <data key="v_label">plenario</data>
+    </node>
+    <node id="n23">
+      <data key="v_name">mandato</data>
+      <data key="v_x">-3.84172718497614</data>
+      <data key="v_y">-3.33469337026244</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">104</data>
+      <data key="v_label">mandato</data>
+    </node>
+    <node id="n24">
+      <data key="v_name">tse</data>
+      <data key="v_x">1.3935967233763</data>
+      <data key="v_y">0.224399184340689</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">108</data>
+      <data key="v_label">tse</data>
+    </node>
+    <node id="n25">
+      <data key="v_name">interpor</data>
+      <data key="v_x">0.331598702635725</data>
+      <data key="v_y">-0.214061442352857</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">107</data>
+      <data key="v_label">interpor</data>
+    </node>
+    <node id="n26">
+      <data key="v_name">cargo</data>
+      <data key="v_x">-3.99700717095615</data>
+      <data key="v_y">-3.64901393691137</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">152</data>
+      <data key="v_label">cargo</data>
+    </node>
+    <node id="n27">
+      <data key="v_name">revogacao</data>
+      <data key="v_x">-3.95605779976684</data>
+      <data key="v_y">-3.01925182607605</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">108</data>
+      <data key="v_label">revogacao</data>
+    </node>
+    <node id="n28">
+      <data key="v_name">prejudicar</data>
+      <data key="v_x">-2.4023134100594</data>
+      <data key="v_y">-1.81208053352894</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">128</data>
+      <data key="v_label">prejudicar</data>
+    </node>
+    <node id="n29">
+      <data key="v_name">tribunal</data>
+      <data key="v_x">1.91627441619228</data>
+      <data key="v_y">0.0151399341796135</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">267</data>
+      <data key="v_label">tribunal</data>
+    </node>
+    <node id="n30">
+      <data key="v_name">medida_cautelar</data>
+      <data key="v_x">3.5184251955893</data>
+      <data key="v_y">-1.24140667536511</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">221</data>
+      <data key="v_label">medida_cautelar</data>
+    </node>
+    <node id="n31">
+      <data key="v_name">sessao</data>
+      <data key="v_x">-0.463508498131304</data>
+      <data key="v_y">-0.00527200038954912</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">111</data>
+      <data key="v_label">sessao</data>
+    </node>
+    <node id="n32">
+      <data key="v_name">assinar</data>
+      <data key="v_x">-1.29601733908694</data>
+      <data key="v_y">-0.638553285518502</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">103</data>
+      <data key="v_label">assinar</data>
+    </node>
+    <node id="n33">
+      <data key="v_name">seguimento</data>
+      <data key="v_x">0.651013192012713</data>
+      <data key="v_y">-0.569067349960772</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">162</data>
+      <data key="v_label">seguimento</data>
+    </node>
+    <node id="n34">
+      <data key="v_name">conhecimento</data>
+      <data key="v_x">2.43405688089415</data>
+      <data key="v_y">-0.972426641856736</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">265</data>
+      <data key="v_label">conhecimento</data>
+    </node>
+    <node id="n35">
+      <data key="v_name">regional</data>
+      <data key="v_x">1.70415147486216</data>
+      <data key="v_y">7.9760182656113e-005</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">123</data>
+      <data key="v_label">regional</data>
+    </node>
+    <node id="n36">
+      <data key="v_name">relatorio</data>
+      <data key="v_x">2.68721736462953</data>
+      <data key="v_y">-1.26331567877824</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">155</data>
+      <data key="v_label">relatorio</data>
+    </node>
+    <node id="n37">
+      <data key="v_name">partido</data>
+      <data key="v_x">1.24801311459067</data>
+      <data key="v_y">-1.13935262864159</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">164</data>
+      <data key="v_label">partido</data>
+    </node>
+    <node id="n38">
+      <data key="v_name">decidir</data>
+      <data key="v_x">2.78510264581986</data>
+      <data key="v_y">-1.36142452488336</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">145</data>
+      <data key="v_label">decidir</data>
+    </node>
+    <node id="n39">
+      <data key="v_name">improcedencia</data>
+      <data key="v_x">2.85244163583976</data>
+      <data key="v_y">-0.930336981641916</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">107</data>
+      <data key="v_label">improcedencia</data>
+    </node>
+    <node id="n40">
+      <data key="v_name">interpretacao</data>
+      <data key="v_x">-0.858930337997998</data>
+      <data key="v_y">-0.864980166330188</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">204</data>
+      <data key="v_label">interpretacao</data>
+    </node>
+    <node id="n41">
+      <data key="v_name">senhor</data>
+      <data key="v_x">-1.07692302522339</data>
+      <data key="v_y">0.0800645506675607</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">110</data>
+      <data key="v_label">senhor</data>
+    </node>
+    <node id="n42">
+      <data key="v_name">proferido</data>
+      <data key="v_x">1.00754320778642</data>
+      <data key="v_y">-0.161514259793828</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">169</data>
+      <data key="v_label">proferido</data>
+    </node>
+    <node id="n43">
+      <data key="v_name">doc</data>
+      <data key="v_x">4.01478641064676</data>
+      <data key="v_y">0.634735239778865</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">202</data>
+      <data key="v_label">doc</data>
+    </node>
+    <node id="n44">
+      <data key="v_name">efeito</data>
+      <data key="v_x">-3.77253391168158</data>
+      <data key="v_y">-3.15113130138738</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">303</data>
+      <data key="v_label">efeito</data>
+    </node>
+    <node id="n45">
+      <data key="v_name">pleito</data>
+      <data key="v_x">1.49268320935003</data>
+      <data key="v_y">0.146667734482518</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">112</data>
+      <data key="v_label">pleito</data>
+    </node>
+    <node id="n46">
+      <data key="v_name">arguicao</data>
+      <data key="v_x">1.99772591235471</data>
+      <data key="v_y">-0.896073080166755</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">393</data>
+      <data key="v_label">arguicao</data>
+    </node>
+    <node id="n47">
+      <data key="v_name">representacao</data>
+      <data key="v_x">-1.00487617201911</data>
+      <data key="v_y">1.19973619979518</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">122</data>
+      <data key="v_label">representacao</data>
+    </node>
+    <node id="n48">
+      <data key="v_name">formular</data>
+      <data key="v_x">3.57814406873528</data>
+      <data key="v_y">-1.35950432699425</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">157</data>
+      <data key="v_label">formular</data>
+    </node>
+    <node id="n49">
+      <data key="v_name">recurso</data>
+      <data key="v_x">1.46697582767633</data>
+      <data key="v_y">-0.0603521733251391</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">259</data>
+      <data key="v_label">recurso</data>
+    </node>
+    <node id="n50">
+      <data key="v_name">arguicao_de_descumprimento_de_preceito_fundamental</data>
+      <data key="v_x">1.06552677425713</data>
+      <data key="v_y">-0.670843620112797</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">709</data>
+      <data key="v_label">arguicao_de_descumprimento_de_preceito_fundamental</data>
+    </node>
+    <node id="n51">
+      <data key="v_name">edoc</data>
+      <data key="v_x">3.41755078934084</data>
+      <data key="v_y">-0.224267191992788</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">132</data>
+      <data key="v_label">edoc</data>
+    </node>
+    <node id="n52">
+      <data key="v_name">artigo</data>
+      <data key="v_x">-1.55617801417995</data>
+      <data key="v_y">-0.0426955484390329</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">298</data>
+      <data key="v_label">artigo</data>
+    </node>
+    <node id="n53">
+      <data key="v_name">conhecer</data>
+      <data key="v_x">-1.01144310632708</data>
+      <data key="v_y">-0.228154527494051</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">120</data>
+      <data key="v_label">conhecer</data>
+    </node>
+    <node id="n54">
+      <data key="v_name">codigo</data>
+      <data key="v_x">0.455267604504521</data>
+      <data key="v_y">-0.251029262160815</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">125</data>
+      <data key="v_label">codigo</data>
+    </node>
+    <node id="n55">
+      <data key="v_name">presidente</data>
+      <data key="v_x">-1.22193007086693</data>
+      <data key="v_y">0.272053112043728</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">133</data>
+      <data key="v_label">presidente</data>
+    </node>
+    <node id="n56">
+      <data key="v_name">termo</data>
+      <data key="v_x">-0.494860146787954</data>
+      <data key="v_y">-0.528216351409287</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">293</data>
+      <data key="v_label">termo</data>
+    </node>
+    <node id="n57">
+      <data key="v_name">manifestar</data>
+      <data key="v_x">2.97586265985225</data>
+      <data key="v_y">-0.811755696841014</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">124</data>
+      <data key="v_label">manifestar</data>
+    </node>
+    <node id="n58">
+      <data key="v_name">supremo_tribunal_federal</data>
+      <data key="v_x">-2.11571093192665</data>
+      <data key="v_y">-0.323256312420686</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">352</data>
+      <data key="v_label">supremo_tribunal_federal</data>
+    </node>
+    <node id="n59">
+      <data key="v_name">pedir</data>
+      <data key="v_x">3.72642293499776</data>
+      <data key="v_y">-1.39646085711543</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">171</data>
+      <data key="v_label">pedir</data>
+    </node>
+    <node id="n60">
+      <data key="v_name">declaracao</data>
+      <data key="v_x">-2.728151084117</data>
+      <data key="v_y">-4.08922813457123</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">111</data>
+      <data key="v_label">declaracao</data>
+    </node>
+    <node id="n61">
+      <data key="v_name">declarar</data>
+      <data key="v_x">-2.80823989935661</data>
+      <data key="v_y">-4.26366478740666</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">105</data>
+      <data key="v_label">declarar</data>
+    </node>
+    <node id="n62">
+      <data key="v_name">expor</data>
+      <data key="v_x">-1.630958737921</data>
+      <data key="v_y">-0.55609470599682</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">151</data>
+      <data key="v_label">expor</data>
+    </node>
+    <node id="n63">
+      <data key="v_name">inciso</data>
+      <data key="v_x">-1.69810459425637</data>
+      <data key="v_y">0.00039308314329471</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">201</data>
+      <data key="v_label">inciso</data>
+    </node>
+    <node id="n64">
+      <data key="v_name">art</data>
+      <data key="v_x">-0.79030785622258</data>
+      <data key="v_y">-0.619291139189186</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">913</data>
+      <data key="v_label">art</data>
+    </node>
+    <node id="n65">
+      <data key="v_name">inconstitucionalidade</data>
+      <data key="v_x">-2.81853918828289</data>
+      <data key="v_y">-4.05910164778803</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">181</data>
+      <data key="v_label">inconstitucionalidade</data>
+    </node>
+    <node id="n66">
+      <data key="v_name">legitimidade</data>
+      <data key="v_x">-0.99087532160665</data>
+      <data key="v_y">1.57365507641958</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">119</data>
+      <data key="v_label">legitimidade</data>
+    </node>
+    <node id="n67">
+      <data key="v_name">processo</data>
+      <data key="v_x">-3.53174956221659</data>
+      <data key="v_y">-2.62147886874762</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">364</data>
+      <data key="v_label">processo</data>
+    </node>
+    <node id="n68">
+      <data key="v_name">ajuizado</data>
+      <data key="v_x">1.11748328098026</data>
+      <data key="v_y">-0.944647116866949</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">108</data>
+      <data key="v_label">ajuizado</data>
+    </node>
+    <node id="n69">
+      <data key="v_name">materia</data>
+      <data key="v_x">-3.07465585828487</data>
+      <data key="v_y">-0.164045463724303</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">161</data>
+      <data key="v_label">materia</data>
+    </node>
+    <node id="n70">
+      <data key="v_name">face</data>
+      <data key="v_x">1.35045764367319</data>
+      <data key="v_y">-1.03450047394631</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">135</data>
+      <data key="v_label">face</data>
+    </node>
+    <node id="n71">
+      <data key="v_name">alexandre_de_moraes</data>
+      <data key="v_x">-1.05794412123658</data>
+      <data key="v_y">0.0504348982874786</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">101</data>
+      <data key="v_label">alexandre_de_moraes</data>
+    </node>
+    <node id="n72">
+      <data key="v_name">tratar</data>
+      <data key="v_x">1.18690816742332</data>
+      <data key="v_y">-0.898178257413962</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">222</data>
+      <data key="v_label">tratar</data>
+    </node>
+    <node id="n73">
+      <data key="v_name">autor</data>
+      <data key="v_x">-1.00783642149064</data>
+      <data key="v_y">2.00823656295693</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">168</data>
+      <data key="v_label">autor</data>
+    </node>
+    <node id="n74">
+      <data key="v_name">suspensao</data>
+      <data key="v_x">3.80797734313817</data>
+      <data key="v_y">-1.78909682132222</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">106</data>
+      <data key="v_label">suspensao</data>
+    </node>
+    <node id="n75">
+      <data key="v_name">conhecido</data>
+      <data key="v_x">2.07216865598188</data>
+      <data key="v_y">-1.14670644651338</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">114</data>
+      <data key="v_label">conhecido</data>
+    </node>
+    <node id="n76">
+      <data key="v_name">requerente</data>
+      <data key="v_x">1.34633297470166</data>
+      <data key="v_y">-1.4880384767699</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">176</data>
+      <data key="v_label">requerente</data>
+    </node>
+    <node id="n77">
+      <data key="v_name">fl</data>
+      <data key="v_x">3.90389923025073</data>
+      <data key="v_y">0.484429747775893</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">116</data>
+      <data key="v_label">fl</data>
+    </node>
+    <node id="n78">
+      <data key="v_name">entendimento</data>
+      <data key="v_x">-2.95232063948543</data>
+      <data key="v_y">0.0109793525948056</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">129</data>
+      <data key="v_label">entendimento</data>
+    </node>
+    <node id="n79">
+      <data key="v_name">apo</data>
+      <data key="v_x">1.95699982257736</data>
+      <data key="v_y">0.666224656387231</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">121</data>
+      <data key="v_label">apo</data>
+    </node>
+    <node id="n80">
+      <data key="v_name">corte</data>
+      <data key="v_x">-2.63205160317945</data>
+      <data key="v_y">-0.177212972748252</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">195</data>
+      <data key="v_label">corte</data>
+    </node>
+    <node id="n81">
+      <data key="v_name">fundamento</data>
+      <data key="v_x">-1.94261545982272</data>
+      <data key="v_y">-0.686959271182767</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">160</data>
+      <data key="v_label">fundamento</data>
+    </node>
+    <node id="n82">
+      <data key="v_name">reconhecer</data>
+      <data key="v_x">-2.48914190360706</data>
+      <data key="v_y">-0.00825100785364585</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">141</data>
+      <data key="v_label">reconhecer</data>
+    </node>
+    <node id="n83">
+      <data key="v_name">provimento</data>
+      <data key="v_x">-0.042096676099301</data>
+      <data key="v_y">-0.424301265111242</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">160</data>
+      <data key="v_label">provimento</data>
+    </node>
+    <node id="n84">
+      <data key="v_name">requerer</data>
+      <data key="v_x">-2.78641932247266</data>
+      <data key="v_y">-4.55338429049868</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">151</data>
+      <data key="v_label">requerer</data>
+    </node>
+    <node id="n85">
+      <data key="v_name">jurisprudencia</data>
+      <data key="v_x">-2.39912496573224</data>
+      <data key="v_y">-0.256555181545923</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">193</data>
+      <data key="v_label">jurisprudencia</data>
+    </node>
+    <node id="n86">
+      <data key="v_name">acao</data>
+      <data key="v_x">-3.29225177680983</data>
+      <data key="v_y">-3.51952041523486</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">584</data>
+      <data key="v_label">acao</data>
+    </node>
+    <node id="n87">
+      <data key="v_name">c</data>
+      <data key="v_x">-0.418497596974542</data>
+      <data key="v_y">0.324093316016653</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">126</data>
+      <data key="v_label">c</data>
+    </node>
+    <node id="n88">
+      <data key="v_name">manifestacao</data>
+      <data key="v_x">2.53810781615557</data>
+      <data key="v_y">-1.16575614036921</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">114</data>
+      <data key="v_label">manifestacao</data>
+    </node>
+    <node id="n89">
+      <data key="v_name">documento</data>
+      <data key="v_x">-1.22535349650399</data>
+      <data key="v_y">-0.665846198791896</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">177</data>
+      <data key="v_label">documento</data>
+    </node>
+    <node id="n90">
+      <data key="v_name">hipotese</data>
+      <data key="v_x">2.20968151052149</data>
+      <data key="v_y">0.549379129561889</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">136</data>
+      <data key="v_label">hipotese</data>
+    </node>
+    <node id="n91">
+      <data key="v_name">constituicao_federal</data>
+      <data key="v_x">-1.79964263279845</data>
+      <data key="v_y">0.203956538396628</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">187</data>
+      <data key="v_label">constituicao_federal</data>
+    </node>
+    <node id="n92">
+      <data key="v_name">impugnar</data>
+      <data key="v_x">-4.22354570504642</data>
+      <data key="v_y">-2.98970853467337</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">276</data>
+      <data key="v_label">impugnar</data>
+    </node>
+    <node id="n93">
+      <data key="v_name">acao_direta_de_inconstitucionalidade</data>
+      <data key="v_x">-4.28904093626187</data>
+      <data key="v_y">-3.43975322951246</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">137</data>
+      <data key="v_label">acao_direta_de_inconstitucionalidade</data>
+    </node>
+    <node id="n94">
+      <data key="v_name">resolucao</data>
+      <data key="v_x">3.11889070907196</data>
+      <data key="v_y">-0.892704799348313</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">123</data>
+      <data key="v_label">resolucao</data>
+    </node>
+    <node id="n95">
+      <data key="v_name">negar</data>
+      <data key="v_x">0.265767843316622</data>
+      <data key="v_y">-0.472882951510266</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">140</data>
+      <data key="v_label">negar</data>
+    </node>
+    <node id="n96">
+      <data key="v_name">inicial</data>
+      <data key="v_x">4.12917540824093</data>
+      <data key="v_y">-1.58269854702972</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">131</data>
+      <data key="v_label">inicial</data>
+    </node>
+    <node id="n97">
+      <data key="v_name">publicar</data>
+      <data key="v_x">-1.41286360829395</data>
+      <data key="v_y">-0.576591210071301</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">279</data>
+      <data key="v_label">publicar</data>
+    </node>
+    <node id="n98">
+      <data key="v_name">adir</data>
+      <data key="v_x">-4.07618393271219</data>
+      <data key="v_y">-3.33126901115123</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">131</data>
+      <data key="v_label">adir</data>
+    </node>
+    <node id="n99">
+      <data key="v_name">registro</data>
+      <data key="v_x">2.30249302745005</data>
+      <data key="v_y">0.498696688514459</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">112</data>
+      <data key="v_label">registro</data>
+    </node>
+    <node id="n100">
+      <data key="v_name">ocorrer</data>
+      <data key="v_x">1.96290336797366</data>
+      <data key="v_y">0.489898069843591</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">103</data>
+      <data key="v_label">ocorrer</data>
+    </node>
+    <node id="n101">
+      <data key="v_name">norma</data>
+      <data key="v_x">-4.39049362430312</data>
+      <data key="v_y">-2.96437069733151</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">245</data>
+      <data key="v_label">norma</data>
+    </node>
+    <node id="n102">
+      <data key="v_name">dispositivo</data>
+      <data key="v_x">-1.34524771620161</data>
+      <data key="v_y">-0.693463273269533</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">118</data>
+      <data key="v_label">dispositivo</data>
+    </node>
+    <node id="n103">
+      <data key="v_name">seguinte</data>
+      <data key="v_x">-0.415646904815446</data>
+      <data key="v_y">-0.797400613929025</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">159</data>
+      <data key="v_label">seguinte</data>
+    </node>
+    <node id="n104">
+      <data key="v_name">questao</data>
+      <data key="v_x">4.57945142204301</data>
+      <data key="v_y">-1.77882334346805</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">154</data>
+      <data key="v_label">questao</data>
+    </node>
+    <node id="n105">
+      <data key="v_name">parecer</data>
+      <data key="v_x">2.45923124095555</data>
+      <data key="v_y">-1.05135367725724</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">132</data>
+      <data key="v_label">parecer</data>
+    </node>
+    <node id="n106">
+      <data key="v_name">normativo</data>
+      <data key="v_x">-3.80613921508248</data>
+      <data key="v_y">-3.0072879560021</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">170</data>
+      <data key="v_label">normativo</data>
+    </node>
+    <node id="n107">
+      <data key="v_name">violacao</data>
+      <data key="v_x">-2.41116356225226</data>
+      <data key="v_y">0.793712126782036</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">127</data>
+      <data key="v_label">violacao</data>
+    </node>
+    <node id="n108">
+      <data key="v_name">direto</data>
+      <data key="v_x">-3.08888706946429</data>
+      <data key="v_y">-3.74514661631048</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">107</data>
+      <data key="v_label">direto</data>
+    </node>
+    <node id="n109">
+      <data key="v_name">lei</data>
+      <data key="v_x">-1.07895722799574</data>
+      <data key="v_y">-0.466829531587049</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">757</data>
+      <data key="v_label">lei</data>
+    </node>
+    <node id="n110">
+      <data key="v_name">municipio</data>
+      <data key="v_x">-1.28784126161962</data>
+      <data key="v_y">-0.327912768702343</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">163</data>
+      <data key="v_label">municipio</data>
+    </node>
+    <node id="n111">
+      <data key="v_name">df</data>
+      <data key="v_x">-4.30232250816338</data>
+      <data key="v_y">-3.56080849474684</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">103</data>
+      <data key="v_label">df</data>
+    </node>
+    <node id="n112">
+      <data key="v_name">questionar</data>
+      <data key="v_x">-4.38227643951035</data>
+      <data key="v_y">-3.12734890221266</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">126</data>
+      <data key="v_label">questionar</data>
+    </node>
+    <node id="n113">
+      <data key="v_name">determinar</data>
+      <data key="v_x">4.03036467823935</data>
+      <data key="v_y">-2.03843143419172</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">125</data>
+      <data key="v_label">determinar</data>
+    </node>
+    <node id="n114">
+      <data key="v_name">preceitos_fundamentais</data>
+      <data key="v_x">-2.22690563217703</data>
+      <data key="v_y">0.62989735925973</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">125</data>
+      <data key="v_label">preceitos_fundamentais</data>
+    </node>
+    <node id="n115">
+      <data key="v_name">atar</data>
+      <data key="v_x">-0.228805846519792</data>
+      <data key="v_y">-0.189643046228906</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">159</data>
+      <data key="v_label">atar</data>
+    </node>
+    <node id="n116">
+      <data key="v_name">sentido</data>
+      <data key="v_x">-2.53393520054953</data>
+      <data key="v_y">-0.277497052400998</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">193</data>
+      <data key="v_label">sentido</data>
+    </node>
+    <node id="n117">
+      <data key="v_name">caput</data>
+      <data key="v_x">-0.762561006079455</data>
+      <data key="v_y">-0.786439445196228</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">117</data>
+      <data key="v_label">caput</data>
+    </node>
+    <node id="n118">
+      <data key="v_name">apresentar</data>
+      <data key="v_x">2.65457103363083</data>
+      <data key="v_y">-1.47936482013287</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">116</data>
+      <data key="v_label">apresentar</data>
+    </node>
+    <node id="n119">
+      <data key="v_name">agravo_regimental</data>
+      <data key="v_x">0.313660450076338</data>
+      <data key="v_y">-0.354254298008917</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">183</data>
+      <data key="v_label">agravo_regimental</data>
+    </node>
+    <node id="n120">
+      <data key="v_name">tender</data>
+      <data key="v_x">-3.54746363599935</data>
+      <data key="v_y">-3.40445854017875</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">108</data>
+      <data key="v_label">tender</data>
+    </node>
+    <node id="n121">
+      <data key="v_name">razao</data>
+      <data key="v_x">0.958052767597959</data>
+      <data key="v_y">-1.06276093714998</data>
+      <data key="v_weight">0</data>
+      <data key="v_color">black</data>
+      <data key="v_frequences">108</data>
+      <data key="v_label">razao</data>
+    </node>
+    <edge source="n2" target="n3">
+      <data key="e_weight">2.03738801183821</data>
+    </edge>
+    <edge source="n1" target="n5">
+      <data key="e_weight">9.35744189818416</data>
+    </edge>
+    <edge source="n5" target="n6">
+      <data key="e_weight">7.87859603812864</data>
+    </edge>
+    <edge source="n2" target="n8">
+      <data key="e_weight">2.11850691379473</data>
+    </edge>
+    <edge source="n4" target="n10">
+      <data key="e_weight">7.54596294122875</data>
+    </edge>
+    <edge source="n5" target="n12">
+      <data key="e_weight">2.76761838911724</data>
+    </edge>
+    <edge source="n3" target="n15">
+      <data key="e_weight">1.90057691206478</data>
+    </edge>
+    <edge source="n4" target="n16">
+      <data key="e_weight">6.49416040640587</data>
+    </edge>
+    <edge source="n1" target="n17">
+      <data key="e_weight">1.49763827167991</data>
+    </edge>
+    <edge source="n0" target="n19">
+      <data key="e_weight">2.1141388852294</data>
+    </edge>
+    <edge source="n6" target="n21">
+      <data key="e_weight">2.28175749704319</data>
+    </edge>
+    <edge source="n11" target="n22">
+      <data key="e_weight">1.98071912622106</data>
+    </edge>
+    <edge source="n12" target="n22">
+      <data key="e_weight">2.59522797945363</data>
+    </edge>
+    <edge source="n4" target="n23">
+      <data key="e_weight">1.81489640526023</data>
+    </edge>
+    <edge source="n3" target="n24">
+      <data key="e_weight">1.43163877538497</data>
+    </edge>
+    <edge source="n23" target="n26">
+      <data key="e_weight">1.46674617353646</data>
+    </edge>
+    <edge source="n4" target="n27">
+      <data key="e_weight">3.07902041219891</data>
+    </edge>
+    <edge source="n10" target="n28">
+      <data key="e_weight">1.77719684484478</data>
+    </edge>
+    <edge source="n20" target="n28">
+      <data key="e_weight">1.77760919378643</data>
+    </edge>
+    <edge source="n21" target="n28">
+      <data key="e_weight">2.56673671333401</data>
+    </edge>
+    <edge source="n0" target="n30">
+      <data key="e_weight">2.0670600338332</data>
+    </edge>
+    <edge source="n22" target="n31">
+      <data key="e_weight">3.71745831910853</data>
+    </edge>
+    <edge source="n6" target="n32">
+      <data key="e_weight">8.28380936580639</data>
+    </edge>
+    <edge source="n3" target="n35">
+      <data key="e_weight">3.68726351629178</data>
+    </edge>
+    <edge source="n29" target="n35">
+      <data key="e_weight">5.52402471612979</data>
+    </edge>
+    <edge source="n34" target="n36">
+      <data key="e_weight">1.55686364877889</data>
+    </edge>
+    <edge source="n36" target="n38">
+      <data key="e_weight">4.53640151889293</data>
+    </edge>
+    <edge source="n0" target="n39">
+      <data key="e_weight">2.50681407255645</data>
+    </edge>
+    <edge source="n7" target="n39">
+      <data key="e_weight">3.21072511683137</data>
+    </edge>
+    <edge source="n34" target="n39">
+      <data key="e_weight">3.9273450556013</data>
+    </edge>
+    <edge source="n1" target="n41">
+      <data key="e_weight">3.41796791801145</data>
+    </edge>
+    <edge source="n9" target="n42">
+      <data key="e_weight">2.40113083022632</data>
+    </edge>
+    <edge source="n18" target="n42">
+      <data key="e_weight">1.46988192222455</data>
+    </edge>
+    <edge source="n4" target="n44">
+      <data key="e_weight">1.3375217338528</data>
+    </edge>
+    <edge source="n3" target="n45">
+      <data key="e_weight">1.64967013301941</data>
+    </edge>
+    <edge source="n13" target="n46">
+      <data key="e_weight">2.66206516605102</data>
+    </edge>
+    <edge source="n34" target="n46">
+      <data key="e_weight">3.09828856180489</data>
+    </edge>
+    <edge source="n17" target="n47">
+      <data key="e_weight">1.45613070608925</data>
+    </edge>
+    <edge source="n0" target="n48">
+      <data key="e_weight">2.78977162687045</data>
+    </edge>
+    <edge source="n3" target="n49">
+      <data key="e_weight">1.8228239027567</data>
+    </edge>
+    <edge source="n9" target="n50">
+      <data key="e_weight">2.61577800177738</data>
+    </edge>
+    <edge source="n13" target="n50">
+      <data key="e_weight">2.24116621795695</data>
+    </edge>
+    <edge source="n33" target="n50">
+      <data key="e_weight">2.52515504240855</data>
+    </edge>
+    <edge source="n39" target="n51">
+      <data key="e_weight">1.31883349846129</data>
+    </edge>
+    <edge source="n5" target="n53">
+      <data key="e_weight">1.77459813705407</data>
+    </edge>
+    <edge source="n3" target="n54">
+      <data key="e_weight">2.5451322117673</data>
+    </edge>
+    <edge source="n1" target="n55">
+      <data key="e_weight">1.10156853528594</data>
+    </edge>
+    <edge source="n12" target="n56">
+      <data key="e_weight">2.51607257037715</data>
+    </edge>
+    <edge source="n39" target="n57">
+      <data key="e_weight">2.42177341584143</data>
+    </edge>
+    <edge source="n14" target="n58">
+      <data key="e_weight">3.53111962769513</data>
+    </edge>
+    <edge source="n48" target="n59">
+      <data key="e_weight">1.99492065338999</data>
+    </edge>
+    <edge source="n6" target="n62">
+      <data key="e_weight">2.4227364900415</data>
+    </edge>
+    <edge source="n14" target="n62">
+      <data key="e_weight">1.71602955798822</data>
+    </edge>
+    <edge source="n52" target="n63">
+      <data key="e_weight">4.31545708818085</data>
+    </edge>
+    <edge source="n21" target="n64">
+      <data key="e_weight">1.93391661820245</data>
+    </edge>
+    <edge source="n40" target="n64">
+      <data key="e_weight">1.45230472670331</data>
+    </edge>
+    <edge source="n54" target="n64">
+      <data key="e_weight">1.70994488746087</data>
+    </edge>
+    <edge source="n60" target="n65">
+      <data key="e_weight">4.15257923597372</data>
+    </edge>
+    <edge source="n61" target="n65">
+      <data key="e_weight">2.12692966558896</data>
+    </edge>
+    <edge source="n47" target="n66">
+      <data key="e_weight">1.9459608523358</data>
+    </edge>
+    <edge source="n10" target="n67">
+      <data key="e_weight">1.2914410255988</data>
+    </edge>
+    <edge source="n1" target="n71">
+      <data key="e_weight">2.57556812893495</data>
+    </edge>
+    <edge source="n37" target="n72">
+      <data key="e_weight">1.98684870206952</data>
+    </edge>
+    <edge source="n50" target="n72">
+      <data key="e_weight">2.34110689989129</data>
+    </edge>
+    <edge source="n68" target="n72">
+      <data key="e_weight">2.805846122387</data>
+    </edge>
+    <edge source="n70" target="n72">
+      <data key="e_weight">1.4470194718996</data>
+    </edge>
+    <edge source="n66" target="n73">
+      <data key="e_weight">1.09052939102087</data>
+    </edge>
+    <edge source="n19" target="n74">
+      <data key="e_weight">2.21111676217229</data>
+    </edge>
+    <edge source="n46" target="n75">
+      <data key="e_weight">1.16613661201369</data>
+    </edge>
+    <edge source="n37" target="n76">
+      <data key="e_weight">1.12067490862995</data>
+    </edge>
+    <edge source="n43" target="n77">
+      <data key="e_weight">6.75052571709004</data>
+    </edge>
+    <edge source="n51" target="n77">
+      <data key="e_weight">1.27661600890019</data>
+    </edge>
+    <edge source="n2" target="n79">
+      <data key="e_weight">1.1527905932597</data>
+    </edge>
+    <edge source="n69" target="n80">
+      <data key="e_weight">1.01986392306629</data>
+    </edge>
+    <edge source="n78" target="n80">
+      <data key="e_weight">1.14043324205169</data>
+    </edge>
+    <edge source="n62" target="n81">
+      <data key="e_weight">1.22449572542845</data>
+    </edge>
+    <edge source="n58" target="n82">
+      <data key="e_weight">1.0249250247294</data>
+    </edge>
+    <edge source="n12" target="n83">
+      <data key="e_weight">2.82009327670544</data>
+    </edge>
+    <edge source="n61" target="n84">
+      <data key="e_weight">1.25954551720597</data>
+    </edge>
+    <edge source="n58" target="n85">
+      <data key="e_weight">1.81648870070365</data>
+    </edge>
+    <edge source="n80" target="n85">
+      <data key="e_weight">2.04385464627445</data>
+    </edge>
+    <edge source="n16" target="n86">
+      <data key="e_weight">1.84046427653483</data>
+    </edge>
+    <edge source="n31" target="n87">
+      <data key="e_weight">1.17807431287006</data>
+    </edge>
+    <edge source="n34" target="n88">
+      <data key="e_weight">1.96235589265787</data>
+    </edge>
+    <edge source="n32" target="n89">
+      <data key="e_weight">10</data>
+    </edge>
+    <edge source="n8" target="n90">
+      <data key="e_weight">1.83332217083397</data>
+    </edge>
+    <edge source="n52" target="n91">
+      <data key="e_weight">2.32805000233749</data>
+    </edge>
+    <edge source="n27" target="n92">
+      <data key="e_weight">2.03547574612016</data>
+    </edge>
+    <edge source="n7" target="n94">
+      <data key="e_weight">1.94687438785632</data>
+    </edge>
+    <edge source="n33" target="n95">
+      <data key="e_weight">2.92265189226492</data>
+    </edge>
+    <edge source="n83" target="n95">
+      <data key="e_weight">5.51583390377417</data>
+    </edge>
+    <edge source="n48" target="n96">
+      <data key="e_weight">1.08178436885186</data>
+    </edge>
+    <edge source="n6" target="n97">
+      <data key="e_weight">9.47297432046322</data>
+    </edge>
+    <edge source="n4" target="n98">
+      <data key="e_weight">1.38727718387534</data>
+    </edge>
+    <edge source="n93" target="n98">
+      <data key="e_weight">1.84727665790843</data>
+    </edge>
+    <edge source="n8" target="n99">
+      <data key="e_weight">1.61566047105574</data>
+    </edge>
+    <edge source="n2" target="n100">
+      <data key="e_weight">1.51018118540736</data>
+    </edge>
+    <edge source="n92" target="n101">
+      <data key="e_weight">2.23161440158364</data>
+    </edge>
+    <edge source="n56" target="n103">
+      <data key="e_weight">1.17280138405825</data>
+    </edge>
+    <edge source="n96" target="n104">
+      <data key="e_weight">1</data>
+    </edge>
+    <edge source="n34" target="n105">
+      <data key="e_weight">2.74842302688785</data>
+    </edge>
+    <edge source="n4" target="n106">
+      <data key="e_weight">2.0580645670964</data>
+    </edge>
+    <edge source="n65" target="n108">
+      <data key="e_weight">1.29360291404997</data>
+    </edge>
+    <edge source="n86" target="n108">
+      <data key="e_weight">2.33649847592396</data>
+    </edge>
+    <edge source="n52" target="n109">
+      <data key="e_weight">1.62299690142051</data>
+    </edge>
+    <edge source="n64" target="n109">
+      <data key="e_weight">4.98927944446962</data>
+    </edge>
+    <edge source="n102" target="n109">
+      <data key="e_weight">1.26024790978986</data>
+    </edge>
+    <edge source="n109" target="n110">
+      <data key="e_weight">1.53273232784353</data>
+    </edge>
+    <edge source="n98" target="n111">
+      <data key="e_weight">1.45976386896506</data>
+    </edge>
+    <edge source="n27" target="n112">
+      <data key="e_weight">1.14467611888915</data>
+    </edge>
+    <edge source="n74" target="n113">
+      <data key="e_weight">1.4723597846265</data>
+    </edge>
+    <edge source="n91" target="n114">
+      <data key="e_weight">1.13531859106146</data>
+    </edge>
+    <edge source="n107" target="n114">
+      <data key="e_weight">1.91606748752724</data>
+    </edge>
+    <edge source="n11" target="n115">
+      <data key="e_weight">2.14209792576203</data>
+    </edge>
+    <edge source="n85" target="n116">
+      <data key="e_weight">1.72638853971315</data>
+    </edge>
+    <edge source="n64" target="n117">
+      <data key="e_weight">2.04349950527749</data>
+    </edge>
+    <edge source="n88" target="n118">
+      <data key="e_weight">1.15513936574162</data>
+    </edge>
+    <edge source="n25" target="n119">
+      <data key="e_weight">2.54742014135528</data>
+    </edge>
+    <edge source="n95" target="n119">
+      <data key="e_weight">3.49562297067557</data>
+    </edge>
+    <edge source="n16" target="n120">
+      <data key="e_weight">1.77159598312994</data>
+    </edge>
+    <edge source="n50" target="n121">
+      <data key="e_weight">1.02532540509501</data>
+    </edge>
+  </graph>
+</graphml>
