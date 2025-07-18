@@ -25,10 +25,8 @@ Os dados estão organizados da seguinte forma:
 fs::dir_tree(type = "directory", path = "DATA/")
 ```
 
-Esse repositório foi atualizado pela última vez em `r Sys.Date()` nas seguintes condições:
+Esse repositório foi atualizado pela última vez em `r Sys.Date()`.
 
-```{r, session-info}
-#| echo: false
+# Licença
 
-sessioninfo::session_info()
-```
+A Constituição em processo de judicialização: um estudo jurimétrico da multidimensionalidade da judicialização da políticas a partir das arguições de descumprimento de preceito fundamental ajuizadas por partidos políticos entre 2014-202 © 2025 by Jonathan Morais Barcellos Ferreira is licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
