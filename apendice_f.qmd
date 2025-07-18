@@ -1,0 +1,13 @@
+# Código {#sec-code}
+
+## Capítulo 4 {.unnumbered}
+
+```{r c3 code=readLines(knitr::purl('04_adpfs.qmd', 'R/04_apdfs.R',documentation = 0)), eval = FALSE}
+
+```
+
+## Capítulo 5 {.unnumbered}
+
+```{r c4 code=readLines(knitr::purl('05_core.qmd', 'R/05_core.R',documentation = 0)), eval = FALSE}
+
+```

@@ -35,7 +35,8 @@ book:
     - 04_adpfs.qmd
     - 05_core.qmd
   appendices: 
-    - code.qmd
+    - apendice_a.qmd
+    - apendice_f.qmd
 
 execute:
   warning: false

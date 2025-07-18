@@ -1,0 +1,34 @@
+---
+output: github_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Documentação de Pesquisa
+
+Este é o repositório da minha pesquisa de mestrado.
+
+A dissertação (versão enviada para a avaliação da banca) pode ser lida no arquivo [Dissertação_vFinal.pdf](Dissertação_vFinal.pdf).
+
+A dissertação documentada pode ser encontrada no site []().
+
+Os dados estão organizados da seguinte forma:
+
+```{r}
+#| echo: false
+
+fs::dir_tree(type = "directory", path = "DATA/")
+```
+
+Esse repositório foi atualizado pela última vez em `r Sys.Date()` nas seguintes condições:
+
+```{r, session-info}
+#| echo: false
+
+sessioninfo::session_info()
+```
