@@ -33,9 +33,9 @@ book:
     - 02_metodologia.qmd
     - 03_capitulo-3.qmd
     - 04_capitulo-4.qmd
-    - 05_capitulo-5.qmd
-    - 05_capitulo-5_1.qmd
-    - 05_capitulo-5_2.qmd
+    - 05_00_capitulo-5.qmd
+    - 05_01_capitulo-5_1.qmd
+    - 05_02_capitulo-5_2.qmd
     - 06_conclusao.qmd
   appendices: 
     - apendice_a.qmd

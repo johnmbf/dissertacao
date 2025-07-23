@@ -6,7 +6,8 @@ Este é o repositório da minha pesquisa de mestrado.
 A dissertação (versão enviada para a avaliação da banca) pode ser lida
 no arquivo [Dissertação_vFinal.pdf](Dissertação_vFinal.pdf).
 
-A dissertação documentada pode ser encontrada no site []().
+A dissertação documentada pode ser encontrada no site
+<https://johnmbf.github.io/dissertacao>.
 
 Os dados estão organizados da seguinte forma:
 
@@ -22,7 +23,7 @@ Os dados estão organizados da seguinte forma:
     #> ├── RAW
     #> └── USE
 
-Esse repositório foi atualizado pela última vez em 2025-07-18.
+Esse repositório foi atualizado pela última vez em 2025-07-23.
 
 # Licença
 

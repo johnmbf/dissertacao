@@ -23,6 +23,8 @@ clean_legitimados <- readRDS("DATA/CLEAN/clean_legitimados.rds")
 adpf_rec <- readRDS("DATA/MISC/adpf_rec.rds")
 dic_legitimados <- readRDS("DATA/MISC/dic_legitimados.rds")
 
+legitimados_adpf <- readRDS("DATA/CLEAN/legitimados_adpf.rds")
+
 # FUNÇÕES ---------------------------------------------------------------------
 
 extrair_texto_juris_stf <- function(dir) {
