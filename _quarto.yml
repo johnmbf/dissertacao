@@ -34,9 +34,8 @@ book:
     - 03_capitulo-3.qmd
     - 04_capitulo-4.qmd
     - 05_00_capitulo-5.qmd
-    - 05_01_capitulo-5_1.qmd
-    - 05_02_capitulo-5_2.qmd
     - 06_conclusao.qmd
+    - 07_re.qmd
   appendices: 
     - apendice_a.qmd
 
@@ -76,5 +75,6 @@ format:
     page-layout: full
     
 code-annotations: hover
+code-fold: true
 
 lang: pt-br
