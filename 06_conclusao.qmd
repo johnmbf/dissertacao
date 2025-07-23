@@ -1,0 +1,223 @@
+# Conclusão
+
+
+
+Ao final desta jornada, que se propôs a compreender como a Arguição de Descumprimento de Preceito Fundamental (ADPF) é operacionalizada no campo do processo no Supremo Tribunal Federal (STF) para judicializar a política, emerge um retrato complexo e multifacetado da democracia brasileira contemporânea. A trajetória metodológica, que partiu de uma abordagem jurimétrica multimétodo para desvelar as estruturas discursivas das decisões judiciais, permitiu transcender a análise dogmática tradicional. O que se revela não é um Judiciário que simplesmente avança sobre a política, mas um ecossistema dinâmico de interação estratégica, no qual a ADPF funciona como um sismógrafo das tensões institucionais, e o STF, como um árbitro seletivo e poderoso, que gerencia ativamente seu papel no epicentro dos conflitos nacionais.
+
+
+
+A análise quantitativa apresentada no Capítulo 4 forneceu a base para o diagnóstico do fenômeno. Constatou-se um crescimento exponencial no ajuizamento de ADPFs na última década, com picos que coincidem com os momentos de maior estresse político e institucional do país, como o impeachment e a pandemia de COVID-19. Esta "corrida ao Judiciário" não é aleatória, mas um sintoma da incapacidade do sistema político representativo de processar seus próprios conflitos. A investigação sobre a longevidade dos processos desvelou dinâmicas contraintuitivas: o "paradoxo do rito abreviado", que, concebido para acelerar, na prática está associado a um tempo de tramitação mais longo, e a existência de uma "triagem judicial". O tempo, portanto, revelou-se não como um dado burocrático, mas como uma variável política, uma ferramenta de judicial statecraft.
+
+
+
+O Capítulo 5 aprofundou a análise ao investigar quem são os protagonistas dessa judicialização e quais são suas motivações. A pesquisa confirmou a "partidarização" do controle de constitucionalidade, com os partidos políticos, consolidando-se como os litigantes mais assíduos. Em contraste, o "silêncio judicial" de partidos do chamado "Centrão" e dos ocupantes do poder Executivo e Legislativo demonstrou que a ADPF é a ferramenta preferencial dos outsiders do poder transacional. 
+
+
+
+Diante desses achados, o problema de pesquisa desta dissertação pode ser respondido de forma assertiva: a ADPF é operacionalizada de maneira dual. Para os atores políticos  ela é um recurso estratégico vital, utilizado não apenas para buscar um veto judicial a políticas indesejadas, mas também para pautar o debate público, obter visibilidade midiática e exercer oposição quando os canais legislativos se mostram bloqueados. Para o Supremo Tribunal Federal, a ADPF é operacionalizada por meio de uma sofisticada gestão de sua própria jurisdição. A Corte não é uma receptora passiva de demandas, mas um gatekeeper ativo, que utiliza um arsenal de ferramentas processuais e discursivas para filtrar o intenso fluxo de judicialização, escolhendo seletivamente em quais batalhas políticas irá intervir e preservando, assim, seu capital institucional e sua capacidade decisória para os casos que considera de maior relevância.
+
+
+
+A primeira hipótese central da pesquisa – de que o tempo de tramitação de uma ADPF é uma variável eminentemente política e estratégica – foi amplamente corroborada. A análise de sobrevivência demonstrou que a identidade do ministro relator possui um impacto estatisticamente significativo na celeridade processual, indicando que estilos de judicatura e gestões de gabinete individuais são fatores determinantes. Mais revelador ainda foi o "paradoxo do rito abreviado", que, ao invés de acelerar, está associado a uma maior longevidade dos processos. Este achado sugere que o rito é empregado estrategicamente para gerir casos de alta complexidade ou sensibilidade política. O tempo, portanto, deixa de ser um mero indicador de eficiência para se tornar um recurso de poder, uma ferramenta utilizada para absorver pressões, construir consensos e modular o impacto das decisões.
+
+
+
+A segunda hipótese fundamental – de que a litigância via ADPF é marcada por uma profunda assimetria, provocando uma resposta de gatekeeping por parte do Tribunal – também foi confirmada. A análise dos proponentes revelou uma concentração massiva de ações em um grupo específico de partidos de oposição, enquanto atores com acesso privilegiado ao poder transacional evitam o confronto judicial. Em resposta a essa avalanche de demandas, o STF desenvolveu uma estratégia de contenção. A análise das decisões "sem resolução de mérito" demonstrou que o princípio da subsidiariedade é a principal ferramenta deste filtro, funcionando como um muro processual que barra a maioria das tentativas de judicialização. Este mecanismo de "triagem judicial" demonstra um STF que atua como um árbitro seletivo, escolhendo ativamente quais conflitos políticos serão elevados ao status de controvérsia constitucional.
+
+
+
+Os resultados dialogam diretamente com o arcabouço teórico mobilizado no Capítulo 3. A intensa utilização da ADPF pela oposição política e por grupos da sociedade civil, em um contexto de crise e paralisia decisória, é uma manifestação da "hipótese da fragmentação" de John Ferejohn, segundo a qual o vácuo de poder deixado pelas instituições políticas fragmentadas é preenchido pelo Judiciário. Da mesma forma, o fenômeno se alinha perfeitamente às "condições facilitadoras" da judicialização descritas por Tate e Vallinder, como a existência de uma política de direitos, o uso dos tribunais pela oposição e a percepção de ineficácia das arenas majoritárias. O STF, nesse cenário, consolida-se como a "rainha do jogo de xadrez", uma instituição cuja centralidade é causa e consequência dos impasses da política brasileira.
+
+
+
+A pesquisa também permite um diálogo com a "tese da preservação hegemônica" de Ran Hirschl. Embora os dados mostrem que os principais impulsionadores da litigância são atores de oposição, e não as elites no poder, a resposta do STF pode ser interpretada sob uma ótica de estabilização sistêmica. Ao atuar como um gatekeeper seletivo, que filtra a maior parte das demandas e intervém de forma pontual e estratégica, principalmente para definir as regras da high politics e garantir a funcionalidade mínima do Estado, o Tribunal exerce uma função de moderação de conflitos que, em última instância, impede uma ruptura institucional. A Corte não atua para isolar as preferências de uma elite específica, mas para gerenciar as disputas de uma forma que preserve a integridade do próprio sistema político-constitucional, uma forma mais complexa de manutenção da ordem vigente.
+
+
+
+Finalmente, os achados desta dissertação lançam uma nova luz sobre o debate do constitucionalismo democrático e dos diálogos institucionais. A atuação do STF, com seu poderoso aparato de filtros e sua gestão estratégica do tempo, pode ser compreendida não apenas como um ato de autocontenção, mas como uma forma de iniciar o que Alexander Bickel chamou de "colóquio socrático". Ao indeferir uma ação com base na subsidiariedade, o Tribunal não está simplesmente fechando uma porta; ele está sinalizando aos atores políticos que a solução para aquele conflito deve, primeiramente, ser buscada em outras arenas, forçando a deliberação e a negociação. A dificuldade contramajoritária, na visão de Ferejohn e Pasquino, transforma-se em uma "oportunidade" precisamente neste ponto: a intervenção judicial, mesmo que pela recusa em intervir, pode catalisar um debate público mais robusto e aprofundado.
+
+
+
+Em síntese, esta dissertação demonstrou que a operacionalização da ADPF no Brasil contemporâneo é o epicentro de um complexo diálogo estratégico entre o campo político e o campo jurídico. Os partidos instrumentalizam a jurisdição constitucional como um recurso político vital, enquanto o STF responde com uma calculada seletividade, gerenciando o conflito para preservar seu capital e a estabilidade do sistema. O resultado é um modelo de jurisdição constitucional que não é nem puramente ativista, nem passivamente contido, mas sim o de um protagonista indispensável e um árbitro seletivo dos conflitos mais agudos que a democracia representativa brasileira, em sua atual configuração, se mostra incapaz de solucionar por si só. A compreensão dessa dinâmica é fundamental para o entendimento do poder, do direito e da própria governança no Brasil do século XXI.
+
+
+
+# Referências
+
+ALVES, Jéssica Seabra de Oliveira. Judicialização da política no Brasil: um estudo de caso sobre o inquérito das fake news e os conflitos entre o Supremo Tribunal Federal e os demais poderes. 2024. 144f. Dissertação (Mestrado) – Universidade Federal de Pelotas, Pelotas, 2024. Disponível em: http://guaiaca.ufpel.edu.br/xmlui/handle/prefix/13988. 
+
+ALVES, Luana Azerêdo; COSTA, Sebastião Patrício Mendes da; MATOS, Deborah Dettmam. Uma disputa de poder: o Judiciário, o Legislativo e a questão da (i)legitimidade no controle difuso de constitucionalidade brasileiro. Revista Quaestio Iuris, v. 16, n. 4, 2023, p. 2177-2205. Disponível em: https://www.e-publicacoes.uerj.br/quaestioiuris/article/view/70935. 
+
+ARAÚJO, Bryan da Fonseca. A atuação dos partidos políticos no processo de judicialização da política (2019-2021). 2022. 130 f. Dissertação (Mestrado) - Universidade Federal da Paraíba, João Pessoa, 2022. Disponível em: https://repositorio.ufpb.br/jspui/handle/123456789/26166. 
+
+ARRUDA, Isadora Maria Belém Rocha Cartaxo de. O STF como ator no ciclo das políticas públicas decorrentes de omissões inconstitucionais. 2023. 126f. Dissertação (Mestrado) – Fundação Getúlio Vargas, 2023. Disponível em: https://hdl.handle.net/10438/34637. 
+
+BARBOSA, Leon Victor de Queiroz; CARVALHO, Ernani. O Supremo Tribunal Federal como a rainha do jogo de xadrez: fragmentação partidária e empoderamento judicial no Brasil. Revista de Sociologia e Política, v. 28, n 73, 2020. Disponível em: https://revistas.ufpr.br/rsp/article/view/78507. 
+
+BARDIN, Laurence. Análise de conteúdo. tradução: Luís Antero Reto; Augusto Pinheiro. Lisboa: Edições 70, 1995. 
+
+BICKEL, Alexander M. The least dangerous branch: the Supreme Court at the bar of politics. 2nd eded. New Haven: Yale University Press, 1986. 
+
+BORGAN, Ørnulfnão te. Kaplan-Meier Estimator. In: BORGAN, Ørnulf. Encyclopedia of Biostatistics. 1. ed. [S. l.]: Wiley, 2005. Disponível em: https://onlinelibrary.wiley.com/doi/10.1002/0470011815.b2a11042.
+
+BORTOLI, Luiza Venzke; BIRCK, Alan. Mapa perceptual no contexto empresarial: aspectos relevantes para a sua elaboração. Revista de Administração IMED, v. 7, n. 1, p. 230–249, 2017. 
+
+CAMELO, Aprígio Aguiar de Oliveira Sousa; BRINGEL, Lara Lívia Cardoso Costa. O PAPEL DO SUPREMO TRIBUNAL FEDERAL E A INSTABILIDADE DO ATUAL CENÁRIO POLÍTICO BRASILEIRO. Revista de Doutrina Jurídica,  v. 109, n. 2, p. 242–254, 2018. 
+
+CAMPO, André Braz. Cortes Constitucionais e Supremas Cortes em tempos de recessão democrática. 2023. 252 f. Dissertação (Mestrado) - Universidade do Estado do Rio de Janeiro, Rio de Janeiro, 2023. Disponível em: http://www.bdtd.uerj.br/handle/1/20953. 
+
+CARNEIRO, Zamis Maia. O papel democrático do supremo tribunal federal nas práticas de ativismo judicial. 2020. 109 f. Dissertação (Mestrado) – Universidade Nove de Julho, 2020. Disponível em: http://bibliotecatede.uninove.br/handle/tede/2397. 
+
+CARVALHO, Verbena Duarte Brito de. A judicialização da política e o ativismo judicial como inimigos íntimos da democracia. 2021. Dissertação (Mestrado) - Universidade Presbiteriana Mackenzei, São Paulo, 2021. Disponível em: https://dspace.mackenzie.br/handle/10899/39392. 
+
+CONTI, Luiz Eduardo Lapolli. "Supremo é o povo?: retórica populista na atuação do Supremo Tribunal Federal entre 2013 e 2020. 2023. 377p. Tese (Doutorado) – Universidade Federal de Santa Catarina, 2023. Disponível em: https://repositorio.ufsc.br/handle/123456789/251366. 
+
+COSTA, Bruno Andrade. O controle judicial nas políticas públicas: análise das decisões judiciais e seu cumprimento para a realização progressiva dos direitos fundamentais sociais. Revista de Informação Legislativa, v. 50, n. 199, p. 255–269, 2013. 
+
+COUTO, Cláudio Gonçalves. Sistema de governo e políticas públicas. Brasília: Enap, 2019. Disponível em: https://repositorio.enap.gov.br/bitstream/1/4160/4/Livro_Sistema%20de%20Governo%20e%20Politicas%20Publicas.pdf. 
+
+CUNHA, João Paulo. O uso da ação direta de inconstitucionalidade como prolongamento da disputa política. 2021. 134f. Dissertação (Mestrado) – Instituto Brasileiro de Ensino, Desenvolvimento e Pesquisa, 2021. Disponível em: https://repositorio.idp.edu.br//handle/123456789/3845. 
+
+DANTAS, Andrea de Quadros. O STF como árbitro da federação: uma análise empírica dos conflitos federativos em sede de ACO. Revista Direito GV, v. 16, p. e1964, 2020. Disponível em: https://www.scielo.br/j/rdgv/a/vjcH8FNWDYMRRWcQRHKC6JJ/abstract/?lang=pt. 
+
+DE ANDRADE SANTOS, Tainá; DE MORAES RAMOS FILHO, Carlos Alberto. OS PROCESSOS ESTRUTURAIS E A JUDICIALIZAÇÃO DE POLÍTICAS PÚBLICAS. Revista de Direito Público Contemporâneo, v. 1, n. 2, 2024. Disponível em: https://centrodeestudosdedireito.com.br/revistas/index.php/rdpc/article/view/111. 
+
+DIXON, Rosalind. Strong Courts: Judicial Statecraft in Aid of Constitutional Change. Columbia Journal of Transnational Law, v. 59, p. 298–263, 2021. Disponível em: https://www.jtl.columbia.edu/volume-59/strong-courts-judicial-statecraft-in-aid-of-constitutional-change. 
+
+FEREJOHN, John. Judicializing Politics, Politicizing Law. Law and Contemporary Problems, v. 65, n. 3, p. 41–68, 2002. Disponível em: https://www.jstor.org/stable/1192402. 
+
+FEREJOHN, John; PASQUINO, Pasquale. The Countermajoritarian Opportunity. University of Pennsylvania Journal of Constitutional Law, v. 13, n. 2, p. 353, 2010. Disponível em: https://scholarship.law.upenn.edu/jcl/vol13/iss2/6/. 
+
+FERRAZ, Anna Candida da Cunha. JURISDIÇÃO CONSTITUCIONAL: CONFLITOS E TENSÕES ENTRE O SUPREMO TRIBUNAL FEDERAL E O PODER LEGISLATIVO. Espaço Jurídico Journal of Law [EJJL], v. 17, n. 1, p. 187–212, 2016. Disponível em: https://periodicos.unoesc.edu.br/espacojuridico/article/view/5805. 
+
+FRANCA, Felipe Gallo da. A governança eleitoral: um enfoque sobre o protagonismo do poder judiciário no processo eleitoral. 2020. Dissertação (Mestrado) - Universidade Federal de Minas Gerais, Belo Horizonte, 2020. Disponível em: http://hdl.handle.net/1843/43308. 
+
+FUKUMOTO, Kentaro; MASUYAMA, Mikitaka. Measuring Judicial Independence Reconsidered: Survival Analysis, Matching, and Average Treatment Effects. Japanese Journal of Political Science, v. 16, n. 1, p. 33–51, 2015. Disponível em: https://doi.org/10.1017/S1468109914000371. 
+
+GODOY, Miguel Gualano de. O Supremo contra o processo constitucional: decisões monocráticas, transação da constitucionalidade e o silêncio do Plenário. Revista Direito e Práxis, v. 12, p. 1034–1069, 2021. Disponível em: https://www.scielo.br/j/rdp/a/cxr7tsRvWjPjGNSKRt7v3WK. 
+
+GOMES, Marcelo Sant’Anna Vieira. AUTONOMIA versus ATO VINCULADO: UM ESTUDO SOBRE A ATUAÇÃO DO MINISTÉRIO PÚBLICO NA AÇÃO DIRETA DE INCONSTITUCIONALIDADE INTERVENTIVA. Derecho y Cambio Social, v. 10, n. 34, 2013. Disponível em: https://derechoycambiosocial.org/index.php/revista/article/view/1640. Acesso em: 28 jun. 2025.
+
+GOMES NETO, José Mário Wanderley; BARBOSA, Luís Felipe Andrade; PAULA FILHO, Alexandre Moura Alves de. O que nos dizem os dados? Uma introdução à pesquisa jurídica quantitativa. Petrópolis, RJ: Editora Vozes, 2023. 
+
+GRIMMER, Justin; STEWART, Brandon M. Text as Data: The Promise and Pitfalls of Automatic Content Analysis Methods for Political Texts. Political Analysis, v. 21, n. 3, p. 267–297, 2013. Disponível em: https://www.cambridge.org/core/journals/political-analysis/article/text-as-data-the-promise-and-pitfalls-of-automatic-content-analysis-methods-for-political-texts/F7AAC8B2909441603FEB25C156448F20. 
+
+HARTMANN, Ivar Alberto Martins; FERREIRA, Lívia da Silva; REGO, Bianca Dutra da Silva. Deferência ao fiscal da lei? A probabilidade de sucesso do PGR nas ações diretas de inconstitucionalidade. Revista de Estudos Empíricos em Direito, v. 3, n. 1, 2016. Disponível em: https://revistareed.emnuvens.com.br/reed/article/view/65. Acesso em: 24 jun. 2025.
+
+HIRSCHL, Ran. Towards juristocracy: the origins and consequences of the new constitutionalism. Cambridge London: Harvard University Press, 2007. 
+
+IZUMI, Maurício; MOREIRA, Davi. O texto como dado: desafios e oportunidades para as ciências sociais. BIB - Revista Brasileira de Informação Bibliográfica em Ciências Sociais, n. 86, p. 138–174, 2018. Disponível em: https://bibanpocs.emnuvens.com.br/revista/article/view/455. 
+
+LEONI, Fernanda. O papel do Supremo Tribunal Federal na intermediação dos conflitos federativos no contexto da Covid-19. Cadernos Gestão Pública e Cidadania, v. 27, n. 87, p. 1–17, 2022. Disponível em: https://periodicos.fgv.br/cgpc/article/view/83851/84155. 
+
+LESKO, Catherine R et al. When to Censor?. American Journal of Epidemiology, v. 187, n. 3, p. 623–632, 2018. Disponível em: https://pubmed.ncbi.nlm.nih.gov/29020256/. 
+
+LIMA, Felipe Zampieri; SILVEIRA, Ricardo dos Reis. A JUDICIALIZAÇÃO DA POLÍTICA NO BRASIL IMPACTOS E DESAFIOS PARA A DEMOCRACIA. REVISTA PARADIGMA, v. 33, n. 3, 2024. Disponível em: https://revistas.unaerp.br/paradigma/article/view/3391. Acesso em: 12 jul. 2025.
+
+LINS, Rodrigo; FIGUEIREDO, Dalson; ROCHA, Enivaldo. Não temos tempo a perder: uma introdução à análise de sobrevivência. Revista Política Hoje, v. 26, n. 1, p. 279–298, 2017. Disponível em: https://periodicos.ufpe.br/revistas/index.php/politicahoje/article/view/12091. 
+
+LOEVINGER, Lee. Jurimetrics: The Next Step Forward. Minnesota Law Review, v. 33, n. 5, p. 455–493, 1949. Disponível em: https://www.jstor.org/stable/29762866. 
+
+LUI, Lizandro; MADEIRA, Lígia Mori; CAMARA, Lilian Rita Macedo Zorzetti. Judicialização baseada em evidências?: o uso do conhecimento científico nas decisões do STF durante a pandemia de Covid-19. Opinião Pública, v. 29, n. 3, p 606-637, 2023. Disponível em: http://hdl.handle.net/10183/271577. 
+
+MAIA, Daniella Ribeiro. O Supremo Tribunal Federal e sua influência no presidencialismo de coalizão: análise da cláusula de barreira e da fidelidade partidária. 2020. 135f. Dissertação (Mestrado) – Instituto Brasiliense de Direito Público, 2020. Disponível em: https://repositorio.idp.edu.br//handle/123456789/2937. 
+
+MAIA GOLTZMAN, Elder; PEREIRA RAMOS NETO, Newton. Judicial Activism and Electoral Justice in its Non-Judicial Functions: A Critical Analysis. Revista Direito GV, v. 19, 2023. Disponível em: https://periodicos.fgv.br/revdireitogv/article/view/89830. 
+
+MARPSAT, Maryse. La méthode Alceste. Sociologie, v. 1, n. 1, 2010. Disponível em: https://journals.openedition.org/sociologie/312. 
+
+MATOS, Nelson Juliano Cardoso; DETTMAM, Deborah. O MAL-ESTAR DA JUDICIALIZAÇÃO DA POLÍTICA: O PRINCÍPIO DA SEPARAÇÃO DE PODERES SOB A HEGEMONIA DEMOCRÁTICA. Revista Opinião Jurídica (Fortaleza), v. 21, n. 36, p. 148, 2023. 
+
+MEDEIROS, Isaac Kofi. Ativismo judicial e princípio da deferência à administração pública. 2020. Dissertação (Mestrado) - Universidade Federal de Santa Catarina, Florianópolis, 2020. Disponível em: https://repositorio.ufsc.br/handle/123456789/216251. 
+
+MINE, B. et al. Recidivism Among People Convicted of Terrorism: A Survival Analysis Based on the Belgian Central Criminal Record. Terrorism and Political Violence, p. 1–18, 2025. 
+
+MIRANDA, Sara Barros Pereira de; GABRIEL NETO, José Elias; SANTOS, Igor Barros. JUDICIALIZAÇÃO DA POLÍTICA E DIÁLOGO INSTITUCIONAL: a legitimação do Poder Judiciário enquanto detentor da última palavra na garantia dos direitos fundamentais sob a ótica da teoria do diálogo institucional. Revista de Teorias da Justiça, da Decisão e da Argumentação Jurídica, v. 10, n. 1, 2024. Disponível em: http://www.indexlaw.org/index.php/revistateoriasjustica/article/view/10537. 
+
+MOLIN, Adelcio. Ativismo judicial, sob a perspectiva do neoconstitucionalismo: entre os limites da racionalidade jurídica e da decisão política. 2023. Dissertação (Mestrado) - Universidade de Passo Fundo, Passo Fundo, 2023. Disponível em: http://tede.upf.br:8080/jspui/handle/tede/2854. 
+
+NETO, João Andrade. Jurisdição Eleitoral: Judicialização da política?. Revista Jurídica da Presidência, v. 12, n. 96, p. 108–132, 2010. 
+
+NEVES, George Hilton Lemos. Judicialização da política e ativismo judicial: uma violação ao princípio da separação dos poderes ou uma necessidade para a efetivação plena dos direitos fundamentais na sociedade brasileira contemporânea?. 2021. 156f. Dissertação (Mestrado em Direito) - Centro de Ciências Sociais Aplicadas, Universidade Federal do Rio Grande do Norte, Natal, 2021. Disponível em: https://repositorio.ufrn.br/handle/123456789/46519. 
+
+NUNES, Daniela Carmo. Judicialização da política e a atuação do judiciário no governo Bolsonaro (2019-2022). 2023. 119 f. Dissertação (Mestrado em Ciências Sociais) - Universidade Federal de Uberlândia, 2022. Disponível em: https://repositorio.ufu.br/handle/123456789/38715. 
+
+OLIVEIRA, Vanessa Elias de. Poder judiciário: árbitro dos conflitos constitucionais entre estados e união. Lua Nova: Revista de Cultura e Política, p. 223–250, 2009. 
+
+OLIVEIRA, Fabiana Luci de. Triangulação metodológica e abordagem multimétodo na pesquisa sociológica: vantagens e desafios. Ciências Sociais Unisinos, v. 51, n. 2, p. 133–143, 2015. 
+
+OLIVEIRA, Vanessa Elias De; MADEIRA, Lígia Mori. Judicialização da política no enfrentamento à Covid-19: um novo padrão decisório do STF?. Revista Brasileira de Ciência Política, n. 35, p. e247055, 2021. 
+
+OLIVEIRA, Fabiana Luci de; RIBEIRO, Desirée Ferreira Marques. Atuação política do Procurador-Geral da República na transição democrática no Brasil. Revista Direito e Práxis, v. 13, p. 2263–2291, 2022. 
+
+PALOTTI, Pedro Lucas Moura; MARONA, Marjorie Corrêa. ESTRATÉGIA POLÍTICA E JUDICIALIZAÇÃO. Revisto do CAAP, v. 16, n. 2, 2010. Disponível em: https://periodicos.ufmg.br/index.php/caap/article/view/47152. 
+
+PARANHOS, Ranulfo et al. Uma introdução aos métodos mistos. Sociologias, v. 18, n. 42, p. 384–411, 2016. 
+
+PEROVANO, André Luiz; SOUZA, André Peixoto de. Suicidal democracy: political action and constitutional contestation. Direitos Democráticos & Estado Moderno, v. 1, n. 13, 2025. Disponível em: https://revistas.pucsp.br/index.php/DDEM/article/view/68658. 
+
+PONTES, Juliana de Brito Giovanetti. Autocontenção no judiciário brasileiro : fatores que possibilitam a ocorrência do fenômeno em sede de arguição de descumprimento de preceito fundamental. 2013. 151 f. Dissertação (Mestrado em Direito) - Universidade Católica de Pernambuco, 2013. Disponível em: http://tede2.unicap.br:8080/handle/tede/528. 
+
+PRAZAK, Maurício Avila; SOARES, Marcelo Negri; AIRES, Rafael De Ataide. NEOCONSTITUCIONALISMO NO BRASIL E A RELAÇÃO COM A JUDICIALIZAÇÃO DA POLÍTICA E O ATIVISMO JUDICIAL. Revista Direito em Movimento, v. 18, n. 3, 2020. Disponível em: https://ojs.emerj.com.br/index.php/direitoemmovimento/article/view/292. 
+
+PRINJA, Shankar; GUPTA, Nidhi; VERMA, Ramesh. Censoring in clinical trials: Review of survival analysis techniques. Indian Journal of Community Medicine, v. 35, n. 2, p. 217, 2010. 
+
+RAKOTOMALALA, Ricco; NOUVEL, Tanguy Le. Interactive Clustering Tree: Une méthode de classification descendante adaptée aux grands ensembles de données. Revue des Nouvelles Technologies de l’Information, v. RNTI-A-1, p. 73–93, 2007. 
+
+RAMOS, Edith Maria Barbosa; SENA, Jaqueline Prazeres de; PINHEIRO, Rossana Barros. O papel do acesso à justiça e das práticas cidadãs para a compreensão da judicialização da política no Brasil. Questio Iuris, v. 13, n. 3, 2020. Disponível em: https://www.e-publicacoes.uerj.br/quaestioiuris/article/view/44588. 
+
+REINERT, Max. Alceste une méthodologie d’analyse des données textuelles et une application: Aurelia De Gerard De Nerval. Bulletin of Sociological Methodology/Bulletin de Méthodologie Sociologique, v. 26, n. 1, p. 24–54, 1990. 
+
+RIBEIRO, Leandro Molhano; ARGUELHES, Diego Werneck. Contextos da judicialização da política: novos elementos para um mapa teórico. Revista Direito GV, São Paulo, v. 15, n. 2, p. e1921, 2019. 
+
+ROCHA, C. Alexandre A. O (des)pacto federativo brasileiro. In: SILVA, Rafael Silveira e (org.). 30 anos da constituição: Evolução, desafios e perspectivas para o futuro. 1. ed. Brasília: Senado Federal, 2018. v. 4, p. 136–165. 
+
+RODRIGUES, Paulo Joaquim da Silva. A judicialização da política no Brasil: a história, as definições e os usos do conceito. 2022. Tese (Doutorado en Ciência Política) - Universidade do Estado do Rio de Janeiro, Rio de Janeiro, 2022. Disponível em: http://www.bdtd.uerj.br/handle/1/18059. 
+
+RODRIGUES, Suelen Aparecida; COSTA, Carolina de Souza. Uma análise das competências do poder judiciário, sob a égide de uma democracia representativa no Brasil. Brazilian Journal of Development, v. 7, n. 3, 2021. Disponível em: https://ojs.brazilianjournals.com.br/ojs/index.php/BRJD/article/view/26023. 
+
+ROSÁRIO, Luana; OLIVEIRA, Bianca Barbosa. PERFIL DO STF NO JULGAMENTO DE ADPFS ENTRE 1988-2017: AUTOCONTENÇÃO JUDICIAL?. Revista de Direito Brasileira, v. 32, n. 12, p. 130–144, 2022. 
+
+SANTOS, Evilázio Vítor de Souza. A democratização da jurisdição constitucional: o acesso das entidades de classe de âmbito nacional ao controle de constitucionalidade. 2023. 124 f. Dissertação (Mestrado em Direito Constitucional) - Instituto Brasileiro de Ensino, Desenvolvimento e Pesquisa), Brasília, 2023. Disponível em: https://repositorio.idp.edu.br/handle/123456789/4417. 
+
+SANTOS, Lucas Cardoso; SCAFF, Fernando Facury. FEDERALISMO E ACESSO À JUSTIÇA: A LEGITIMAÇÃO DAS ENTIDADES DE CLASSE NO CONTROLE CONCENTRADO DE CONSTITUCIONALIDADE. Revista Brasileira de Federalismo, v. 1, n. 1, p. 95–110, 2023. 
+
+SARAH, Matilda. Understanding Correspondence Analysis: A Comprehensive Guide for 2025. In: DISPLAYR. 28 fev. 2025. Disponível em: https://www.displayr.com/understanding-correspondence-analysis-a-comprehensive-guide/.
+
+SEVILLA, João Camilo. Judicialization of public policies in education in Brazil: a current phenomenon. Devir Educação, v. 8, n.1 , 2024. Disponível em: https://devireducacao.ded.ufla.br/index.php/DEVIR/article/view/803. 
+
+SILGE, Julia; ROBINSON, David. Text Mining with R. 2022. Disponível em: https://www.tidytextmining.com/. 
+
+SILVA, Yury Vasconcellos da. Análise de Correspondência: uma abordagem geométrica. 2012. 153 f. Dissertação - Universidade Federal de Viçosa, Viçosa, 2012. Disponível em: https://locus.ufv.br/items/5f4bc29c-31a2-4d12-ac03-1d21086aa24d. 
+
+SILVA, Jeferson Mariano. Depois da “judicialização”: um mapa bibliográfico do Supremo. Revista de Sociologia e Política, v. 30, p. 1–18, 2022. 
+
+SILVA, Luciano Tertuliano da. O controle do comportamento ético no poder e fortalecimento democrático-representativo. 2021. 296f. Tese (Doutorado) – Universidade de São Paulo, 2021. Disponível em: https://www.teses.usp.br/teses/disponiveis/2/2134/tde-13072022-110820/. 
+
+SILVA, Ana Vitória Lucero da; GASPARETTO, Hígor Lameira. O Impactos das ADPFs estruturais nas políticas públicas relativas aos direitos fundamentais sociais. In: 7o CONGRESSO INTERNACIONAL DE DIREITO E CONTEMPORANEIDADE, 2024, Santa Maria. Anais do 7o Congresso Internacional de Direito e Contemporaneidade. Santa Maria: Universidade de Santa Marian, 2024. Disponível em: https://www.ufsm.br/app/uploads/sites/563/2024/12/8.2.pdf. 
+
+SIMON, Carla; DAL RI, Luciene. JUDICIALIZAÇÃO DA POLÍTICA: a atuação dos governadores do estado de Santa Catarina por meio de ações de ADPF junto ao Supremo Tribunal Federal. RDUno: Revista do Programa de Pós-Graduação em Direito da Unochapecó, v. 2, n. 3, p. 235–250, 2020. 
+
+SIQUEIRA, Dirceu Pereira; MOREIRA, Mayume Caires; VIEIRA, Ana Elisa Silva Fernandes. A JURIMETRIA E SUA APLICAÇÃO NO DIREITO: UMA REVISÃO SISTEMÁTICA DA LITERATURA JURÍDICA. REVISTA PARADIGMA, v. 32, n. 3, p. 193–214, 2023. 
+
+TATE, C. Neal; VALLINDER, Torbjörn (org.). The global expansion of judicial power. New York: New York University Press, 1995. 
+
+TAYLOR, Matthew M.; DA ROS, Luciano. Os partidos dentro e fora do poder: a judicialização como resultado contingente da estratégia política. Dados, v. 51, n. 4, p. 825–864, 2008. 
+
+TEIXEIRA, Yuri de Matos Mesquita. O ativismo judicial como fenômeno negativo ao estado democrático de direito brasileiro. 2022, 152f. Dissertação (Mestrado Profissional) – Universidade Federal da Bahia, 2022. Disponível em: https://repositorio.ufba.br/handle/ri/35820. 
+
+TUKEY, John Wilder. Exploratory data analysis. Reading, Mass: Addison-Wesley Pub. Co, 1977. (Addison-Wesley series in behavioral science). 
+
+TUZZO, Simone Antoniaci; BRAGA, Claudomilson Fernandes. O processo de triangulação da pesquisa qualitativa: o metafenômeno como gênese. Revista Pesquisa Qualitativa, v. 4, n. 5, p. 140–158, 2016.
+
+VIEIRA, Oscar Vilhena; GLEZER, Rubens; BARBOSA, Ana Laura Pereira. SUPREMOCRACIA E INFRALEGALISMO AUTORITÁRIO: O COMPORTAMENTO DO SUPREMO TRIBUNAL FEDERAL DURANTE O GOVERNO BOLSONARO. Novos estudos CEBRAP, v. 41, p. 591–605, 2023. 
+
+VILLELA, Renata Rocha. Partidos políticos e controle de constitucionalidade: o uso estratégico das ações de controle abstrato. 2019. Doutorado em Direito do Estado - Universidade de São Paulo, São Paulo, 2019. Disponível em: https://www.teses.usp.br/teses/disponiveis/2/2134/tde-07082020-143927/. Acesso em: 25 jun. 2025.
+
+WICKHAM, Hadley; ÇETINKAYA-RUNDEL, Mine; GROLEMUND, Garrett. R for Data Science. 2023. Disponível em: https://r4ds.hadley.nz/. 
+
+ZAULI, Eduardo Meira. Justiça eleitoral e judicialização das eleições no Brasil. Revista Brasileira de Estudos Políticos, v. 102, p. 255–290, 2011. 
+
+ZUCCOLOTTO. O Judiciário como arena estratégica para a atuação dos partidos políticos. 2016. Dissertação (Mestrado em Ciências Sociais) - Universidade Federal do Espírito Santo, Vitória, 2016. Disponível em: http://repositorio.ufes.br/handle/10/4353. 
+
+ZUCOLOTE DE OLIVEIRA, Lillian; ALBERTO PEREIRA RIBEIRO, Luiz. PROCESSO ESTRUTURAL: DA IMPORTÂNCIA DA ATUAÇÃO DO JULGADOR. Conpedi Law Review, v. 7, n. 2, 2021. Disponível em: https://www.indexlaw.org/index.php/conpedireview/article/view/8129. 

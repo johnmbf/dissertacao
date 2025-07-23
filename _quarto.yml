@@ -31,12 +31,14 @@ book:
     - index.qmd
     - 01_introducao.qmd
     - 02_metodologia.qmd
-    - 03_revisao.qmd
-    - 04_adpfs.qmd
-    - 05_core.qmd
+    - 03_capitulo-3.qmd
+    - 04_capitulo-4.qmd
+    - 05_capitulo-5.qmd
+    - 05_capitulo-5_1.qmd
+    - 05_capitulo-5_2.qmd
+    - 06_conclusao.qmd
   appendices: 
     - apendice_a.qmd
-    - apendice_f.qmd
 
 execute:
   warning: false

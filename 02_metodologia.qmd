@@ -1,3 +1,5 @@
+# Metodologia
+
 A pesquisa busca compreender a forma como a arguição de descumprimento de preceito fundamental é operacionalizada no campo do processo no Supremo Tribunal Federal a fim de judicializar a política. Trata-se de um estudo empírico, observando o método indutivo e de abordagem quali-quantitativa. Ademais, a pesquisa apoia-se em ferramentas computacionais.
 
 O estudo será dividido em três momentos. No primeiro realizar-se-á uma revisão narrativa de literatura brasileira sobre a judicialização da política, suas dimensões e intersecções com a literatura não-brasileira. Para tanto, selecionou-se as teses, dissertações e artigos indexados no Portal Brasileiro de Publicações e Dados Científicos em Acesso Aberto (Oasisbr) com os descritores “judicialização da política”, “arguição de descumprimento de preceito fundamental”, “constitucionalismo democrático” e “diálogos institucionais”. Foram selecionados os registros publicados nos últimos 5 anos e com pertinência temática com esta pesquisa.
@@ -161,18 +163,6 @@ A CHD, como aqui delineada, oferece vantagens para a análise do discurso juríd
 Contudo, é necessário reconhecer suas limitações. A qualidade da análise é intrinsecamente dependente da qualidade e da representatividade do corpus inicial. As decisões tomadas na preparação do texto, como a lematização ou a definição de palavras a serem ignoradas, podem influenciar os resultados. Mais fundamentalmente, a CHD é uma ferramenta de auxílio à interpretação, não uma máquina que produz a verdade sobre um texto.
 
 O software não compreende semântica, ironia, polifonia ou a complexidade das teorias; ele detecta padrões de coocorrência lexical. A etapa de nomeação e interpretação das classes é um ato hermenêutico que depende inteiramente do pesquisador. Ao automatizar a tarefa de detecção de padrões, a CHD libera o pesquisador para se concentrar na tarefa de ordem superior que lhe é própria: a atribuição de significado. A adoção desta metodologia representa, em última análise, um compromisso com uma forma de pesquisa jurídica mais transparente, sistemática e empiricamente fundamentada, em uma profícua colaboração entre máquina e intérprete.
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

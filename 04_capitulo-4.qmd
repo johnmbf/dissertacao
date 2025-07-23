@@ -1,25 +1,18 @@
+---
+code-fold: true
+---
+
 # A arguição de descumprimento de preceito fundamental, o que foi ? {#sec-adpf}
 
 ```{r, setup-adpfs, include=FALSE}
-library(ggplot2)
-library(survival)
-library(survminer)
-library(gt)
-library(decJ)
-
 knitr::opts_chunk$set(
   warning = FALSE, error = FALSE, message = FALSE,
   fig_width = 12,
   fig_height = 8,
-  fig_dpi = 600,
-  echo = FALSE
+  fig_dpi = 600
 )
 
-cores <- c("#D9523F", "#D1CFC2", "#ACBCCC", "#588383", "#AA6F4E", "#8898A1")
-
-clean_processos <- readRDS('DATA/CLEAN/clean_processos.rds')
-clean_decisoes <- readRDS('DATA/CLEAN/clean_decisoes.rds')
-adpf_rec <- readRDS('DATA/MISC/adpf_rec.rds')
+source("R/source.R")
 ```
 
 A intensidade da judicialização da política no Brasil pode ser diretamente aferida pela análise do volume de ações de controle concentrado de constitucionalidade ajuizadas no Supremo Tribunal Federal (STF). Instrumentos como a Ação Direta de Inconstitucionalidade (ADI), a Ação Declaratória de Constitucionalidade (ADC), a Ação Direta de Inconstitucionalidade por Omissão (ADO) e, notadamente, a Arguição de Descumprimento de Preceito Fundamental (ADPF) constituem os principais canais pelos quais questões políticas são submetidas a um veredito sobre sua compatibilidade com a Constituição. Desde a promulgação da Carta de 1988, um total de 8.355 ações dessa natureza foram propostas, evidenciando a consolidação do STF como uma arena de disputas de alta relevância.
@@ -30,49 +23,107 @@ Dentro deste universo de ações, este capítulo se debruça especificamente sob
 
 Desde a promulgação da Constituição de 1988 foram ajuizadas 8355 ações de controle concentrado, distribuídas heterogeneamente ao longo do período. A @fig-3 abaixo representa o número de ações de controle concentrado ajuizadas por ano, o período destacado em laranja se refere ao recorte temporal desta pesquisa (2014-2024) e a linha cinza a tendência:
 
-```{r, fig-3, echo=FALSE}
+```{r, fig-3}
 #| fig-cap: "Número de ações de controle concentrado ajuizadas desde 1988 no Supremo Tribunal Federal"
-#| fig-width: 12
-#| fig-height: 8
-#| fig-dpi: 600
 
-clean_processos |>
-  # seleciona as colunas
-  dplyr::select(classe, numero, data_autuacao) |>
-  # deixa apenas as colunas únicas
-  dplyr::distinct() |>
-  dplyr::mutate(
-    # cria uma coluna para indicar se a ação está ou não no recorte de pesquisa (2014-2024)
-    recorte = ifelse(lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024, "1", "0"),
-    # cria uma coluna com o ano
-    ano = lubridate::year(data_autuacao)
-  ) |> 
-  dplyr::group_by(ano) |> 
-  dplyr::mutate(n = dplyr::n()) |>
-  dplyr::ungroup() |>
-  dplyr::select(ano, n, recorte) |>
-  dplyr::distinct() |>
-  ggplot(aes(x = ano, y = n)) +
-  geom_col(aes(fill = recorte)) +
-  geom_smooth(se = FALSE, color = cores[6]) +
-  scale_fill_manual(
-    breaks = NULL,
-    values = c("1" = cores[5], "0" = cores[4])
-  ) +
-  scale_x_continuous(
-    breaks = seq(1988, lubridate::year(Sys.Date()), by = 4)
-  ) +
-  scale_y_continuous(
-    expand = c(0,0),
-    limits = c(0,600)
-  ) +
-  labs(
-    y = "Número de Processos",
-    x = "Ano"
-  ) +
-  decJ::theme_decJ(y_num = TRUE)
+# --- Preparação e Manipulação dos Dados ---
 
-decJ::save_decJ("PLOT/figura_3", l = 24, dpi = 300)
+# O objeto 'dados_fig_3' é criado a partir do dataframe 'clean_processos'.
+# O operador pipe '|>' passa o resultado de uma função como o primeiro argumento da próxima.
+dados_fig_3 <- clean_processos |> 
+  
+  # Seleciona apenas as colunas 'classe', 'numero' e 'data_autuacao' do dataframe.
+  # O prefixo 'dplyr::' garante que a função 'select' do pacote 'dplyr' seja usada.
+  dplyr::select(classe, numero, data_autuacao) |> 
+  
+  # Remove linhas duplicadas, considerando todas as colunas selecionadas.
+  # Garante que cada processo seja contado apenas uma vez.
+  dplyr::distinct() |> 
+  
+  # Cria novas colunas no dataframe.
+  dplyr::mutate( 
+    # Cria a coluna 'recorte'. Se o ano de 'data_autuacao' estiver entre 2014 e 2024, o valor será "1"; caso contrário, será "0". Isso serve para destacar um período no gráfico.
+    # A função 'year()' do pacote 'lubridate' extrai o ano da data.
+    recorte = ifelse(lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024, "1", "0"), 
+    
+    # Cria a coluna 'ano' extraindo o ano da coluna 'data_autuacao'.
+    ano = lubridate::year(data_autuacao) 
+  ) |>  
+  
+  # Agrupa o dataframe pela coluna 'ano'. As operações seguintes serão feitas para cada ano separadamente.
+  dplyr::group_by(ano) |>  
+  
+  # Dentro de cada grupo (ano), conta o número de linhas (processos) e armazena em uma nova coluna 'n'.
+  # A função 'n()' do 'dplyr' conta as observações no grupo atual.
+  dplyr::mutate(n = dplyr::n()) |> 
+  
+  # Remove o agrupamento para que as próximas operações se apliquem ao dataframe inteiro.
+  dplyr::ungroup() |> 
+  
+  # Seleciona apenas as colunas 'ano', 'n' e 'recorte', que são necessárias para o gráfico.
+  dplyr::select(ano, n, recorte) |> 
+  
+  # Remove linhas duplicadas novamente. Como agora temos a contagem 'n' para cada ano,
+  # queremos apenas uma linha por ano.
+  dplyr::distinct() 
+
+# --- Exportação dos Dados ---
+
+# Salva o dataframe 'dados_fig_3' em um arquivo Excel no caminho especificado.
+writexl::write_xlsx(dados_fig_3, "DATA/EXCEL/dados_figura_3.xlsx") 
+
+# Salva o mesmo dataframe em um arquivo CSV no caminho especificado.
+write.csv(dados_fig_3, "DATA/CSV/dados_figura_3.csv") 
+
+# --- Criação do Gráfico ---
+
+# Inicia a criação do gráfico usando o dataframe 'dados_fig_3'.
+dados_fig_3 |> 
+  # Define a estética base do gráfico: 'ano' no eixo x e 'n' (número de processos) no eixo y.
+  ggplot(aes(x = ano, y = n)) + 
+  
+  # Adiciona uma camada de colunas (gráfico de barras). A cor de preenchimento ('fill') de cada coluna é determinada pela coluna 'recorte'.
+  geom_col(aes(fill = recorte)) + 
+  
+  # Adiciona uma linha de tendência suavizada sobre os dados.
+  # 'se = FALSE' remove a faixa de erro padrão. A cor da linha é definida pelo sexto elemento do vetor 'cores'.
+  geom_smooth(se = FALSE, color = cores[6]) + 
+  
+  # Personaliza manualmente as cores de preenchimento das colunas.
+  scale_fill_manual( 
+    breaks = NULL, # Remove a legenda para as cores de preenchimento.
+    # Define que o valor "1" em 'recorte' corresponde à cor 5 e "0" à cor 4 do vetor 'cores'.
+    values = c("1" = cores[5], "0" = cores[4]) 
+  ) + 
+  
+  # Personaliza a escala do eixo x.
+  scale_x_continuous( 
+    # Define os marcadores (breaks) do eixo x para aparecerem a cada 4 anos,
+    # começando em 1988 e terminando no ano atual (Sys.Date()).
+    breaks = seq(1988, lubridate::year(Sys.Date()), by = 4) 
+  ) + 
+  
+  # Personaliza a escala do eixo y.
+  scale_y_continuous( 
+    expand = c(0,0), # Remove o espaço extra entre as barras e a base do eixo.
+    limits = c(0,600) # Define o limite do eixo y de 0 a 600.
+  ) + 
+  
+  # Define os títulos (rótulos) dos eixos.
+  labs( 
+    y = "Número de Processos", 
+    x = "Ano" 
+  ) + 
+  
+  # Aplica um tema visual customizado do pacote 'decJ'.
+  decJ::theme_decJ(y_num = TRUE) 
+
+# --- Salvamento do Gráfico ---
+
+# Salva o gráfico gerado como um arquivo PNG.
+# A função 'save_decJ' é uma função customizada do pacote 'decJ'.
+# 'l = 24' define a largura e 'dpi = 300' define a resolução da imagem.
+decJ::save_decJ("PLOT/figura_3.png", l = 24, dpi = 300)
 ```
 
 O período de 1988 à 2013 apresenta um crescimento gradual e não linear com pico entre 2003-2004 seguido de um vale. A linha de tendência suavizada confirma esse movimento ascendente, indicado que, apesar das flutuações anuais, o recurso ao Judiciário se consolida de forma consistente nas duas primeiras décadas de redemocratização.
@@ -116,49 +167,94 @@ Os dados mostram que, desde a sua regulamentação, já foram ajuizadas 1217 ADP
 
 ```{r, fig-4}
 #| fig-cap: "Número de Arguição de Descumprimento de Preceito Fundamental ajuizadas por ano"
-#| fig-width: 12
-#| fig-height: 8
-#| fig-dpi: 600
-#| echo: false
 
-clean_processos |>
-  # seleciona as colunas
+# --- Preparação e Manipulação dos Dados (com filtro) ---
+
+# O objeto 'dados_fig_4' é criado a partir do dataframe 'clean_processos'.
+dados_fig_4 <- clean_processos |>
+  # Seleciona as colunas de interesse: 'classe', 'numero' e 'data_autuacao'.
   dplyr::select(classe, numero, data_autuacao) |>
+  
+  # APLICA UM FILTRO: Mantém apenas as linhas onde a coluna 'classe' é igual a "ADPF".
+  # Esta é a principal diferença em relação ao script anterior, focando a análise em um tipo específico de processo.
   dplyr::filter(classe == "ADPF") |>
-  # deixa apenas as colunas únicas
+  
+  # Remove linhas duplicadas para garantir que cada processo "ADPF" seja único.
   dplyr::distinct() |>
+  
+  # Cria novas colunas para análise e visualização.
   dplyr::mutate(
-    # cria uma coluna para indicar se a ação está ou não no recorte de pesquisa (2014-2024)
+    # Cria a coluna 'recorte' para destacar o período de 2014 a 2024.
     recorte = ifelse(lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024, "1", "0"),
-    # cria uma coluna com o ano
+    # Cria a coluna 'ano' extraindo o ano da 'data_autuacao'.
     ano = lubridate::year(data_autuacao)
   ) |> 
+  
+  # Agrupa os dados por ano para contar os processos anualmente.
   dplyr::group_by(ano) |> 
+  
+  # Conta o número de processos (n) para cada ano.
   dplyr::mutate(n = dplyr::n()) |>
+  
+  # Remove o agrupamento para as operações seguintes.
   dplyr::ungroup() |>
+  
+  # Seleciona as colunas finais necessárias para o gráfico e para a exportação.
   dplyr::select(ano, n, recorte) |>
-  dplyr::distinct() |>
+  
+  # Garante que haja apenas uma linha por ano com a contagem total.
+  dplyr::distinct()
+  
+# --- Exportação dos Dados ---
+
+# Salva o dataframe filtrado e agregado 'dados_fig_4' em um arquivo Excel.
+writexl::write_xlsx(dados_fig_4, "DATA/EXCEL/dados_figura_4.xlsx")
+# Salva o mesmo dataframe em um arquivo CSV.
+write.csv(dados_fig_4, "DATA/CSV/dados_figura_4.csv")
+
+# --- Criação do Gráfico ---
+
+# Inicia a criação do gráfico a partir do dataframe 'dados_fig_4'.
+dados_fig_4 |>
+  # Define a estética base: 'ano' no eixo x, 'n' (contagem de ADPFs) no eixo y.
   ggplot(aes(x = ano, y = n)) +
+  
+  # Adiciona as colunas, com a cor de preenchimento ('fill') baseada na coluna 'recorte'.
   geom_col(aes(fill = recorte)) +
+  
+  # Adiciona uma linha de tendência suavizada, sem a faixa de erro padrão.
   geom_smooth(se = FALSE, color = cores[6]) +
+  
+  # Personaliza as cores de preenchimento, associando "1" e "0" a cores específicas.
   scale_fill_manual(
-    breaks = NULL,
+    breaks = NULL, # Oculta a legenda de preenchimento.
     values = c("1" = cores[5], "0" = cores[4])
   ) +
+  
+  # Personaliza os marcadores do eixo x, mostrando um a cada 4 anos.
   scale_x_continuous(
     breaks = seq(1988, lubridate::year(Sys.Date()), by = 4)
   ) +
+  
+  # Personaliza a escala do eixo y.
   scale_y_continuous(
-    expand = c(0,0),
-    limits = c(0,200)
+    expand = c(0,0), # Remove o espaço na base do eixo.
+    limits = c(0,200) # Ajusta o limite do eixo y para 0 a 200, adequado para esta contagem menor.
   ) +
+  
+  # Define os títulos dos eixos.
   labs(
     y = "Número de Processos",
     x = "Ano"
   ) +
+  
+  # Aplica o tema visual customizado do pacote 'decJ'.
   decJ::theme_decJ(y_num = TRUE)
 
-decJ::save_decJ("PLOT/figura_4", l = 24, dpi = 300)
+# --- Salvamento do Gráfico ---
+
+# Salva o gráfico final como um arquivo PNG com largura e resolução especificadas.
+decJ::save_decJ("PLOT/figura_4.png", l = 24, dpi = 300)
 ```
 
 Nota-se que a ADPF foi uma ação de controle pouco utilizada inicialmente, mas que, ao longo do tempo, recebeu atenção dos legitimados para a sua proposição. No primeiro período de 2000 a 2014, observa-se um volume de ações relativamente baixo e estável, as flutuações anuais são modestas, e raramente ultrapassando a marca de 40 processos. A partir de 2015, o cenário muda completamente, atingindo picos de mais de 150 processos em 2021. A curva de tendência coincide com o período de pandemia e Governo Bolsonaro (2019-2022). Após o ápice, a análise para os anos subsequentes revela um movimento de arrefecimento, com uma queda considerável no número de ajuizamentos. Contudo, os patamares de 2022 a 2024, embora menores que o pico, permanecem significativamente superior à média do período anterior a 2016.  Isso pode indicar o estabelecimento de um “novo normal” na utilização da ADPF.
@@ -174,65 +270,165 @@ Observado o crescimento no número de ADPF ajuizadas por ano, é possível verif
 #| fig-subcap: 
 #|   - "Ramo do Direito"
 #|   - "Assunto Relacionado"
-#| fig-width: 12
-#| fig-height: 8
-#| fig-dpi: 600
-#| echo: false
 #| layout-ncol: 2
 
-clean_processos |>
+# --- ANÁLISE PARTE A: TOP 10 RAMOS DO DIREITO ---
+
+# O objeto 'dados_fig_5_a' é criado a partir do dataframe 'clean_processos'.
+dados_fig_5_a <- clean_processos |>
+  # Seleciona as colunas necessárias para esta análise específica.
   dplyr::select(classe, numero, ramo_do_direito, data_autuacao) |>
+  
+  # Aplica um filtro duplo:
+  # 1. Mantém apenas as linhas onde 'classe' é "ADPF".
+  # 2. Mantém apenas as linhas cujo ano de 'data_autuacao' está entre 2014 e 2024.
   dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024) |>
+  
+  # Remove a coluna 'data_autuacao', que já foi usada para o filtro e não é mais necessária.
   dplyr::select(-data_autuacao) |>
+  
+  # Remove linhas duplicadas para garantir que cada processo seja contado apenas uma vez por ramo de direito.
   dplyr::distinct() |>
+  
+  # Agrupa os dados pela coluna 'ramo_do_direito'.
   dplyr::group_by(ramo_do_direito) |>
+  
+  # Para cada 'ramo_do_direito', conta o número de ocorrências (processos) e resume o resultado na coluna 'n'.
   dplyr::summarise(n = dplyr::n()) |> 
+  
+  # Remove linhas onde 'ramo_do_direito' é NA (não preenchido), para não poluir o resultado.
   tidyr::drop_na() |> 
-  dplyr::slice_max(n = 10, order_by = n) |>
+  
+  # Seleciona as 10 linhas com os maiores valores na coluna 'n'. Isso isola os 10 principais ramos do direito.
+  dplyr::slice_max(n = 10, order_by = n)
+
+# Exporta os dados resultantes (top 10) para os formatos Excel e CSV.
+writexl::write_xlsx(dados_fig_5_a, "DATA/EXCEL/dados_figura_5_a.xlsx")
+write.csv(dados_fig_5_a, "DATA/CSV/dados_figura_5_a_.csv")
+
+# Inicia a criação do gráfico de barras horizontais.
+dados_fig_5_a |>
+  # Define a estética: 'n' no eixo x e 'ramo_do_direito' no eixo y.
+  # 'reorder(ramo_do_direito, n)' ordena as barras no eixo y com base no valor de 'n',
+  # tornando o gráfico mais fácil de ler, do menor para o maior.
   ggplot(aes(x = n, y = reorder(ramo_do_direito, n))) +
+  
+  # Adiciona a camada de colunas (as barras) com uma cor de preenchimento específica.
   geom_col(fill = cores[4]) +
+  
+  # Personaliza o eixo x, removendo o espaço extra e definindo um limite fixo.
   scale_x_continuous(expand = c(0,0), limits = c(0,870)) +
+  
+  # Define os títulos dos eixos.
   labs(
     x = "Número de Processos",
     y = "Ramo do Direito"
   ) +
+  
+  # Aplica um tema customizado.
   decJ::theme_decJ(x_num= TRUE)
 
-clean_processos |>
+# Salva o gráfico gerado como um arquivo PNG.
+decJ::save_decJ("PLOT/figura_5_a_.png", l = 24, dpi = 300)
+
+
+# --- ANÁLISE PARTE B: TOP 10 ASSUNTOS RELACIONADOS ---
+
+# O processo é quase idêntico ao anterior, mas agora focado em 'assunto_relacionado'.
+dados_fig_5_b <- clean_processos |>
+  # Seleciona 'assunto_relacionado' em vez de 'ramo_do_direito'.
   dplyr::select(classe, numero, assunto_relacionado, data_autuacao) |>
+  
+  # Aplica o mesmo filtro para processos "ADPF" entre 2014 e 2024.
   dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024) |>
+  
+  # Remove a coluna de data.
   dplyr::select(-data_autuacao) |>
+  
+  # Remove duplicatas.
   dplyr::distinct() |>
+  
+  # Agrupa por 'assunto_relacionado'.
   dplyr::group_by(assunto_relacionado) |>
+  
+  # Conta as ocorrências (n) para cada assunto.
   dplyr::summarise(n = dplyr::n()) |> 
+  
+  # Remove linhas com assuntos não preenchidos (NA).
   tidyr::drop_na() |> 
-  dplyr::slice_max(n = 10, order_by = n) |>
+  
+  # Seleciona os 10 assuntos mais frequentes com base na contagem 'n'.
+  dplyr::slice_max(n = 10, order_by = n)
+
+# Exporta os dados dos top 10 assuntos para Excel e CSV.
+writexl::write_xlsx(dados_fig_5_b, "DATA/EXCEL/dados_figura_5_b.xlsx")
+write.csv(dados_fig_5_b, "DATA/CSV/dados_figura_5_b_.csv")
+
+# Criação do gráfico para os assuntos.
+dados_fig_5_b |>
+  # Define a estética, reordenando o eixo y ('assunto_relacionado') pela contagem 'n'.
   ggplot(aes(x = n, y = reorder(assunto_relacionado, n))) +
+  
+  # Adiciona as barras.
   geom_col(fill = cores[4]) +
+  
+  # Personaliza o eixo x.
   scale_x_continuous(expand = c(0,0), limits = c(0,870)) +
+  
+  # Define os títulos dos eixos.
   labs(
     x = "Número de Processos",
     y = "Assunto"
   ) +
+  
+  # Aplica o tema customizado.
   decJ::theme_decJ(x_num= TRUE)
 
+# Salva o segundo gráfico como um arquivo PNG.
+decJ::save_decJ("PLOT/figura_5_b.png", l = 24, dpi = 300)
 ```
 
 Uma vez mapeado o "o quê" — os temas que dominam o universo das ADPFs —, a análise se volta para o "quem": os membros do Tribunal responsáveis por conduzir esses processos. A forma como o Supremo Tribunal Federal processa essa avalanche de demandas de alta complexidade política não é homogênea, sendo crucial entender como a carga processual se distribui entre os ministros e se há concentração de relatorias, um fator que pode influencia diretamente o andamento e o destino das arguições.
 
 ```{r, adpf-3}
-#| eval: false
+# --- Análise de Processos ADPF por Relator ---
 
-clean_processos |>
+# O objeto 'dados_adpf_min' é criado a partir do dataframe 'clean_processos'.
+dados_adpf_min <- clean_processos |>
+  # Seleciona as colunas de interesse: classe, número, relator e data de autuação.
   dplyr::select(classe, numero, relator_atual, data_autuacao) |>
+  
+  # Filtra os dados para manter apenas os processos da classe "ADPF" que foram autuados entre 2014 e 2024.
   dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024) |>
+  
+  # Remove linhas duplicadas para garantir que cada processo seja contado apenas uma vez.
   dplyr::distinct() |>
+  
+  # Remove as linhas em que a coluna 'relator_atual' não possui valor (NA).
+  # Isso assegura que a contagem seja feita apenas para relatores devidamente identificados.
   tidyr::drop_na(relator_atual) |> 
+  
+  # Agrupa o dataframe pela coluna 'relator_atual'.
   dplyr::group_by(relator_atual) |>
+  
+  # Para cada relator, conta o número de processos ('n').
   dplyr::summarise(n = dplyr::n()) |>
+  
+  # Remove o agrupamento do dataframe.
   dplyr::ungroup() |>
+  
+  # Filtra o resultado para remover a categoria "MINISTRO PRESIDENTE", que não corresponde a um relator específico.
   dplyr::filter(relator_atual != "MINISTRO PRESIDENTE")
 
+# --- Exportação dos Dados Processados ---
+
+# Salva o dataframe 'dados_adpf_min' em um arquivo Excel (.xlsx).
+# O caminho especificado é 'DATA/EXCEL/dados_adpf_min.xlsx'.
+writexl::write_xlsx(dados_adpf_min, "DATA/EXCEL/dados_adpf_min.xlsx")
+
+# Salva o mesmo dataframe em um arquivo de valores separados por vírgula (.csv).
+# O caminho especificado é 'DATA/CSV/dados_adpf_min.csv'.
+write.csv(dados_adpf_min, "DATA/CSV/dados_adpf_min.csv")
 ```
 
 No que tange aos ministros relatores das arguições, a média de relatorias por ministro é de aproximadamente 58,6 processos, no entanto com uma alta variabilidade. Por exemplo, a Ministra Cármen Lúcia relata 91 processos, enquanto o Min. Flávio Dino apenas 23. Isso se dá, obviamente, pelo tempo de tribunal. Além do fato de que os dados considerando o relator atual do processo, e não o relator inicial. Isso quer dizer, quando um ministro se aposenta sem que os processos tenham encerrado, é designado um novo relator – é esse novo relator que recebe o dado. Observa-se que os Ministros Celso de Mello e Marco Aurélio possuem de 2014 a 2024 apenas 27 e 31 processos, respectivamente.
@@ -243,28 +439,60 @@ Assim com as ações de controle concentrado em geral, as ADPF possuem tempo pr�
 
 
 ```{r, adpf-surv-4}
-#| echo: false
+#| include: false
 
+# --- Preparação dos Dados para Análise de Sobrevivência ---
+
+# O objeto 'processos_surv' é criado para armazenar os dados formatados para a análise.
 processos_surv <- clean_processos |>
+  # Seleciona as colunas essenciais: classe, número, data de início (autuação) e data de fim (baixa).
   dplyr::select(classe, numero, data_autuacao, data_baixa) |>
+  
+  # Filtra para manter apenas os processos da classe "ADPF".
   dplyr::filter(classe == "ADPF") |>
+  
+  # Garante que cada processo seja único no conjunto de dados.
   dplyr::distinct() |>
+  
+  # Cria a variável 'evento', que é o indicador de status na análise de sobrevivência.
+  # Se 'data_baixa' NÃO for NA (ou seja, o processo foi encerrado), o evento ocorreu (evento = 1).
+  # Se 'data_baixa' for NA (processo ainda em andamento), o dado é "censurado" (evento = 0).
   dplyr::mutate(
     evento = ifelse(!is.na(data_baixa), 1 , 0)
   ) |>
+  
+  # Para os dados censurados (evento = 0), substitui a 'data_baixa' que é NA por uma data de fim de estudo.
+  # Aqui, '2025-06-06' é usada como a data de "corte" para todos os processos ainda abertos.
   tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  
+  # Calcula a variável 'tempo', que é a duração entre o início e o fim (ou a data de censura).
+  # O resultado é convertido para número de dias.
   dplyr::mutate(
     tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1)
   )
 
-# Cria o modelo nulo
-estimador_km <- survfit(Surv(tempo, evento) ~ 1, data = processos_surv)
+# --- Exportação dos Dados Preparados ---
 
-# Salva o modelo nulo
-saveRDS(estimador_km, "DATA/MODELOS/modelo_01.rds")
+# Salva o dataframe 'processos_surv' em um arquivo Excel, pronto para análise.
+writexl::write_xlsx(processos_surv, "DATA/EXCEL/dados_surv_adpf_g.xlsx")
+# Salva o mesmo dataframe em um arquivo CSV.
+write.csv(processos_surv, "DATA/CSV/dados_surv_adpf_g.csv")
 
-m <- estimador_km |> broom::glance() |> dplyr::pull(median) |> lubridate::ddays() / lubridate::dyears(1)
-m <- m |> round(2)
+# --- Estimação do Modelo de Sobrevivência ---
+
+# Ajusta um modelo de sobrevivência usando o estimador de Kaplan-Meier.
+# A função survfit() é do pacote 'survival'.
+# Surv(tempo, evento) cria o objeto de sobrevivência, indicando o tempo e se o evento ocorreu ou foi censurado.
+# ~ 1 especifica um modelo geral, sem agrupar por nenhuma variável (calcula a curva de sobrevivência para todos os dados).
+# O resultado é um objeto que contém a curva de sobrevivência estimada.
+estimador_km <- survival::survfit(survival::Surv(tempo, evento) ~ 1, data = processos_surv)
+
+# --- Salvamento do Modelo ---
+
+# Salva o objeto do modelo ajustado ('estimador_km') em um arquivo .rds.
+# O formato RDS é nativo do R e preserva o objeto exatamente como ele é,
+# permitindo que seja carregado posteriormente para criar gráficos ou fazer previsões sem reajustar o modelo.
+saveRDS(estimador_km, "DATA/MODELOS/modelo_surv_km_adpf_g.rds")
 ```
 
 O modelo nulo para um conjunto de 1217 processos, considerando que em 995 ocorreram o evento de interesse e 222 casos censurados (quando o processo não foi concluído ainda) indica que a mediana do tempo de sobrevivência foi de 746 dias, ou seja, metade das ADPF da amostra levaram aproximadamente 2,04 anos para serem baixadas.
@@ -274,101 +502,182 @@ O modelo nulo para um conjunto de 1217 processos, considerando que em 995 ocorre
 #| fig-width: 12
 #| fig-height: 8
 #| fig-dpi: 600
-#| echo: false
 
-rm(m)
+# --- Visualização da Curva de Sobrevivência de Kaplan-Meier ---
 
+# A função ggsurvplot() do pacote 'survminer' é usada para criar o gráfico.
+# Ela é construída sobre o ggplot2 e é altamente customizável.
 ggsurvplot(
-  estimador_km,
-  data = processos_surv,
-  pval = FALSE,
-  conf.int = FALSE,
-  surv.median.line = "hv",
-  # risk.table = TRUE,
-  xlab = "Tempo (dias)",
-  ylab = "Probabilidade de Sobrevivência",
-  palette = cores[4],
-  ggtheme = decJ::theme_decJ()
+  estimador_km, # O primeiro argumento é o objeto do modelo ajustado com survfit().
+  
+  data = processos_surv, # Especifica o dataframe original usado para o ajuste.
+  
+  pval = FALSE, # Define como 'FALSE' para não exibir o p-valor no gráfico. (Não é aplicável para um modelo de grupo único).
+  
+  conf.int = FALSE, # Define como 'FALSE' para não plotar a banda de intervalo de confiança ao redor da curva.
+  
+  surv.median.line = "hv", # Adiciona linhas (horizontal e vertical) para marcar a mediana de sobrevivência.
+                           # A mediana é o tempo no qual a probabilidade de sobrevivência é de 50%.
+  
+  # risk.table = TRUE, # Esta linha está comentada. Se ativada, adicionaria uma tabela de risco abaixo do gráfico,
+                       # mostrando o número de processos "em risco" (ainda não baixados) em diferentes pontos no tempo.
+  
+  xlab = "Tempo (dias)", # Define o rótulo do eixo x.
+  
+  ylab = "Probabilidade de Sobrevivência", # Define o rótulo do eixo y.
+  
+  palette = cores[4], # Define a cor da curva de sobrevivência, usando o quarto elemento do vetor de cores 'cores'.
+  
+  ggtheme = decJ::theme_decJ() # Aplica um tema visual customizado do pacote 'decJ', para consistência com os outros gráficos.
 )
 
-decJ::save_decJ("PLOT/figura_6", l = 24, dpi = 300)
+# --- Salvamento do Gráfico ---
+
+# Salva o gráfico gerado como um arquivo PNG de alta qualidade.
+# A função 'save_decJ' é uma função customizada do pacote 'decJ'.
+# 'l = 24' define a largura e 'dpi = 300' define a resolução da imagem.
+decJ::save_decJ("PLOT/figura_6.png", l = 24, dpi = 300)
 ```
 
 Saber que metade das ADPFs é encerrada em pouco mais de dois anos oferece um panorama geral valioso, mas oculta as variações significativas que existem caso a caso. O que explica por que algumas ações são decididas em meses, enquanto outras aguardam anos? O primeiro fator a ser testado é a influência do ministro relator. Utilizando o modelo de riscos proporcionais de Cox, é possível ir além da média e quantificar o efeito que cada relator individualmente exerce sobre a celeridade processual. A partir desse ponto, considere que estão sendo avaliadas apenas as ADPF ajuizadas entre 2014 e 2024, e não mais sobre todo o período. 
 
 ```{r, adpf-surv-7}
-#| echo: false
+# --- Preparação dos Dados para o Modelo de Cox ---
 
+# O objeto 'processos_surv' é criado para a análise.
 processos_surv <- clean_processos |>
+  # Seleciona as colunas necessárias: classe, número, datas e a variável preditora 'relator_atual'.
   dplyr::select(classe, numero, data_autuacao, data_baixa, relator_atual) |>
+  
+  # Remove processos sem um relator atribuído, pois esta é a variável de interesse.
   tidyr::drop_na(relator_atual) |>
+  
+  # Aplica um filtro triplo para focar a análise:
+  # 1. Apenas processos da classe "ADPF".
+  # 2. Apenas processos autuados entre 2014 e 2024.
+  # 3. Exclui a categoria genérica "MINISTRO PRESIDENTE".
   dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024, relator_atual != "MINISTRO PRESIDENTE") |>
+  
+  # Garante que cada processo seja único.
   dplyr::distinct() |>
+  
+  # Cria a variável de evento (status): 1 se o processo foi baixado (evento ocorreu), 0 se ainda está ativo (censurado).
   dplyr::mutate(
     evento = ifelse(!is.na(data_baixa), 1 , 0)
   ) |>
+  
+  # Para os processos censurados, atribui uma data de fim de estudo ('2025-06-06').
   tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  
+  # Calcula a variável 'tempo' (duração) em dias.
   dplyr::mutate(
     tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1)
   )
 
-m_cox <- coxph(Surv(tempo, evento) ~ relator_atual, data = processos_surv)
+# --- Exportação dos Dados Preparados ---
 
-# Salva o modelo
-saveRDS(m_cox, "DATA/MODELOS/modelo_02.rds")
+# Salva o dataframe final em um arquivo Excel.
+writexl::write_xlsx(processos_surv, "DATA/EXCEL/dados_surv_adpf_min.xlsx")
+# Salva o mesmo dataframe em um arquivo CSV.
+write.csv(processos_surv, "DATA/CSV/dados_surv_adpf_min.csv")
+
+# --- Estimação do Modelo de Riscos Proporcionais de Cox ---
+
+# Ajusta o modelo de Cox usando a função coxph() do pacote 'survival'.
+# Este modelo avalia como a variável 'relator_atual' afeta a taxa de "baixa" dos processos.
+# A fórmula Surv(tempo, evento) ~ relator_atual significa que estamos modelando o tempo até o evento
+# em função do relator do processo.
+# O resultado 'm_cox' é um objeto que contém os coeficientes do modelo, que podem ser
+# interpretados como "hazard ratios" (razões de risco).
+m_cox <- survival::coxph(survival::Surv(tempo, evento) ~ relator_atual, data = processos_surv)
+
+# --- Salvamento do Modelo Ajustado ---
+
+# Salva o objeto do modelo 'm_cox' em um arquivo .rds.
+# Isso permite carregar o modelo posteriormente para análise dos resultados (e.g., tabelas, gráficos)
+# sem a necessidade de reajustá-lo.
+saveRDS(m_cox, "DATA/MODELOS/modelo_cox_adpf_min.rds")
+
 ```
 
-A @tbl-adpf-surv-8 representa os resultados da regressão de Cox analisando o tempo de baixa de cada processo em razão de cada relator, tomando como referência o Min. Alexandre de Moraes:
+A @tbl-1 representa os resultados da regressão de Cox analisando o tempo de baixa de cada processo em razão de cada relator, tomando como referência o Min. Alexandre de Moraes:
 
-```{r, tbl-adpf-surv-8}
-#| tbl-cap: "Modelo de Cox de uma análise de sobrevivência das ADPF em relação ao ministro relator"
-#| echo: false
+```{r, tbl-1}
+#| tbl-cap: "Resultados do Modelo de Riscos Proporcionais de Cox para tempo de sobrevivência de um processo por relator"
 
+# --- PARTE 1: Processamento e Exportação dos Resultados para Excel ---
+
+# A função tidy() do pacote 'broom' converte o objeto complexo do modelo 'm_cox'
+# em um dataframe (tibble) organizado. Cada linha representa um termo do modelo (neste caso, um relator),
+# e as colunas contêm as estatísticas associadas (estimativa, erro padrão, p-valor, etc.).
 m_cox_broom <- broom::tidy(m_cox)
+
+# O resultado é então processado e exportado.
 m_cox_broom |>
+  # Calcula a Razão de Risco (Hazard Ratio - HR). O modelo de Cox estima o logaritmo da razão de risco ('estimate').
+  # Para obter a razão de risco em si, que é mais interpretável, exponenciamos a estimativa.
+  # HR > 1 indica um risco maior de o evento ocorrer (processo ser baixado) em comparação com a referência.
+  # HR < 1 indica um risco menor.
   dplyr::mutate(HR = exp(estimate)) |>
+  
+  # Arredonda os valores numéricos nas colunas 2 a 6 para duas casas decimais,
+  # tornando a tabela mais limpa e fácil de ler.
   dplyr::mutate(
     dplyr::across(2:6, ~{round(.x, 2)})
   ) |>
-  writexl::write_xlsx("DATA/EXCEL/modelo_02.xlsx")
+  
+  # Salva o dataframe processado em um arquivo Excel, ideal para compartilhamento ou análises adicionais.
+  writexl::write_xlsx("DATA/EXCEL/odelo_cox_adpf_min.xlsx")
 
+
+# --- PARTE 2: Criação de uma Tabela de Apresentação com o Pacote 'gt' ---
+
+# Este bloco cria uma tabela de alta qualidade diretamente no R para inclusão em relatórios ou artigos.
 m_cox |>
+  # O processo começa novamente convertendo o modelo em um dataframe organizado.
   broom::tidy() |>
+  
+  # Realiza duas mutações:
   dplyr::mutate(
+    # Limpa os nomes na coluna 'term', removendo o prefixo "relator_atual" que o R adiciona automaticamente.
+    # Isso torna os rótulos das linhas (nomes dos ministros) mais limpos.
     term = stringr::str_remove_all(term, "relator_atual"),
-    HR = exp(estimate)) |>
-      gt() |>
-  fmt_number(
-    columns = everything(),
-    decimals = 2,
-    dec_mark = ",",
-    sep_mark = "."
+    # Calcula a Razão de Risco (HR) a partir da estimativa do modelo.
+    HR = exp(estimate)
   ) |>
-  tab_options(
-    # Remove a borda superior e inferior da tabela
-    table.border.top.style = "hidden",
-    table.border.bottom.style = "hidden",
-    # Adiciona uma linha sólida abaixo do cabeçalho
-    column_labels.border.bottom.style = "solid",
-    column_labels.border.bottom.width = px(2),
-    # Remove as linhas verticais
-    column_labels.vlines.style = "hidden",
-    table_body.vlines.style = "hidden",
-    # Adiciona uma linha sólida na parte inferior do corpo da tabela
-    table_body.border.bottom.style = "solid",
-    table_body.border.bottom.width = px(2),
-    # Remove as linhas horizontais do corpo da tabela
-    table_body.hlines.style = "hidden",
-    # Centraliza o título da tabela
-    heading.align = "center",
-    # Posiciona a nota de rodapé
-    source_notes.padding = px(10)
+  
+  # Inicia a criação da tabela de exibição com o pacote 'gt'.
+  gt::gt() |>
+  
+  # Formata todas as colunas numéricas.
+  gt::fmt_number(
+    columns = everything(), # Aplica a formatação a todas as colunas.
+    decimals = 2,           # Usa duas casas decimais.
+    dec_mark = ",",         # Usa vírgula como separador decimal.
+    sep_mark = "."          # Usa ponto como separador de milhar.
   ) |>
-  # Alinhar os cabeçalhos das colunas ao centro
-  cols_align(
+  
+  # Aplica uma série de opções de estilo para customizar a aparência da tabela.
+  gt::tab_options(
+    table.border.top.style = "hidden",        # Oculta a borda superior da tabela.
+    table.border.bottom.style = "hidden",     # Oculta a borda inferior da tabela.
+    column_labels.border.bottom.style = "solid", # Adiciona uma linha sólida abaixo dos títulos das colunas.
+    column_labels.border.bottom.width = px(2), # Define a espessura dessa linha.
+    column_labels.vlines.style = "hidden",    # Oculta as linhas verticais entre os títulos.
+    table_body.vlines.style = "hidden",       # Oculta as linhas verticais no corpo da tabela.
+    table_body.border.bottom.style = "solid", # Adiciona uma linha sólida no final do corpo da tabela.
+    table_body.border.bottom.width = px(2),   # Define sua espessura.
+    table_body.hlines.style = "hidden",       # Oculta as linhas horizontais entre as linhas de dados.
+    heading.align = "center",                 # Centraliza o título da tabela (se houver).
+    source_notes.padding = px(10)             # Adiciona preenchimento às notas de rodapé (se houver).
+  ) |>
+  
+  # Centraliza o alinhamento do texto em todas as colunas.
+  gt::cols_align(
     align = "center",
     columns = everything()
   )
+
 ```
 
 A análise dos resultados do modelo de regressão de Cox, demonstra que a variável relator possui um impacto estatisticamente significante na taxa de conclusão das ADPFs. Este resultado global sublinha a relevância do papel do ministro relator na dinâmica processual e na efetividade da judicialização da política, indicando que a identidade do magistrado não é um fator neutro na temporalidade da tramitação das ações. 
@@ -376,7 +685,6 @@ A análise dos resultados do modelo de regressão de Cox, demonstra que a variá
 Observa-se uma heterogeneidade notável entre os ministros no que tange à taxa de conclusão das ADPFs. Ministros como André Mendonça (HR = 0.21, p = 0,00) e Cristiano Zanin (HR = 0.20, p = 0) apresentam os menores riscos, indicando uma taxa de conclusão significativamente mais baixa para as ADPFs sob sua relatoria. Isso implica que as ações sob a responsabilidade desses ministros tendem a ter um tempo de sobrevivência consideravelmente maior, ou seja, demoram mais para serem concluídas, em comparação com a referência. Outros ministros com HR significativamente abaixo de 1 incluem Flávio Dino (HR = 0.36), Luiz Fux (HR = 0.40), Nunes Marques (HR = 0.46), Edson Fachin (HR = 0.58), Gilmar Mendes (HR = 0.69) e Luís Roberto Barroso (HR = 0.69). Para esses magistrados, a taxa de conclusão das ADPFs é igualmente inferior à da referência, embora em magnitudes variadas. Essa constatação sugere que a gestão processual, a complexidade dos casos que lhes são distribuídos ou até mesmo a filosofia jurídica de cada relator podem influenciar diretamente a celeridade ou a morosidade na resolução dessas importantes ações de controle concentrado de constitucionalidade.
 
 Em contraste, alguns ministros não demonstram um impacto estatisticamente significativo na taxa de conclusão das ADPFs ou seus riscos se aproximam de 1, indicando que a duração das ações sob sua relatoria não difere substancialmente da média ou da categoria de referência. Este grupo inclui Ministros como Cármen Lúcia (HR = 1,10, p = 0,53), Celso de Mello (HR = 1,19, p = 0,44), Dias Toffoli (HR = 0,80, p = 0,19), Marco Aurélio (HR = 0.79, p = 0.28) e Ricardo Lewandowski (HR = 1.33, p = 0.14). Embora Ricardo Lewandowski apresente um risco acima de 1, sugerindo uma taxa de conclusão potencialmente mais alta, o p-valor associado indica que essa diferença não é estatisticamente significativa. Da mesma forma, a Ministra Rosa Weber apresenta um risco abaixo de 1, mas seu p-valor, embora próximo da significância, não permite inferir um impacto estatisticamente distinto. A ausência de significância estatística para esses relatores sugere que, para as ADPFs sob sua responsabilidade, a dinâmica de tramitação se alinha mais com o padrão geral observado, sem acelerações ou desacelerações pronunciadas que possam ser atribuídas unicamente à sua atuação como relator.
-
 
 ```{r, adpf-surv-9}
 #| echo: false
@@ -388,106 +696,250 @@ A análise demonstra, portanto, que a identidade do relator é uma variável-cha
 Outra observação possível diz respeito a influência do rito abreviado para o prazo de julgamento da ADPF.  Primeiramente, é preciso destacar que o rito abreviado não está previsto na Lei nº 9882/1999 – que regulamenta a ADPF, mas é amplamente utilizado de modo genérico no controle concentrado, embora só esteja previsto na regulamentação da ADI, ADO e ADC. Segundo esse rito, havendo medida cautelar, o relator, após prazo de dez dias para informações e cinco dias para manifestação do Advogado-Geral da União e o Procurador-Geral da República, pode submeter o processo direto ao plenário para julgar definitivamente a ação - sem a necessidade de avaliar a liminar previamente.
 
 ```{r adpf-rito-1}
-#| include: false
+#| column: margin
 
+# O fluxo de análise inicia com o dataframe 'clean_processos'.
 clean_processos |>
+  # Seleciona as colunas necessárias para a análise: classe, número do processo,
+  # a variável indicadora do rito e a data de autuação.
   dplyr::select(classe, numero, tem_rito_art_12, data_autuacao) |>
+  
+  # Filtra os dados para criar um subconjunto de interesse.
   dplyr::filter(
+    # Mantém apenas os processos da classe "ADPF".
     classe == "ADPF",
+    # E que foram autuados no período entre 2014 e 2024, inclusive.
     lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024
   ) |>
+  
+  # Remove linhas duplicadas para garantir que cada processo seja contado apenas uma vez.
   dplyr::distinct() |>
+  
+  # Agrupa os dados com base na coluna 'tem_rito_art_12'.
+  # Isso cria dois grupos: um para processos com o rito (e.g., TRUE) e outro para processos sem o rito (e.g., FALSE).
   dplyr::group_by(tem_rito_art_12) |>
+  
+  # Para cada grupo, calcula o número de observações (processos) e armazena o resultado
+  # em uma nova coluna chamada 'n'. O resultado final é uma tabela de frequência.
   dplyr::summarise(n = dplyr::n())
-
 ```
 
 No escopo dos processos analisados, cerca de 136 processos adotaram o rito abreviado. Mas, o rito abreviado reduz o tempo de julgamento da ação?
 
-```{r, fig-adpf-rito-2}
-#| fig-cap: "Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma arguição de descumprimento de preceito fundamental ajuizada entre 2014-2024 em relação ao rito abreviado"
-#| fig-width: 12
-#| fig-height: 8
-#| fig-dpi: 600
-#| echo: false
+```{r, fig-7}
+#| fig-cap: "Curva de Sobrevivência de Kaplan-Meier: sobrevivência de uma Arguição de Descumprimento de Preceito Fundamental em relação ao rito abreviado"
 
+# --- Preparação dos Dados para Análise de Sobrevivência Comparativa ---
+
+# O objeto 'processos_surv' é criado a partir do dataframe 'clean_processos'.
 processos_surv <- clean_processos |>
+  # Seleciona as colunas necessárias, incluindo a variável de grupo 'tem_rito_art_12'.
   dplyr::select(classe, numero, data_autuacao, data_baixa, tem_rito_art_12) |>
+  
+  # Filtra os dados para focar nos processos da classe "ADPF" autuados entre 2014 e 2024.
   dplyr::filter(classe == "ADPF", lubridate::year(data_autuacao) >= 2014 & lubridate::year(data_autuacao) <= 2024) |>
+  
+  # Garante que cada processo seja único no conjunto de dados.
   dplyr::distinct() |>
+  
+  # Cria a variável de evento (status): 1 se o processo foi baixado, 0 se está ativo (censurado).
   dplyr::mutate(
     evento = ifelse(!is.na(data_baixa), 1 , 0)
   ) |>
+  
+  # Para os processos censurados, atribui uma data de fim de estudo ('2025-06-06').
   tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  
+  # Calcula a variável 'tempo' (duração) em dias.
   dplyr::mutate(
     tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1)
   )
 
-# Cria o modelo
-estimador_km <- survfit(Surv(tempo, evento) ~ tem_rito_art_12, data = processos_surv)
+# Exporta o dataframe preparado para os formatos Excel e CSV.
+writexl::write_xlsx(processos_surv, "DATA/EXCEL/dados_surv_adpf_rito.xlsx")
+write.csv(processos_surv, "DATA/CSV/dados_surv_adpf_rito.csv")
 
-# Salva o modelo
-saveRDS(estimador_km, "DATA/MODELOS/modelo_05.rds")
+# --- Estimação do Modelo de Kaplan-Meier Comparativo ---
 
+# Ajusta um modelo de sobrevivência usando o estimador de Kaplan-Meier.
+# A fórmula Surv(tempo, evento) ~ tem_rito_art_12 instrui a função a estimar
+# curvas de sobrevivência separadas para cada grupo definido pela variável 'tem_rito_art_12'.
+estimador_km <- survival::survfit(survival::Surv(tempo, evento) ~ tem_rito_art_12, data = processos_surv)
+
+# Salva o objeto do modelo ajustado em um arquivo .rds para uso futuro.
+saveRDS(estimador_km, "DATA/MODELOS/modelo_surv_km_adpf_rito.rds")
+
+# --- Processamento e Exportação dos Resultados do Modelo ---
+
+# Utiliza a função tidy() do pacote 'broom' para converter o objeto do modelo
+# em um dataframe organizado, contendo as estimativas de sobrevivência para cada grupo em cada ponto no tempo.
+data_km <- estimador_km |>
+  broom::tidy()
+
+# Exporta os dados detalhados do modelo para Excel e CSV.
+writexl::write_xlsx(data_km, "DATA/EXCEL/modelo_surv_km_adpf_rito.xlsx")
+write.csv(data_km, "DATA/CSV/modelo_surv_km_adpf_rito.csv")
+
+# --- Visualização das Curvas de Sobrevivência Comparativas ---
+
+# Utiliza a função ggsurvplot para criar um gráfico comparativo.
 ggsurvplot(
-  estimador_km,
-  data = processos_surv,
-  pval = TRUE,
-  conf.int = FALSE,
-  surv.median.line = "hv",
-  # risk.table = TRUE,
-  xlab = "Tempo (dias)",
-  ylab = "Probabilidade de Sobrevivência",
-  palette = c(cores[4], cores[5]),
-  ggtheme = decJ::theme_decJ(),
-  legend.labs = c("Não", "Sim"),
-  legend.title = "Rito abreviado"
+  estimador_km, # O objeto do modelo ajustado.
+  data = processos_surv, # O dataframe original.
+  
+  pval = TRUE, # Solicita a exibição do p-valor do teste log-rank, que avalia se a diferença entre as curvas é estatisticamente significativa.
+  
+  conf.int = FALSE, # Oculta os intervalos de confiança.
+  
+  surv.median.line = "hv", # Adiciona linhas para marcar a mediana de sobrevivência em cada curva.
+  
+  xlab = "Tempo (dias)", # Rótulo do eixo x.
+  ylab = "Probabilidade de Sobrevivência", # Rótulo do eixo y.
+  
+  palette = c(cores[4], cores[5]), # Define uma paleta com duas cores distintas, uma para cada curva.
+  
+  ggtheme = decJ::theme_decJ(), # Aplica o tema visual customizado.
+  
+  legend.labs = c("Não", "Sim"), # Define os rótulos para cada curva na legenda.
+  legend.title = "Rito abreviado" # Define o título da legenda.
 )
 
-decJ::save_decJ("PLOT/figura_7", l = 24, dpi = 300)
+# Salva o gráfico final como um arquivo PNG de alta qualidade.
+decJ::save_decJ("PLOT/figura_7.png", l = 24, dpi = 300)
 ```
 
-Os dados apresentam um paradoxo contraintuitivo. A análise de sobrevivência demonstra visualmente que a probabilidade de uma ADPF permanecer "viva" (ou seja, pendente de julgamento) é consistentemente maior para os casos que tramitam sob o rito abreviado (curva laranja, "Sim") em comparação com aqueles que seguem o rito ordinário (curva azul, "Não"). Esta observação visual é quantificada pelos dados de sobrevivência mediana, conforme detalhado na TABELA XX. Uma ADPF que tramita sem o rito do artigo 12 possui um tempo de vida mediano de 572 dias. Em contraste, uma ADPF para a qual o relator adota o rito abreviado apresenta uma mediana de 794 dias — um acréscimo de 222 dias, ou aproximadamente 39%.
+Os dados apresentam um paradoxo contraintuitivo. A análise de sobrevivência demonstra visualmente que a probabilidade de uma ADPF permanecer "viva" (ou seja, pendente de julgamento) é consistentemente maior para os casos que tramitam sob o rito abreviado (curva laranja, "Sim") em comparação com aqueles que seguem o rito ordinário (curva azul, "Não"). Esta observação visual é quantificada pelos dados de sobrevivência mediana, conforme detalhado na @tbl-2. Uma ADPF que tramita sem o rito do artigo 12 possui um tempo de vida mediano de 572 dias. Em contraste, uma ADPF para a qual o relator adota o rito abreviado apresenta uma mediana de 794 dias — um acréscimo de 222 dias, ou aproximadamente 39%.
+
+:::{#tbl-2}
+
+| Rito abreviado | Total de Casos | Eventos | Sobrevivência Mediana (em dias) |
+| :--- | :--- | :--- | :--- |
+| Não | 751 | 597 | 572 |
+| Sim | 136 | 107 | 794 |
+
+Estimativas de Kaplan-Meier para a sobrevivência de uma ADPF com ou sem rito abreviado
+:::
+
+Este achado inicial desestabiliza a compreensão convencional do procedimento. O que é legalmente designado como um mecanismo de celeridade está, na prática, associado a um tempo de tramitação significativamente mais longo até a decisão final. Tal discrepância entre o propósito do instituto e seu resultado sugere que a denominação "rito abreviado" pode ser um equívoco se interpretada estritamente como sinônimo de rapidez. A verdadeira função do rito do art. 12 parece ser outra, possivelmente ligada à natureza intrínseca dos casos aos quais é aplicado. A decisão de abreviar o rito, ao dispensar a análise liminar em favor de um julgamento de mérito direto, pode ser uma estratégia para gerir a complexidade e a controvérsia, permitindo ao Tribunal um tempo maior para instrução e deliberação antes de proferir uma decisão definitiva, ou até mesmo para o relator se eximir de decidir sobre a medida liminar.
 
 ```{r, fig-adpf-rito-3}
-#| echo: false
+# --- Estimação do Modelo de Riscos Proporcionais de Cox ---
 
-m_cox <- coxph(Surv(tempo, evento) ~ tem_rito_art_12, data = processos_surv)
+# Ajusta um modelo de Cox usando a função coxph() do pacote 'survival'.
+# Este modelo avalia como a variável 'tem_rito_art_12' (ter ou não o rito abreviado)
+# afeta a taxa de "baixa" (o evento) dos processos ao longo do tempo.
+# A fórmula Surv(tempo, evento) ~ tem_rito_art_12 significa que estamos modelando
+# o risco do evento em função da aplicação do rito abreviado.
+m_cox <- survival::coxph(survival::Surv(tempo, evento) ~ tem_rito_art_12, data = processos_surv)
 
-teste_mcox <- cox.zph(m_cox, terms = FALSE)
+# --- Salvamento do Modelo Ajustado ---
+
+# Salva o objeto do modelo 'm_cox' em um arquivo .rds.
+# Este formato nativo do R preserva o objeto do modelo, permitindo que ele seja
+# carregado posteriormente para análise sem a necessidade de reajustar o modelo.
+saveRDS(m_cox, "DATA/MODELOS/modelo_cox_adpf_rito.rds")
+
+# --- Teste da Premissa de Riscos Proporcionais ---
+
+# Realiza o teste de resíduos de Schoenfeld para avaliar a premissa de riscos proporcionais (PH).
+# A premissa de PH é fundamental para a validade do modelo de Cox e assume que o efeito
+# de uma covariável (neste caso, 'tem_rito_art_12') sobre o risco é constante ao longo do tempo.
+# A função cox.zph() testa se há uma tendência não nula na correlação entre os resíduos e o tempo.
+#
+# Interpretação: Um p-valor baixo (e.g., < 0.05) no resultado deste teste sugere que a premissa de
+# riscos proporcionais foi violada, indicando que o efeito do rito abreviado não é constante
+# no tempo e que o modelo de Cox pode não ser o mais apropriado sem ajustes.
+teste_mcox <- survival::cox.zph(m_cox, terms = FALSE)
+
 ```
 
-Para corrigir a violação, optou-se por ajustar modelo de Cox com um coeficiente dependente do tempo (*time-dependent coefficient*). Foi incluído um termo de interação entre a variável e uma função linear do tempo. 
+```{r, adpf-rito-4}
+# --- Preparação da Variável para Modelagem ---
 
-```{r, tbl-adpf-rito-4}
-#| echo: false
-
+# Converte a variável 'tem_rito_art_12' para um formato numérico (0/1).
+# Originalmente, ela poderia ser um fator ou texto (e.g., "Sim", "Não").
+# A conversão para 1 (se "Sim") e 0 (caso contrário) é uma boa prática para
+# a modelagem, especialmente ao criar termos de interação como os que se seguem.
 processos_surv$tem_rito_art_12 <- ifelse(processos_surv$tem_rito_art_12 == "Sim", 1, 0)
 
-m_cox <- coxph(
+# --- Estimação do Modelo de Cox com Efeito Dependente do Tempo ---
+
+# Ajusta um novo modelo de Cox que relaxa a premissa de riscos proporcionais.
+# Esta abordagem é utilizada quando o efeito de uma variável não é constante no tempo.
+m_cox <- survival::coxph(
+  # A fórmula agora inclui um termo de interação com o tempo.
+  # ~ tem_rito_art_12: Este é o efeito principal, representando o impacto do rito no tempo zero.
+  # ~ tt(tem_rito_art_12): Este é o termo que captura a mudança do efeito ao longo do tempo.
   formula = Surv(tempo, evento) ~ tem_rito_art_12 + tt(tem_rito_art_12),
+  
   data = processos_surv,
+  
+  # O argumento 'tt' (time-transform) define como o efeito da variável muda com o tempo.
+  # Aqui, a função especifica uma interação linear simples: o valor da variável (x)
+  # é multiplicado pelo tempo (t). O modelo, portanto, estima um coeficiente para
+  # 'tem_rito_art_12' e outro para a interação 'tem_rito_art_12 * tempo'.
   tt = function(x, t, ...) {
     x * t
   }
 )
 
-saveRDS(m_cox, "DATA/MODELOS/modelo_06.rds")
+# --- Salvamento do Modelo Avançado ---
+
+# Salva o novo objeto do modelo ajustado ('m_cox') em um arquivo .rds.
+# O sufixo "_tt" no nome do arquivo é uma boa convenção para indicar que este
+# é um modelo com uma covariável dependente do tempo (time-transform).
+saveRDS(m_cox, "DATA/MODELOS/modelo_cox_adpf_rito_tt.rds")
+
 ```
 
-Este achado inicial desestabiliza a compreensão convencional do procedimento. O que é legalmente designado como um mecanismo de celeridade está, na prática, associado a um tempo de tramitação significativamente mais longo até a decisão final. Tal discrepância entre o propósito do instituto e seu resultado sugere que a denominação "rito abreviado" pode ser um equívoco se interpretada estritamente como sinônimo de rapidez. A verdadeira função do rito do art. 12 parece ser outra, possivelmente ligada à natureza intrínseca dos casos aos quais é aplicado. A decisão de abreviar o rito, ao dispensar a análise liminar em favor de um julgamento de mérito direto, pode ser uma estratégia para gerir a complexidade e a controvérsia, permitindo ao Tribunal um tempo maior para instrução e deliberação antes de proferir uma decisão definitiva, ou até mesmo para o relator se eximir de decidir sobre a medida liminar.
-
-Para além da análise descritiva das curvas de sobrevivência, é imperativo quantificar a magnitude e a significância estatística da associação entre a adoção do rito abreviado e o tempo de tramitação das ADPFs. A primeira especificação do modelo, apresentada como "Modelo 1" na TABELA XX, trata o efeito do rito como constante ao longo de toda a vida do processo.
-
+Para além da análise descritiva das curvas de sobrevivência, é imperativo quantificar a magnitude e a significância estatística da associação entre a adoção do rito abreviado e o tempo de tramitação das ADPFs. A primeira especificação do modelo, apresentada como "Modelo 1" na @tbl-3, trata o efeito do rito como constante ao longo de toda a vida do processo.
 
 Os resultados deste modelo confirmam a impressão deixada pela análise das medianas. O coeficiente associado à variável ter rito abreviado tem sinal negativo ($\beta_{tem\_rito\_art\_12Sim}=-0,2136$), indicando que a doação do rito está associada a uma redução no risco de conclusão do processo e, de modo mais intuitivo, a razão de riscos de um processo com o rito abreviado é de 0,8077. Isto é, ao adotar o rito abreviado, a ADPF tem uma redução de 19,23% na probabilidade diária de resolução se comparada com uma ADPF em que não foi adotado o rito.
 
-A robustez do modelo e a validade depende da premissa de que os riscos são proporcionais, portanto, as curvas de sobrevivência deveriam divergir e convergir de forma mais ou menos paralela, sem se cruzarem. Todavia, conforme se visualiza na FIGURA 7, as curvas se cruzam, indicando que a premissa dos riscos proporcionais foi violada. A análise dos resíduos de Schoenfeld confirmaram a violação da premissa – ou seja, adotar o rito abreviado não possui o mesmo efeito sobre o evento ao longo do tempo.
+A robustez do modelo e a validade depende da premissa de que os riscos são proporcionais, portanto, as curvas de sobrevivência deveriam divergir e convergir de forma mais ou menos paralela, sem se cruzarem. Todavia, conforme se visualiza na @fig-7, as curvas se cruzam, indicando que a premissa dos riscos proporcionais foi violada. A análise dos resíduos de Schoenfeld confirmaram a violação da premissa – ou seja, adotar o rito abreviado não possui o mesmo efeito sobre o evento ao longo do tempo.
 
-Diante disso, a abordagem adequada para tal é um modelo com covariáveis dependentes do tempo, que permite que o efeito do procedimento mude ao longo da "vida" do processo. Isso é alcançado pela inclusão de um termo de interação entre a variável do rito e uma função do tempo. O Modelo 2, detalhado na TABELA XX, implementa essa abordagem.
+Diante disso, a abordagem adequada para tal é um modelo com covariáveis dependentes do tempo, que permite que o efeito do procedimento mude ao longo da "vida" do processo. Isso é alcançado pela inclusão de um termo de interação entre a variável do rito e uma função do tempo. O Modelo 2, detalhado na @tbl-3, implementa essa abordagem.
 
+```{r, tbl-3}
+#| echo: false
+#| tbl-cap: "Resultados do Modelo de Riscos Proporcionais de Cox para tempo de sobrevivência de um processo por rito abreviado. Modelo 1 sem variável com interação no tempo. Modelo 2 com variável com internação no tempo."
 
-Neste modelo mais completo, o coeficiente da variável ter rito do art. 12 representa o efeito inicial do rito, no tempo t\ =\ 0. A razão de riscos instantânea nesse caso é de 0,48. Isso revela que, no início de sua tramitação, uma ADPF sob o rito abreviado tem menos da metade da probabilidade de ser concluída em comparação com uma ação em rito ordinário.
+library(gt)
+library(tibble)
+
+dados_tabela <- tribble(
+  ~variavel,                   ~beta_m1,  ~pvalor_m1, ~hr_m1, ~beta_m2,   ~pvalor_m2, ~hr_m2,
+  "Rito do art. 12 (Sim)",     "-0,2136",   "0,042",    "0,808",  "-0,7301",    "< 0,05",   "0,482",
+  "Tempo * Rito do art. 12",   "-",         "-",        "-",      "0,0007168",  "< 0,05",   "-"
+)
+
+tabela_final_gt <- gt(dados_tabela) %>%
+  tab_spanner(
+    label = "Modelo 1",
+    columns = c(beta_m1, pvalor_m1, hr_m1)
+  ) %>%
+  tab_spanner(
+    label = "Modelo 2",
+    columns = c(beta_m2, pvalor_m2, hr_m2)
+  ) %>%
+  cols_label(
+    variavel = "Variável",
+    beta_m1 = html("&beta;"),
+    pvalor_m1 = html("<i>p-valor</i>"),
+    hr_m1 = "HR",
+    beta_m2 = html("&beta;"),
+    pvalor_m2 = html("<i>p-valor</i>"),
+    hr_m2 = "HR"
+  ) %>%
+  cols_align(
+    align = "center",
+    columns = -variavel
+  )
+
+tabela_final_gt
+```
+
+Neste modelo mais completo, o coeficiente da variável ter rito do art. 12 representa o efeito inicial do rito, no tempo $t = 0$. A razão de riscos instantânea nesse caso é de 0,48. Isso revela que, no início de sua tramitação, uma ADPF sob o rito abreviado tem menos da metade da probabilidade de ser concluída em comparação com uma ação em rito ordinário.
 
 O segundo coeficiente crucial é o do termo de interação, que é positivo e altamente significativo (0,0007168), ou seja, para cada dia que passa, o logaritmo da razão de riscos aumenta em 0,0007168. Em termos substantivos, a “desvantagem” temporal imposta pelo rito abreviado não é permanente, ela diminui progressivamente. Esta dinâmica conecta-se diretamente a teorias de comportamento judicial estratégico. Esse achado possui implicações para a compreensão do STF, evidenciando que o Tribunal atua não apenas como árbitro constitucional passivo, mas como ator político estratégico e uma instituição de governança, que utiliza das regras processuais de forma discricionária para gerir o tempo das suas decisões, controlar a agenda política e modular o impacto de seus julgamentos.
 
@@ -497,143 +949,347 @@ No entanto, o resultado do processo pode ter influência sobre o tempo do seu t�
 
 Finalmente, é possível verificar o tempo de encerramento da arguição em relação ao seu resultado. Primeiro, é interessante observar que boa parte das arguições sequer são julgadas pelo STF, sendo extintas sem resolução de mérito. Porém, quando são julgadas, um grande número é bem-sucedido. Das ações encerradas, 479 foram julgadas sem resolução de mérito (incluindo as prejudicadas), e as que tiveram mérito julgado 37 foram improcedentes, 124 procedentes e 51 parcialmente procedentes. A @fig-8 ilustra essa relação.
 
-
 ```{r, dec-trata-adpf}
-#| echo: false
+# --- Bloco 1: Classificação Inicial das Decisões Finais ---
 
+# O objetivo deste bloco é criar uma variável 'resultado' padronizada.
 clean_decisoes_final <-
   clean_decisoes |>
+  # Filtra o dataframe de decisões para focar em:
+  # 1. Processos da classe "ADPF".
+  # 2. Apenas os números de processo que estão no dataframe de referência 'adpf_rec'.
+  # 3. Apenas as movimentações classificadas como "Decisão Final".
   dplyr::filter(classe == "ADPF", numero %in% adpf_rec$numero, subgrupo == "Decisão Final") |>
+  # Cria a coluna 'resultado' com base na coluna 'andamento_agrupado'.
   dplyr::mutate(
     resultado = dplyr::case_when(
       andamento_agrupado == "Procedente" ~ "Procedente",
       andamento_agrupado == "Improcedente" ~ "Improcedente",
       andamento_agrupado == "Procedente em parte" ~ "Procedente em parte",
       andamento_agrupado == "Prejudicado" ~ "Prejudicado",
+      # Se nenhuma das condições acima for atendida, classifica como "Sem mérito".
       TRUE ~ "Sem mérito"
     )
   )
 
+# --- Bloco 2: Separação dos Tipos de Resultado ---
+
+# Cria um dataframe apenas com as decisões de mérito (julgamento sobre o pedido).
 clean_decisoes_final_pt2 <- clean_decisoes_final |>
   dplyr::filter(
     resultado == "Procedente" | resultado == "Improcedente" | resultado == "Procedente em parte"
   ) |>
+  # Seleciona apenas as colunas essenciais e remove duplicatas.
   dplyr::select(classe, numero, resultado) |>
   dplyr::distinct() |>
+  # Garante que o número do processo seja do tipo numérico para o 'join' posterior.
   dplyr::mutate(numero = as.numeric(numero))
 
+# Cria um dataframe separado para as decisões de "Prejudicado".
 clean_decisoes_final_pt3 <- clean_decisoes_final |>
   dplyr::filter(resultado == "Prejudicado") |>
   dplyr::select(classe, numero, resultado) |>
   dplyr::distinct() |>
   dplyr::mutate(numero = as.numeric(numero))
 
+# --- Bloco 3: Junção (Join) e Consolidação dos Resultados ---
+
+# Inicia com o dataframe de referência 'adpf_rec'.
 adpf_rec_teste <- adpf_rec |>
+  # Junta (left_join) com as decisões de mérito. Processos sem decisão de mérito terão 'NA' na coluna 'resultado.x'.
   dplyr::left_join(
     clean_decisoes_final_pt2,
     by = dplyr::join_by(numero)
   ) |>
+  # Junta com as decisões de "Prejudicado".
   dplyr::left_join(
     clean_decisoes_final_pt3,
     by = dplyr::join_by(numero),
     keep = FALSE,
+    # 'relationship = "one-to-one"' é uma verificação de integridade, garantindo que não há múltiplos resultados para um mesmo processo.
     relationship = "one-to-one"
   )
 
+# Consolida as duas colunas de resultado ('resultado.x' e 'resultado.y') em uma só.
 adpf_rec_teste <- adpf_rec_teste |>
   mutate(
+    # Se 'resultado.x' (mérito) for NA, usa 'resultado.y' (prejudicado). Caso contrário, mantém 'resultado.x'.
     resultado = ifelse(is.na(resultado.x), resultado.y, resultado.x)
   ) |>
+  # Seleciona apenas as colunas de interesse.
   dplyr::select(numero, resultado)
 
+# --- Bloco 4: Limpeza do Ambiente e Preparação Final ---
 
+# Atribui o resultado a um novo objeto com nome mais claro.
 decisoes_final <- adpf_rec_teste
+# Garante que a coluna 'numero' é numérica.
 decisoes_final$numero <- as.numeric(decisoes_final$numero)
-# legitimados_adpf$numero <- legitimados_adpf$numero |> as.numeric()
 
+# Remove os dataframes intermediários para manter o ambiente de trabalho organizado.
 rm(clean_decisoes_final_pt2, clean_decisoes_final_pt3, adpf_rec_teste)
 
+# --- Bloco 5: Integração Final com a Base de Processos ---
+
+# Cria o dataframe final que será exportado.
 processos_resultado <- clean_processos |>
+  # Filtra a base principal de processos para o mesmo escopo de ADPFs de 'adpf_rec'.
   dplyr::filter(classe == "ADPF", numero %in% adpf_rec$numero) |>
+  # Seleciona as colunas de interesse da base de processos.
   dplyr::select(
     numero, data_autuacao, data_baixa, tem_rito_art_12, em_tramitacao
   ) |>
+  # Garante unicidade e o tipo correto da coluna 'numero'.
   dplyr::distinct() |>
   dplyr::mutate(numero = as.numeric(numero)) |>
+  # Junta a base de processos com a tabela de resultados finais criada nos blocos anteriores.
   dplyr::left_join(
     decisoes_final,
     by = "numero"
   ) |>
+  # Cria a coluna final e definitiva de 'resultado', considerando o status de tramitação.
   dplyr::mutate(resultado = dplyr::case_when(
+    # Se o processo não está em tramitação E tem um resultado da junção, usa esse resultado.
     em_tramitacao == "Não" & !is.na(resultado) ~ resultado,
+    # Se não está em tramitação E NÃO tem um resultado (e.g., foi arquivado sem decisão), classifica como "Sem mérito".
     em_tramitacao == "Não" & is.na(resultado) ~ "Sem mérito",
+    # Se ainda está em tramitação, classifica como "Sem julgamento".
     em_tramitacao == "Sim" ~ "Sem julgamento"
   ))
 
+# Remove os últimos objetos intermediários.
 rm(decisoes_final, clean_decisoes_final)
+
+# --- Bloco 6: Exportação dos Dados ---
+
+# Salva o dataframe final e enriquecido em um arquivo Excel.
+writexl::write_xlsx(processos_resultado, "DATA/EXCEL/dados_processos_resultado_cap4.xlsx")
+# Salva o mesmo dataframe em um arquivo CSV.
+write.csv(processos_resultado,"DATA/CSV/dados_processos_resultados_cap4.csv")
 ```
 
 ```{r, fig-8}
-#| echo: false
-#| fig-cap: "Resultado das arguições de descumprimento de preceito fundamental"
+#| fig-cap: "Resultado das arguições de descumprimento de preceito fundamental ajuizadas entre 2014-2024"
 
+# O fluxo de visualização inicia com o dataframe 'processos_resultado'.
 processos_resultado |>
+  # Agrupa os dados pela coluna 'resultado'. Isso prepara o dataframe para
+  # que a operação seguinte seja feita para cada categoria de resultado separadamente.
   dplyr::group_by(resultado) |>
+  
+  # Para cada grupo (cada tipo de resultado), conta o número de processos
+  # e armazena essa contagem em uma nova coluna chamada 'n'.
   dplyr::summarise(n = dplyr::n()) |>
+  
+  # Inicia a construção do gráfico com os dados agregados.
   ggplot() +
+  
+  # Adiciona a camada de colunas (gráfico de barras).
+  # aes(x = resultado, y = n) mapeia as categorias de resultado para o eixo x
+  # e a contagem (n) para a altura das barras no eixo y.
+  # fill = cores[4] define uma cor de preenchimento única para todas as barras.
   geom_col(aes(x = resultado, y = n), fill = cores[4]) +
+  
+  # Personaliza a escala do eixo y.
+  # expand = c(0,0) remove o espaço padrão entre as barras e o eixo x.
+  # limits = c(0, 450) define os limites do eixo y de 0 a 450.
   scale_y_continuous(expand = c(0,0), limits = c(0, 450)) +
+  
+  # Define os rótulos (títulos) dos eixos.
   labs(
     x = "Resultado",
     y = "Número de processos"
   ) +
+  
+  # Aplica um tema visual customizado do pacote 'decJ'.
   decJ::theme_decJ(y_num = TRUE)
 
+# Salva o gráfico final como um arquivo de imagem PNG.
+# A função 'save_decJ' permite especificar o caminho, a largura ('l') e a resolução ('dpi').
 decJ::save_decJ("PLOT/figura_8.png", l = 24, dpi = 300)
 ```
 
+A análise descritiva dos dados (@tbl-4) revela disparidades no tempo mediano de tramitação das ações, sugerindo a existência de distintas velocidades processuais no âmbito do STF, que parecem estar associadas à natureza da decisão proferida:
+
 ```{r dec-surv-1}
+# --- Preparação dos Dados para Análise de Sobrevivência por Resultado ---
+
+# O fluxo se inicia com o dataframe 'processos_resultado', que já contém o desfecho de cada processo.
 processos_surv <- processos_resultado |>
+  # Cria a variável de evento (status): 1 se o processo foi baixado (tem data_baixa), 0 caso contrário.
   dplyr::mutate(
     evento = ifelse(!is.na(data_baixa), 1 , 0)
   ) |>
+  # Substitui os valores NA em 'data_baixa' por uma data de fim de estudo (censura administrativa).
   tidyr::replace_na(list(data_baixa = lubridate::ymd("2025-06-06"))) |>
+  # Calcula a variável 'tempo' como a duração em dias entre a autuação e a baixa (ou data de censura).
   dplyr::mutate(
     tempo = lubridate::interval(data_autuacao, data_baixa) / lubridate::ddays(1)
   ) |>
+  # Filtra o dataframe para incluir APENAS os processos que não estão mais em tramitação.
+  # Este é um passo crucial para evitar viés de antecipação (look-ahead bias), pois só se pode
+  # analisar o tempo até um resultado para os processos que de fato já atingiram um.
   dplyr::filter(em_tramitacao == "Não") |>
+  # Remove a coluna 'em_tramitacao', que já cumpriu seu propósito no filtro.
   dplyr::select(-em_tramitacao)
 
-# Cria o modelo
-estimador_km <- survfit(Surv(tempo, evento) ~ resultado, data = processos_surv)
+# Exporta o dataframe preparado para as análises subsequentes.
+writexl::write_xlsx(processos_surv, "DATA/EXCEL/dados_surv_adpf_resultado.xlsx")
+write.csv(processos_surv, "DATA/CSV/dados_surv_adpf_resultado.csv")
 
-# Salva o modelo
-saveRDS(estimador_km, "DATA/MODELOS/modelo_05.rds")
+# --- Estimação do Modelo de Kaplan-Meier (Descritivo) ---
 
-m_cox <- coxph(Surv(tempo, evento) ~ resultado, data = processos_surv)
+# Ajusta um modelo de Kaplan-Meier para estimar as curvas de sobrevivência.
+# A fórmula Surv(tempo, evento) ~ resultado especifica que curvas separadas
+# devem ser geradas para cada categoria da variável 'resultado'.
+estimador_km <- survival::survfit(Surv(tempo, evento) ~ resultado, data = processos_surv)
 
-teste_mcox <- cox.zph(m_cox, terms = FALSE)
+# Salva o objeto do modelo Kaplan-Meier para uso posterior (e.g., gráficos).
+saveRDS(estimador_km, "DATA/MODELOS/modelo_km_adpf_resultado.rds")
+
+# --- Estimação do Modelo de Cox (Inferencial) ---
+
+# Ajusta um modelo de riscos proporcionais de Cox para quantificar a associação
+# entre o tipo de resultado e a "taxa de baixa" do processo.
+m_cox <- survival::coxph(Surv(tempo, evento) ~ resultado, data = processos_surv)
+
+# Salva o objeto do modelo de Cox para análise posterior dos coeficientes.
+saveRDS(m_cox, "DATA/MODELOS/modelo_cox_adpf_resultado.rds")
+
+# --- Validação da Premissa do Modelo de Cox ---
+
+# Realiza o teste de resíduos de Schoenfeld para verificar a premissa de riscos proporcionais (PH).
+# Esta premissa assume que o efeito de cada categoria de resultado sobre o risco é constante no tempo.
+# Um p-valor baixo no resultado deste teste indicaria uma violação da premissa,
+# sugerindo que o modelo de Cox pode não ser o mais adequado sem ajustes.
+teste_mcox <- survival::cox.zph(m_cox, terms = FALSE)
 
 ```
 
-```{r}
+```{r dec-surv-save-1}
+#| include: false
+
+dados_km <- estimador_km |>
+  broom::tidy()
+
+writexl::write_xlsx(dados_km, "DATA/EXCEL/modelo_km_adpf_resultado.xlsx")
+write.csv(dados_km, "DATA/CSV/modelo_km_adpf_resultado.csv")
+
+dados_cox <- m_cox |>
+  broom::tidy() |>
+  dplyr::mutate(
+    hr = exp(estimate)
+  )
+
+writexl::write_xlsx(dados_cox, "DATA/EXCEL/modelo_cox_adpf_resultado.xlsx")
+write.csv(dados_cox, "DATA/CSV/modelo_cox_adpf_resultado.csv")
+```
+
+:::{#tbl-4}
+
+| Resultado | Número de Casos | Número de Eventos | Sobrevivência mediana (em dias) |
+| :--- | :--- | :--- | :--- |
+| Improcedente | 37 | 37 | 990 |
+| Prejudicado | 72 | 72 | 552 |
+| Procedente | 124 | 124 | 750 |
+| Procedente em parte | 51 | 51 | 639 |
+| Sem mérito | 407 | 407 | 282 |
+
+Estimativas de Kaplan-Meier para a sobrevivência de uma ADPF em relação ao resultado
+:::
+
+As ações julgadas "Sem mérito" - aquelas que não superam os requisitos processuais de admissibilidade, como a demonstração de subsidiariedade ou a pertinência temática do autor - apresentam um tempo mediano de sobrevivência de apenas 282 dias. Este valor contrasta de forma gritante com os casos que recebem um julgamento de mérito. As ações julgadas "Improcedentes", nas quais a Corte analisa integralmente os argumentos e os rejeita, são as mais longevas, com uma mediana de 990 dias. Da mesma forma, as ações julgadas "Procedentes" (750 dias) e "Procedentes em parte" (639 dias) também exibem tempos de deliberação substancialmente mais longos.
+
+Esta distribuição bimodal dos tempos de processamento sugere fortemente que o STF opera com um sistema de triagem judicial. Existe uma distinção entre uma "via rápida" para o descarte processual e uma "via lenta" para a deliberação substantiva. O abismo entre os 282 dias para decisões "Sem mérito" e a faixa de 639 a 990 dias para todas as outras categorias de mérito não parece ser fruto do acaso, mas um indício de um mecanismo de filtragem sistemático. A Corte parece alocar seus recursos deliberativos de forma estratégica, dispensando rapidamente os casos que considera processualmente inviáveis para conservar sua capacidade analítica para as disputas que levantam questões constitucionais genuínas e complexas, moldando a agenda do debate constitucional antes mesmo que a discussão de mérito se inicie.
+
+O modelo de Cox revelou dois padrões principais. Primeiramente, o resultado "Sem mérito" é um preditor extremamente poderoso da celeridade processual. A razão de riscos de 2,396, com altíssima significância estatística (p < 0.000001), indica que um processo destinado a ser extinto sem resolução de mérito tem uma probabilidade de ser concluído, a qualquer momento, que é aproximadamente 2,4 vezes maior do que a de um processo destinado a ser julgado improcedente. Este resultado quantifica e corrobora a hipótese da "triagem judicial", demonstrando que o filtro processual não é apenas uma observação descritiva, mas um fator com forte poder preditivo sobre o tempo de vida de uma ação. O mesmo padrão, embora com menor magnitude, é observado para os casos julgados "Prejudicados" (HR = 1,894, p = 0,00185), que também representam uma forma de extinção anômala do processo, sem análise completa do mérito.
+
+Um segundo achado, mais sutil e igualmente importante, emerge da análise das categorias de mérito. As razões de risco para "Procedente" (HR = 1,298) e "Procedente em parte" (HR = 1,107) não são estatisticamente significantes (p=0,166 e p=0,638, respectivamente). Isso significa que não se pode rejeitar a hipótese nula de que seus tempos de tramitação são diferentes da categoria de referência ("Improcedente"). Esta ausência de significância estatística sugere que, uma vez que um caso é admitido para análise de mérito, o resultado - vitória, derrota ou vitória parcial para o autor - não prediz de forma significativa a duração do processo. O fator que consome tempo não é a direção do voto final, mas o próprio processo de deliberação. Uma suposição intuitiva de que os casos com os quais a Corte concorda ("Procedente") seriam resolvidos mais rapidamente, talvez por um consenso mais fácil, é contrariada por estes dados. A longa e estatisticamente indistinguível duração entre todos os resultados de mérito indica que estes casos são inerentemente complexos, exigindo extensa argumentação jurídica, deliberação entre os ministros e cuidadosa redação de votos, independentemente do desfecho.
+
+:::{#tbl-5}
+
+| Variável | β | p-valor | HR |
+| :--- | :--- | :--- | :--- |
+| Prejudicado | 0,63 | 0,00185 | 1,8941 |
+| Procedente | 0,26 | 0,16 | 1,2977 |
+| Procedente em Parte | 0,10 | 0,63 | 1,10 |
+| Sem Mérito | 0,87 | 5,28 x 10⁻⁷ | 2,39 |
+
+Resultados do Modelo de Riscos Proporcionais de Cox para tempo de sobrevivência de um processo por resultado
+:::
+
+Todavia, após aplicação do teste de resíduos de Schoenfeld, verificou-se a violação dos pressupostos do modelo. Ou seja, os estimadores enganam, posto que os riscos não são proporcionais ao longo do tempo. Para superar a violação do pressuposto, ajustou-se o modelo de Cox incluindo covariáveis dependentes do tempo, isto é, foram criados termos de interação entre cada categoria de resultado e o logaritmo natural do tempo, permitindo que o efeito de cada categoria sobre a taxa de risco de resolução mude ao longo do processo, oferecendo um retrato mais fiel e dinâmico.
+
+```{r dec-surv-2}
+# --- Bloco 1: Preparação dos Dados com Variáveis Dummy ---
+
+# Cria uma matriz de design (dummy variables) a partir da variável categórica 'resultado'.
+# A função model.matrix() converte cada categoria de 'resultado' em uma coluna com 0s e 1s.
+# A primeira categoria (geralmente por ordem alfabética, "Improcedente" neste caso) será a categoria de referência.
 dummies <- model.matrix(~ resultado, data = processos_surv)
+# Remove a primeira coluna da matriz, que corresponde ao intercepto (a categoria de referência).
 dummies <- dummies[, -1]
+# Combina o dataframe original com as novas colunas de variáveis dummy.
 processos_surv_tt <- cbind(processos_surv, dummies)
 
 
-modelo_corrigido_final <- coxph(
+# --- Bloco 2: Estimação do Modelo de Cox Corrigido com Efeitos Dependentes do Tempo ---
+
+# Ajusta um novo modelo de Cox que permite que os efeitos das covariáveis mudem com o tempo.
+# Esta é a abordagem correta quando o teste cox.zph indica a violação da premissa de riscos proporcionais.
+modelo_corrigido_final <- survival::coxph(
+  # A fórmula é especificada manualmente usando as variáveis dummy.
+  # A primeira linha contém os efeitos principais (constantes no tempo).
+  # A segunda linha contém os termos de interação com o tempo (efeitos que mudam com o tempo).
   formula = Surv(tempo, evento) ~ resultadoPrejudicado + resultadoProcedente + 
                                   `resultadoProcedente em parte` + `resultadoSem mérito` +
                                   tt(resultadoPrejudicado) + tt(resultadoProcedente) + 
                                   tt(`resultadoProcedente em parte`) + tt(`resultadoSem mérito`),
   data = processos_surv_tt,
+  
+  # O argumento 'tt' (time-transform) define a função que descreve como o efeito muda com o tempo.
+  # A função x * log(t) modela a interação entre a covariável (x) e o logaritmo do tempo (t).
+  # Esta é uma forma flexível que permite que o risco mude mais rapidamente no início e depois se estabilize.
   tt = function(x, t, ...) {
     x * log(t) 
   }
 )
+
+# Salva o objeto do modelo final e corrigido em um arquivo .rds.
+saveRDS(modelo_corrigido_final, "DATA/MODELOS/modelo_cox_adpf_resultado_tt.rds")
+
+# --- Bloco 3: Processamento e Exportação dos Resultados do Modelo ---
+
+# Utiliza a função tidy() do pacote 'broom' para converter o resultado complexo do modelo
+# em um dataframe organizado, pronto para análise e exportação.
+dados_cox <- modelo_corrigido_final |>
+  broom::tidy()
+
+# Salva a tabela de resultados do modelo em um arquivo Excel.
+writexl::write_xlsx(dados_cox, "DATA/EXCEL/modelo_cox_adpf_resultado_tt.xlsx")
+# Salva a mesma tabela em um arquivo CSV.
+write.csv(dados_cox, "DATA/CSV/modelo_cox_adpf_resultado_tt.csv")
 ```
 
+:::{#tbl-6}
+
+| Variável | β | p – valor | HR |
+| :--- | :--- | :--- | :--- |
+| Prejudicado | 0,09 | 0,94 | 1,10 |
+| Procedente | -0,47 | 0,71 | 0,62 |
+| Procedente em Parte | -0,42 | 0,78 | 0,65 |
+| Sem Mérito | 3,54 | 0,0034 | 34,54 |
+| tt(Prejudicado) | 0,11 | 0,60 | 1,11 |
+| tt(Procedente) | 0,11 | 0,54 | 1,12 |
+| tt(Procedente em Parte) | 0,08 | 0,71 | 1,08 |
+| tt(Sem Mérito) | -0,44 | 0,01 | 0,64 |
+
+Resultados do Modelo de Riscos Proporcionais de Cox para tempo de sobrevivência de um processo por resultado com internação no tempo
+:::
+
+A análise da @tbl-6 confirma e refina as hipóteses anteriores. A razão de risco de um processo sem resolução de mérito é positiva ($\beta = 3,54$) e altamente significativo, indicando que, no início do processo, a taxa de risco de resolução para um caso “Sem mérito” é muito maior (HR=34,53) do que para um caso “Improcedente”. Contudo, o termo de interação no termo é negativo ($\beta = -0,44$), confirmando que o efeito é front-loaded, isto é, o impulso para uma resolução rápida de casos “Sem mérito” decai com o tempo.
+
+A ausência de significância estatística para todas as outras variáveis, tanto os termos principais quanto os de interação. O modelo anterior, mais simples, havia sugerido que casos "Prejudicados" eram resolvidos mais rapidamente que os "Improcedentes". Este modelo mais robusto demonstra que, uma vez que a dependência temporal é modelada, essa diferença desaparece. Não há evidência estatística de que os tempos de resolução para casos "Procedentes", "Procedentes em parte" ou "Prejudicados" sejam diferentes daqueles julgados "Improcedentes", em nenhum momento do seu ciclo de vida. Isso fortalece a conclusão de que, uma vez superada a barreira da admissibilidade, os casos entram em uma "via de deliberação" onde a complexidade intrínseca do julgamento de mérito, e não o seu resultado, se torna o principal determinante da sua longevidade. 
 
 ## Considerações parciais
 

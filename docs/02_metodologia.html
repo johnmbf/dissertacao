@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Metodologia – A constituição em processo de judicialização</title>
+<title>2&nbsp; Análise de sobrevivência: Estimador Kaplan-Meier – A constituição em processo de judicialização</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -65,7 +30,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./03_revisao.html" rel="next">
+<link href="./03_capitulo-3.html" rel="next">
 <link href="./01_introducao.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -77,6 +42,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-457a4114a83670b0e7c6dc74f07c1ca0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -104,10 +72,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Procurar"
   }
 }</script>
-<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
-
-<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -150,7 +114,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02_metodologia.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Metodologia</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./02_metodologia.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Análise de sobrevivência: Estimador Kaplan-Meier</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -193,25 +157,19 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02_metodologia.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Metodologia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Análise de sobrevivência: Estimador Kaplan-Meier</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03_revisao.html" class="sidebar-item-text sidebar-link">
+  <a href="./03_capitulo-3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Um olhar para a(s) judicialização(ões) da política</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04_adpfs.html" class="sidebar-item-text sidebar-link">
+  <a href="./04_capitulo-4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A arguição de descumprimento de preceito fundamental, o que foi ?</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./05_core.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Interações no campo do processo constitucional: as arguições de descumprimento de preceito fundamental ajuizadas por partidos políticos e Presidente da República</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -225,8 +183,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./code.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Código</span></span></a>
+  <a href="./apendice_a.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Apêndice A - Como os dados foram coletados?</span></span></a>
   </div>
 </li>
       </ul>
@@ -241,14 +199,9 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#coleta-de-dados" id="toc-coleta-de-dados" class="nav-link active" data-scroll-target="#coleta-de-dados"><span class="header-section-number">2.1</span> Coleta de dados</a></li>
-  <li><a href="#limpeza-dos-dados" id="toc-limpeza-dos-dados" class="nav-link" data-scroll-target="#limpeza-dos-dados"><span class="header-section-number">2.2</span> Limpeza dos dados</a></li>
-  <li><a href="#análise-quantitativa" id="toc-análise-quantitativa" class="nav-link" data-scroll-target="#análise-quantitativa"><span class="header-section-number">2.3</span> Análise quantitativa</a>
-  <ul class="collapse">
-  <li><a href="#análise-de-sobrevivência" id="toc-análise-de-sobrevivência" class="nav-link" data-scroll-target="#análise-de-sobrevivência"><span class="header-section-number">2.3.1</span> Análise de Sobrevivência</a></li>
-  <li><a href="#regressão-logística" id="toc-regressão-logística" class="nav-link" data-scroll-target="#regressão-logística"><span class="header-section-number">2.3.2</span> Regressão Logística</a></li>
-  </ul></li>
-  <li><a href="#análise-qualitativa" id="toc-análise-qualitativa" class="nav-link" data-scroll-target="#análise-qualitativa"><span class="header-section-number">2.4</span> Análise qualitativa</a></li>
+  <li><a href="#análise-de-sobrevivência-modelo-de-riscos-proporcionais-de-cox" id="toc-análise-de-sobrevivência-modelo-de-riscos-proporcionais-de-cox" class="nav-link active" data-scroll-target="#análise-de-sobrevivência-modelo-de-riscos-proporcionais-de-cox"><span class="header-section-number">2.1</span> Análise de sobrevivência: modelo de riscos proporcionais de Cox</a></li>
+  <li><a href="#análise-de-correspondência-ac" id="toc-análise-de-correspondência-ac" class="nav-link" data-scroll-target="#análise-de-correspondência-ac"><span class="header-section-number">2.2</span> Análise de Correspondência (AC)</a></li>
+  <li><a href="#classificação-hierárquica-descendente-chd" id="toc-classificação-hierárquica-descendente-chd" class="nav-link" data-scroll-target="#classificação-hierárquica-descendente-chd"><span class="header-section-number">2.3</span> Classificação Hierárquica Descendente (CHD)</a></li>
   </ul>
 </nav>
     </div>
@@ -257,7 +210,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-metodologia" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Metodologia</span></span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Análise de sobrevivência: Estimador Kaplan-Meier</span></h1>
 </div>
 
 
@@ -274,332 +227,115 @@ window.Quarto = {
 </header>
 
 
-<p>Introdução à metodologia</p>
-<section id="coleta-de-dados" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="coleta-de-dados"><span class="header-section-number">2.1</span> Coleta de dados</h2>
-<p>Os dados foram coletados do portal Corte Aberta do STF, painéis estatísticos de controle concentrado que podem ser acessados <a href="https://transparencia.stf.jus.br/extensions/controle_concentrado/controle_concentrado.html">aqui</a>. Foram baixados três tabelas do portal e armazenados na pasta <code>DATA/RAW/</code>, conforme <a href="#tbl-dados-raw" class="quarto-xref">Tabela&nbsp;<span class="quarto-unresolved-ref">tbl-dados-raw</span></a> abaixo:</p>
-<div id="tbl-dados-raw" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-dados-raw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;2.1
+<p>A pesquisa busca compreender a forma como a arguição de descumprimento de preceito fundamental é operacionalizada no campo do processo no Supremo Tribunal Federal a fim de judicializar a política. Trata-se de um estudo empírico, observando o método indutivo e de abordagem quali-quantitativa. Ademais, a pesquisa apoia-se em ferramentas computacionais.</p>
+<p>O estudo será dividido em três momentos. No primeiro realizar-se-á uma revisão narrativa de literatura brasileira sobre a judicialização da política, suas dimensões e intersecções com a literatura não-brasileira. Para tanto, selecionou-se as teses, dissertações e artigos indexados no Portal Brasileiro de Publicações e Dados Científicos em Acesso Aberto (Oasisbr) com os descritores “judicialização da política”, “arguição de descumprimento de preceito fundamental”, “constitucionalismo democrático” e “diálogos institucionais”. Foram selecionados os registros publicados nos últimos 5 anos e com pertinência temática com esta pesquisa.</p>
+<p>No segundo momento será realizada a coleta, manipulação e tratamento dos dados referentes às arguições de descumprimento de preceito fundamental ajuizadas entre 2014 e 2024. A organização dos dados possibilita a visualização do objeto de pesquisa e sua categorização. Por fim, os dados em texto coletados, manipulados e tratados serão analisados por meio da análise de conteúdo a fim de inferir a operacionalização das arguições para o fenômeno da judicialização da política.</p>
+<p>A pesquisa, portanto, não segue uma metodologia única, mas aproveita de diferentes instrumentos e técnicas para a consecução dos seus objetivos. A triangulação metodológica permite a observação do objeto de estudo em sua complexidade. O multimétodo, segundo Simone Tuzzo e Claudomilson Braga (2016), é</p>
+<blockquote class="blockquote">
+<p>uma forma de integrar diferentes perspectivas no fenômeno em estudo, como forma de descoberta de paradoxos e contradições, ou como forma de desenvolvimento no sentido de utilizar sequencialmente os métodos para que o recurso ao método inicial informe a utilização do segundo método […]. Des[t]e modo a possibilidade da triangulação mesmo em se tratando da mesma perspectiva – qualitativa – parece ser uma abordagem que se sustenta e faz sentido à medida que oferece ao pesquisador olhares múltiplos e diferentes do mesmo lugar de fala (Tuzzo; Braga, 2016, p.&nbsp;155–156).</p>
+</blockquote>
+<p>Dessa forma, o multimétodo produzirá “tipos diferentes de dados e resultam em formas diferentes de conhecimento” sem que necessariamente uma técnica seja utilizada para confirmar a outra (Oliveira, 2015, p.&nbsp;139). O que se busca é um processo consecutivo de aplicação das metodologias que resultarão, ao final, na solução do problema geral sem ignorar a complexidade do objeto de estudo (Paranhos et al., 2016).</p>
+<p>A análise de dados permitirá a observação quantitativa do objeto de pesquisa, além de que a inferência sobre os seus resultados fornecerá subsídios preliminares à análise de conteúdo. Nesse sentido, “exploratory data analysis can never be the whole story, but nothing else can serve as the foundation stone – as the first step” (Tukey, 1977, p.&nbsp;3).</p>
+<p>A análise exploratória dos dados (AED) é, portanto, o primeiro processo da análise de dados e não possui um procedimento rígido pré-estabelecido, mas fornece ao pesquisador um espaço para busca de ideias. Trata-se de uma etapa preliminar que busca compreender os dados e necessita da criatividade do pesquisador (Wickham; Çetinkaya-Rundel; Grolemund, 2023).</p>
+<p>No geral, o processo de análise de dados pode ser resumido na <a href="#fig-01" class="quarto-xref">Figura&nbsp;<span>2.1</span></a> abaixo:</p>
+<div id="fig-01" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.1- Fluxo para uma análise de dados
 </figcaption>
-<div aria-describedby="tbl-dados-raw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Tabela</th>
-<th>Descrição</th>
-<th>Arquivo</th>
-<th>Data</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Processos</td>
-<td>Contém as informações gerais sobre os processos de controle concentrado</td>
-<td><a href="DATA/RAW/raw_processos.xlsx">raw_processos.xlsx</a></td>
-<td>06/06/2025</td>
-</tr>
-<tr class="even">
-<td>Decisões</td>
-<td>Contém as informações sobre as decisões tomadas em sede de controle concentrado</td>
-<td><a href="DATA/RAW/raw_decisoes.xlsx">raw_decisoes.xlsx</a></td>
-<td>06/06/2025</td>
-</tr>
-<tr class="odd">
-<td>Legitimados</td>
-<td>Contém as informações sobre os legitimados ativos e legitimados passivos nas ações de controle concentrado</td>
-<td><a href="DATA/RAW/raw_legitimados.xlsx">raw_legitimados.xlsx</a></td>
-<td>06/06/2025</td>
-</tr>
-</tbody>
-</table>
+<div aria-describedby="fig-01-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="DATA/FIGURAS/figura_01.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figura&nbsp;2.1- Fluxo para uma análise de dados"><img src="DATA/FIGURAS/figura_01.png" class="img-fluid figure-img"></a>
 </div>
 </figure>
 </div>
-<p>Uma vez baixados os dados, eles foram importados utilizando a função <code>readxl::read_xlsx()</code>:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-1-1"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importa os processos</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a>raw_processos <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">"DATA/RAW/raw_processos.xlsx"</span>, <span class="at">na =</span> <span class="st">"*NI*"</span>)</span>
-<span id="annotated-cell-1-3"><a href="#annotated-cell-1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-4"><a href="#annotated-cell-1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Importa as decisões</span></span>
-<span id="annotated-cell-1-5"><a href="#annotated-cell-1-5" aria-hidden="true" tabindex="-1"></a>raw_decisoes <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">"DATA/RAW/raw_decisoes.xlsx"</span>,</span>
-<span id="annotated-cell-1-6"><a href="#annotated-cell-1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">na =</span> <span class="st">"*NI*"</span>,</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-7" class="code-annotation-target"><a href="#annotated-cell-1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">col_types =</span> <span class="fu">c</span>(<span class="st">"guess"</span>, <span class="st">"date"</span>, <span class="st">"guess"</span>, <span class="st">"guess"</span>, <span class="st">"guess"</span>, <span class="st">"guess"</span>)</span>
-<span id="annotated-cell-1-8"><a href="#annotated-cell-1-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="annotated-cell-1-9"><a href="#annotated-cell-1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-1-10"><a href="#annotated-cell-1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Importa os legitimados</span></span>
-<span id="annotated-cell-1-11"><a href="#annotated-cell-1-11" aria-hidden="true" tabindex="-1"></a>raw_legitimados <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">"DATA/RAW/raw_legitimados.xlsx"</span>,</span>
-<span id="annotated-cell-1-12"><a href="#annotated-cell-1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">na =</span> <span class="st">"*NI*"</span></span>
-<span id="annotated-cell-1-13"><a href="#annotated-cell-1-13" aria-hidden="true" tabindex="-1"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-annotation">
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="1">na = “*NI*”: o STF utiliza o código *NI* para dados faltantes.</span>
-</dd>
-<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-1" data-code-lines="7" data-code-annotation="2">col_types: foi preciso na tabela de decisões indicar expressamente o tipo de dado da coluna data</span>
-</dd>
-</dl>
+<p>Um levantamento no portal de jurisprudências do Supremo Tribunal Federal na época da escrita do projeto de dissertação em 2023, buscando por decisões em ADPF retornou 485 acórdãos e 1.250 decisões monocráticas (sem aplicar recorte temporal). Trabalhar com corpus extensos manualmente limitaria a pesquisa pois seria necessário realizar muitos recortes sobre os documentos para que fosse viabilizada. Nesse sentido, os avanços computacionais permitiram a automatização das técnicas de análise de conteúdo (Izumi; Moreira, 2018).</p>
+<p>Segundo Maurício Izumi e Davi Moreira (2018, p.&nbsp;40),</p>
+<blockquote class="blockquote">
+<p>o uso do texto como dado para análise automatizada de conteúdo permite: (1) a utilização de diferentes técnicas independentemente do idioma sob análise; (2) o cálculo de medidas de incerteza, sendo possível julgar se as diferenças entre os textos são substantivas ou apenas fruto de erros de mensuração e variação amostral; (3) reduzir a necessidade de intervenção humana, facilitando a replicabilidade dos resultados; (4) a análise de um volume de informações manualmente inviável.</p>
+</blockquote>
+<p>Não obstante, a automatização da análise de conteúdo atua no processamento do texto e não substitui a análise do pesquisador, mas “make possible inferences that were previously impossible” (Grimmer; Stewart, 2013, p.&nbsp;495).</p>
+<p>O processamento automatizado dos textos permite, portanto, substituir parte das etapas da análise de conteúdo. O texto será processado pelo software e analisado pelo pesquisador. Diferentes funções computacionais podem gerar codificações que, após a leitura do corpus, permitirá a categorização e análise.</p>
+<p>Como referência metodológica, o artigo de Maurício Izumi e Davi Moreira apresenta diferentes modelos de trabalho do texto como dado (Izumi; Moreira, 2018) e organiza nas seguintes etapas: 1) obtenção dos dados; 2) pré-processamento dos dados; e o processamento dos dados. O pré-processamento compreende diversas etapas de preparação do texto para o trabalho no software. O processamento dos dados será escolhido após a visualização do corpus. A <a href="#fig-02" class="quarto-xref">Figura&nbsp;<span>2.2</span></a> abaixo ilustra o processo de trabalhar com texto como dado:</p>
+<div id="fig-02" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-fig" id="fig-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.2- Fluxo de trabalho do texto como dado
+</figcaption>
+<div aria-describedby="fig-02-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="DATA/FIGURAS/figura_02.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figura&nbsp;2.2- Fluxo de trabalho do texto como dado"><img src="DATA/FIGURAS/figura_02.png" class="img-fluid figure-img"></a>
 </div>
+</figure>
 </div>
-<p>Após importar os dados, salvei eles em formato <code>.rds</code> para leitura mais posterior mais rápida:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Salvar os arquivos raw em rds</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_processos, <span class="st">"DATA/RAW/raw_processos.rds"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_decisoes, <span class="st">"DATA/RAW/raw_decisoes.rds"</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_legitimados, <span class="st">"DATA/RAW/raw_legitimados.rds"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>O segundo conjunto de dados foram obtidos a partir da raspagem de dados no portal do STF. Primeiro, extraiu-se os dados sobre decisões monocráticas e acórdãos, depois, com base na tabela de acórdãos, foram baixados os arquivos em <code>.pdf</code> dos acórdãos. Para isso, foi utilizado o pacote <code>decJ</code>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extrai as decisões monocráticas</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>raw_monocraticas <span class="ot">&lt;-</span> decJ<span class="sc">::</span><span class="fu">stf_jurisprudencia</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">classe =</span> <span class="st">"ADPF"</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">base =</span> <span class="st">'decisoes'</span>,</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">quantidade =</span> <span class="dv">3000</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Extrai os acórdãos</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>raw_acordaos <span class="ot">&lt;-</span> decJ<span class="sc">::</span><span class="fu">stf_jurisprudencia</span>(</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">classe =</span> <span class="st">"ADPF"</span>,</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">base =</span> <span class="st">"acordaos"</span>,</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">quantidade =</span> <span class="dv">3000</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Salva os arquivos raw em rds</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_monocraticas, <span class="st">"DATA/RAW/raw_monocraticas.rds"</span>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(raw_acordaos, <span class="st">"DATA/RAW/raw_acordaos.rds"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>A função <code>decJ::stf_jurisprudencia()</code> funciona da seguinte forma:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função stf_jurisprudencia do pacote decJ</span></span>
-<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>stf_jurisprudencia <span class="ot">=</span> <span class="cf">function</span>(<span class="at">busca =</span> <span class="cn">NULL</span>, <span class="at">classe =</span> <span class="cn">NULL</span>, <span class="at">base =</span> <span class="fu">c</span>(<span class="st">"acordaos"</span>, <span class="st">"decisoes"</span>), <span class="at">quantidade =</span> <span class="dv">25</span>){</span>
-<span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>  header <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">add_headers</span>(<span class="st">"User-Agent"</span> <span class="ot">=</span> <span class="st">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.51"</span>)</span>
-<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-7" class="code-annotation-target"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(busca) <span class="sc">&amp;</span> <span class="fu">is.null</span>(classe)) {</span>
-<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>    body <span class="ot">&lt;-</span> busca_jurisprudencia</span>
-<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>query<span class="sc">$</span>bool<span class="sc">$</span>filter[[<span class="dv">1</span>]]<span class="sc">$</span>query_string<span class="sc">$</span>query <span class="ot">&lt;-</span> busca</span>
-<span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>post_filter<span class="sc">$</span>bool<span class="sc">$</span>must[[<span class="dv">1</span>]]<span class="sc">$</span>term<span class="sc">$</span>base <span class="ot">&lt;-</span> base</span>
-<span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">is.null</span>(busca) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(classe)) {</span>
-<span id="annotated-cell-4-12"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>    body <span class="ot">&lt;-</span> busca_classe</span>
-<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>query<span class="sc">$</span>bool<span class="sc">$</span>filter<span class="sc">$</span>query_string<span class="sc">$</span>query <span class="ot">&lt;-</span> classe</span>
-<span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>post_filter<span class="sc">$</span>bool<span class="sc">$</span>must<span class="sc">$</span>term<span class="sc">$</span>base <span class="ot">&lt;-</span> base</span>
-<span id="annotated-cell-4-15"><a href="#annotated-cell-4-15" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> ((<span class="sc">!</span><span class="fu">is.null</span>(busca) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(classe))) {</span>
-<span id="annotated-cell-4-16"><a href="#annotated-cell-4-16" aria-hidden="true" tabindex="-1"></a>    cli<span class="sc">::</span><span class="fu">cli_alert_danger</span>(<span class="st">"Essa funcao so funciona com busca por palavras chaves OU por classe. Ainda estamos desenvolvendo uma forma de trabalhar com as duas buscas juntas."</span>)</span>
-<span id="annotated-cell-4-17"><a href="#annotated-cell-4-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
-<span id="annotated-cell-4-18"><a href="#annotated-cell-4-18" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="annotated-cell-4-19"><a href="#annotated-cell-4-19" aria-hidden="true" tabindex="-1"></a></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-20" class="code-annotation-target"><a href="#annotated-cell-4-20" aria-hidden="true" tabindex="-1"></a>  num_iteracoes <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(quantidade <span class="sc">/</span> <span class="dv">250</span>)</span>
-<span id="annotated-cell-4-21"><a href="#annotated-cell-4-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-4-22"><a href="#annotated-cell-4-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (quantidade <span class="sc">&gt;</span> <span class="dv">250</span>) {</span>
-<span id="annotated-cell-4-23"><a href="#annotated-cell-4-23" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>size <span class="ot">&lt;-</span> <span class="dv">250</span></span>
-<span id="annotated-cell-4-24"><a href="#annotated-cell-4-24" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="annotated-cell-4-25"><a href="#annotated-cell-4-25" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>size <span class="ot">&lt;-</span> quantidade</span>
-<span id="annotated-cell-4-26"><a href="#annotated-cell-4-26" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="annotated-cell-4-27"><a href="#annotated-cell-4-27" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="annotated-cell-4-28"><a href="#annotated-cell-4-28" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">map_dfr</span>(<span class="dv">1</span><span class="sc">:</span>num_iteracoes, purrr<span class="sc">::</span><span class="fu">slowly</span>(<span class="sc">~</span>{ </span>
-<span id="annotated-cell-4-29"><a href="#annotated-cell-4-29" aria-hidden="true" tabindex="-1"></a>    body<span class="sc">$</span>from <span class="ot">&lt;-</span> (.x <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> <span class="dv">250</span></span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4">4</button><span id="annotated-cell-4-30" class="code-annotation-target"><a href="#annotated-cell-4-30" aria-hidden="true" tabindex="-1"></a>    htmlSTF <span class="ot">&lt;-</span> httr<span class="sc">::</span><span class="fu">POST</span>(</span>
-<span id="annotated-cell-4-31"><a href="#annotated-cell-4-31" aria-hidden="true" tabindex="-1"></a>      <span class="st">"https://jurisprudencia.stf.jus.br/api/search/search"</span>,</span>
-<span id="annotated-cell-4-32"><a href="#annotated-cell-4-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">body =</span> body,</span>
-<span id="annotated-cell-4-33"><a href="#annotated-cell-4-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">encode =</span> <span class="st">"json"</span>, header</span>
-<span id="annotated-cell-4-34"><a href="#annotated-cell-4-34" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="annotated-cell-4-35"><a href="#annotated-cell-4-35" aria-hidden="true" tabindex="-1"></a>    getContent <span class="ot">&lt;-</span> jsonlite<span class="sc">::</span><span class="fu">fromJSON</span>(httr<span class="sc">::</span><span class="fu">content</span>(htmlSTF, <span class="st">"text"</span>))</span>
-<span id="annotated-cell-4-36"><a href="#annotated-cell-4-36" aria-hidden="true" tabindex="-1"></a>    dados <span class="ot">&lt;-</span> getContent<span class="sc">$</span>result<span class="sc">$</span>hits<span class="sc">$</span>hits<span class="sc">$</span><span class="st">`</span><span class="at">_source</span><span class="st">`</span></span>
-<span id="annotated-cell-4-37"><a href="#annotated-cell-4-37" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">rate =</span> purrr<span class="sc">::</span><span class="fu">rate_delay</span>(<span class="dv">5</span>)), <span class="at">.progress =</span> <span class="fu">list</span>(<span class="at">format =</span> <span class="st">"Extraindo {cli::pb_bar} {cli::pb_elapsed}"</span>)) </span>
-<span id="annotated-cell-4-38"><a href="#annotated-cell-4-38" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-annotation">
-<dl class="code-annotation-container-hidden code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
-<dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="1">Adicionar um User_Agent</span>
-</dd>
-<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
-<dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="7,8,9,10,11,12,13,14,15,16,17,18" data-code-annotation="2">A função ainda não consegue fazer buscas por palavras-chave e classe, portanto, nesse momento ela identifica se a busca está sendo feita por palavras chave ou por classe e, então, utiliza o <code>body</code> da requisição correto para o tipo de busca. Caso o usuário coloque classe e palavra-chave, a função retorna um erro.</span>
-</dd>
-<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
-<dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="20" data-code-annotation="3">Como a API do STF não permite fazer mais do que 250 buscas por vez, aqui ele verifica a quantidade que está sendo buscada e divide por 250 para identificar a quantidade de requisições que serão necessárias.</span>
-</dd>
-<dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
-<dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="30,31,32,33,34,35,36" data-code-annotation="4">A requisição é feita e como resultado temos uma tabela com os dados solicitados.</span>
-</dd>
-</dl>
-</div>
-</div>
-<p>Estas então foram as formas de coletar os dados brutos. Abaixo podemos observar a estrutura dessas tabelas:</p>
-<div class="cell">
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: left;">Tabela</th>
-<th style="text-align: right;">Nº Colunas</th>
-<th style="text-align: right;">Nº Linhas</th>
-<th style="text-align: right;">Nº de Dados</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">raw_processos</td>
-<td style="text-align: right;">32</td>
-<td style="text-align: right;">8355</td>
-<td style="text-align: right;">267360</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">raw_decisoes</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">17734</td>
-<td style="text-align: right;">106404</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">raw_legitimados</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">16687</td>
-<td style="text-align: right;">50061</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">raw_acordaos</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">632</td>
-<td style="text-align: right;">36024</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">raw_monocraticas</td>
-<td style="text-align: right;">37</td>
-<td style="text-align: right;">1571</td>
-<td style="text-align: right;">58127</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p>As analises criadas pelo pesquisador serão intersecionais com os resultados produzidos pelo Interface de R pour les Analyses Multidimensionnelles de Textes et de Questionnaires (IRaMuTeQ), especialmente da aplicação do Método de Reinert – classificação hierárquica descendente (Reinert, 1990).</p>
+<p>Com essas análises, pretende-se verificar como o Tribunal e seus ministros respondem aos partidos políticos que judicializam a política, analisando o conteúdo dos diferentes instrumentos de decisão. O conjunto de métodos aplicados permite a observação da judicialização da política na sua multidimensionalidade.</p>
+<p>Sobre a perspectiva macrometodológica desta pesquisa, pode-se situá-la no campo da jurimetria. Como expõe José Mário Neto, Luis Felipe Barbosa e Alexandre Moura Filho (2022, p.&nbsp;19), “as pesquisas no campo jurídico devem ir além da dogmática, mediante a utilização de pesquisas efetivamente empíricas, a partir do levantamento, da compreensão e do tratamento dos dados nos diferentes contextos jurídicos trabalhados”.</p>
+<p>Embora as metodologias tradicionais da pesquisa jurídica sejam insubstituíveis na compreensão do “dever ser”, elas se mostram insuficientes para capturar a complexidade do “ser” do direito, ou seja, suas aplicações, dinâmicas institucionais e impactos. Nesse sentido, a opção pela jurimetria não representa uma ruptura ou negação da tradição jurídica, mas sim uma expansão de seu arsenal metodológico. O objetivo é construir uma ponte entre a teoria e a prática, utilizando dados para testar hipóteses, identificar padrões e, em última instância, informar uma análise qualitativa mais robusta e contextualizada, permitindo assim uma compreensão mais complexa do direito (Siqueira; Moreira; Vieira, 2023).</p>
+<p>A jurimetria, enquanto disciplina, pode ser formalmente definida como a aplicação de métodos estatísticos e quantitativos ao estudo do Direito, abrindo um caminho para investigar o funcionamento da ordem jurídica, identificar padrões de julgamento e, com isso, conferir maior previsibilidade e cientificidade ao Direito (Loevinger, 1949).</p>
+<p>A pertinência da abordagem jurimétrica se acentua sobremaneira quando observamos as características do sistema jurídico brasileiro contemporâneo. A consolidação de um sistema de precedentes vinculantes conclama os tribunais a manterem sua jurisprudência estável, íntegra e coerente, torna a análise sistemática e quantitativa dos julgados não apenas uma ferramenta útil, mas uma necessidade metodológica para aferir a eficácia de tal sistema. Ademais, em um cenário de crescente debate público sobre o ativismo judicial e a judicialização da política, fenômenos que colocam o STF no centro de controvérsias de grande repercussão nacional, a jurimetria emerge como um poderoso instrumento de transparência e accountability (Siqueira; Moreira; Vieira, 2023).</p>
+<p>Ela permite que a academia e a sociedade civil analisem objetivamente as decisões da mais alta corte, deslocando a discussão do campo das impressões anedóticas e das narrativas passionais para o terreno das conclusões fundamentadas em evidências empíricas. Em vez de simplesmente aplaudir ou criticar o “ativismo”, a metodologia jurimétrica possibilita mapear quando, como, em que temas e em favor de quais atores o tribunal exerce seu poder por meio de instrumentos como a ADPF (Siqueira; Moreira; Vieira, 2023). Portanto, a jurimetria não se apresenta apenas como um método de pesquisa, mas como uma ferramenta de controle social sobre o Poder Judiciário, capaz de avaliar a eficácia de suas decisões e fomentar um debate público mais qualificado sobre seu papel institucional na democracia brasileira.</p>
+<p>Em síntese, o delineamento metodológico desta dissertação articula o rigor da análise de dados com a profundidade da interpretação jurídica para investigar o fenômeno da judicialização da política nas ADPF. A abordagem jurimétrica, longe de se apresentar como uma panaceia, é proposta como uma ferramenta estratégica para superar as limitações de uma análise puramente dogmática, permitindo a construção de uma base de evidências empíricas sobre o comportamento do STF. Ao mapear sistematicamente os atores, os temas e os resultados, a pesquisa oferece subsídios para um debate mais informado, objetivo e menos especulativo sobre o papel do STF na democracia brasileira.</p>
+<p>A contribuição esperada é, portanto, dupla. Do ponto de vista substantivo, busca-se produzir um conhecimento sobre como a judicialização da política se manifesta concretamente no âmbito das ADPF. Do ponto de vista metodológico, a dissertação almeja servir como um estudo de caso sobre como a jurimetria pode ser aplicada de forma transparente, rigorosa e relevante na pesquisa acadêmica em Direito, demonstrando seu valor para transformar discussões constitucionais centrais de um campo de batalha de opiniões para um terreno de análise científica, fortalecendo assim a credibilidade e o impacto da produção de conhecimento na área jurídica.</p>
+<p>A mensuração do tempo no processo judicial constitui um desafio metodológico fundamental para a compreensão da efetividade da prestação jurisdicional. No âmbito do STF, onde as Arguições de Descumprimento de Preceito Fundamental representam um instrumento de elevado impacto político e social, a análise da sua duração é um indicador da capacidade de resposta da Corte a questões constitucionais. Contudo, as abordagens tradicionais para medir essa duração, como o cálculo da média ou da mediana do tempo de tramitação, revelam-se inadequadas e enganosas. Essas métricas, embora intuitivas, padecem de uma falha estrutural: só podem ser calculadas para os processos que já alcançaram um desfecho, ou seja, que foram “baixados”. Ao desconsiderarem sistematicamente os processos que ainda se encontram em tramitação no momento da coleta de dados, essas abordagens introduzem um viés de subestimação. Os casos que são resolvidos mais rapidamente são sobrerrepresentados na amostra, enquanto os processos mais longos e complexos, que permanecem ativos, são completamente ignorados. O resultado é uma fotografia distorcida da realidade, que pode levar a conclusões equivocadas sobre a celeridade do Tribunal, mascarando a existência de um passivo de casos de longa duração.</p>
+<p>A consequência direta desse viés metodológico é a produção de um conhecimento incompleto sobre o funcionamento do tribunal. O estudo que se propõe a analisar a duração das ADPFs ajuizadas entre 2013 e 2023, com a coleta de dados encerrada ao final de 2024. Ao calcular o tempo médio de tramitação, o pesquisador incluiria apenas as ações que foram iniciadas e concluídas nesse intervalo. Uma ADPF ajuizada em 2015 e que ainda aguarda julgamento em 2024 seria excluída da análise. O tempo médio resultante seria, portanto, artificialmente reduzido, pois se basearia exclusivamente no subconjunto de processos “rápidos”. Essa limitação não é trivial; ela compromete a validade externa de qualquer inferência sobre a eficiência judicial. Para superar essa barreira, é preciso adotar um arcabouço metodológico que não apenas tolere, mas que seja especificamente desenhado para incorporar a informação contida nos casos ainda pendentes.</p>
+<p>Para superar as deficiências das métricas tradicionais, esta pesquisa adota inicialmente a análise de sobrevivência. Originalmente desenvolvida em campos como a medicina, para estudar o tempo até o óbito de pacientes, e a engenharia, para analisar o tempo até a falha de componentes mecânicos, esta técnica estatística tem se mostrado versátil e poderosa para a análise de fenômenos em diversas áreas, incluindo as ciências sociais e, mais recentemente, o direito. A sua aplicação em estudos sobre o sistema de justiça permite investigar com rigor a duração de processos judiciais, carreiras de magistrados ou o tempo até a reincidência criminal (Fukumoto; Masuyama, 2015; Mine et al., 2025). O cerne da análise de sobrevivência é o estudo do “tempo-até-o-evento” (time-to-event), que, no contexto desta dissertação, se traduz no tempo decorrido desde a autuação de uma ADPF no STF até a ocorrência do “evento de interesse” - definido como a “baixa do processo”. Esta abordagem promove uma mudança de paradigma fundamental na pergunta de pesquisa: em vez de questionar “qual a duração média de uma ADPF?”, passamos a investigar “qual a probabilidade de uma ADPF ‘sobreviver’ (isto é, permanecer ativa e sem decisão final) para além de um determinado ponto no tempo?”.</p>
+<p>O pilar que sustenta a superioridade da análise de sobrevivência em estudos longitudinais é o seu tratamento rigoroso do fenômeno da “censura” (censoring). Em termos estatísticos, a censura ocorre quando o tempo exato até o evento de interesse não é conhecido para um ou mais sujeitos da amostra, embora se tenha informação parcial sobre ele (Lesko et al., 2018; Prinja; Gupta; Verma, 2010). No contexto desta dissertação, uma ADPF que foi autuada e que permanece “em tramitação” na data final de coleta de dados é um exemplo observação censurada. Não se sabe quando ela será concluída, mas se sabe, com certeza, que o seu tempo de “sobrevivência” é, no mínimo, igual ao período entre sua autuação e o fim do estudo.</p>
+<p>O conceito de censura, longe de ser um mero artifício estatístico, está intrinsecamente ligado à realidade da litigância no Supremo Tribunal Federal. A forma predominante de censura nesta pesquisa é a “censura administrativa”, que ocorre quando o próprio desenho do estudo impõe uma data de corte para a observação. Nesta dissertação, todos os processos que não forem baixados até a data final de coleta de dados serão administrativamente censurados.</p>
+<p>Tendo estabelecido a análise de sobrevivência como ponto de partida metodológico e a censura como seu conceito-chave, a ferramenta específica escolhida para iniciar a operacionalização desta abordagem é o estimador de Kaplan-Meier, também conhecido como “estimador do limite do produto” (product-limit estimator) (Borgan, 2005).</p>
+<p>Sua principal característica e maior vantagem, sobretudo para a análise de fenômenos sociais complexos como a atividade judicial, é sua natureza não-paramétrica - isso significa que o método não exige quaisquer pressuposições sobre a forma da distribuição estatística dos tempos de duração dos processos (Borgan, 2005; Lins; Figueiredo; Rocha, 2017). Em outras palavras, não é necessário assumir que os tempos de tramitação seguem uma curva pré-definida, como a distribuição normal ou exponencial. O estimador de Kaplan-Meier permite que os próprios dados, com suas idiossincrasias e irregularidades, ditem a forma da curva de sobrevivência.</p>
+<p>Para compreender como o estimador de Kaplan-Meier opera na prática, é essencial analisar sua formulação matemática. A fórmula do estimador de Kaplan-Meier para a função de sobrevivência no tempo <span class="math inline">\(t\)</span>, denotada por <span class="math inline">\(\hat{S}(t)\)</span>, é expressa da seguinte forma:</p>
+<p><span class="math display">\[
+\hat{S}(t) = \prod_{t_i \leq t} {\Bigg(1 - \frac{d_i}{n_i} \Bigg)}
+\]</span></p>
+<p>Onde <span class="math inline">\(d_i\)</span> é o número de eventos de interesse que ocorreram no tempo <span class="math inline">\(t_i\)</span> e <span class="math inline">\(n_i\)</span> é o número de indivíduo em risco de sofrer o evento imediatamente antes do tempo <span class="math inline">\(t_i\)</span>.</p>
+<p>Esta expressão calcula a sobrevivência cumulativa através da multiplicação de uma série de probabilidades condicionais de sobrevivência. O cálculo é refeito em cada ponto no tempo <span class="math inline">\(t_i\)</span>, onde ocorre pelo menos um evento. <span class="math inline">\(\hat{S}(t)\)</span> é a função de sobrevivência estimada, ou seja, qual a estimativa de sobrevivência de um indivíduo no tempo <span class="math inline">\(t\)</span>.</p>
+<p>A razão <span class="math inline">\(\frac{d_i}{n_i}\)</span> indica a probabilidade condicional de falha. Trata-se de uma probabilidade condicional pois não indica a probabilidade geral de um processo ser baixado, mas sim a probabilidade de ser baixado no tempo <span class="math inline">\(t_i\)</span> considerando que sobreviveu até aquele ponto. A probabilidade condicional de falha é subtraída de 1, fornecendo a probabilidade condicional de sobrevivência <span class="math inline">\(\Big(1 - \frac{d_i}{n_i}\Big)\)</span>. Em outras palavras, se a probabilidade condicional de falha era 0,15, a probabilidade condicional de sobrevivência é de 1 - 0,15 ou 0,85.</p>
+<p>Por fim, deve-se considerar que para que um processo “sobreviva” até um tempo distante, digamos 36 meses, ele precisa necessariamente ter sobrevivido a todos os intervalos de tempo anteriores. A lógica é cumulativa: a probabilidade de sobreviver até o mês 36 é o produto da probabilidade de sobreviver ao mês 1, multiplicada pela probabilidade de, tendo sobrevivido ao mês 1, sobreviver também ao mês 2, e assim por diante, até o mês 36. O estimador de Kaplan-Meier aplica essa lógica calculando a probabilidade de sobrevivência apenas nos momentos discretos em que um evento realmente ocorre. Assim, o produtório instrui o cálculo a multiplicar todas as probabilidades condicionais de sobrevivência.</p>
+<p>Essa abordagem em cadeia, baseada na lei da multiplicação de probabilidades para eventos sucessivos, é o que permite ao estimador construir a curva de sobrevivência passo a passo, refletindo a diminuição gradual da probabilidade de um processo permanecer ativo à medida que o tempo avança.</p>
+<p>Contudo, é fundamental reconhecer a principal limitação do estimador de Kaplan-Meier: ele é uma ferramenta essencialmente descritiva e univariada. Ele pode descrever com precisão a curva de sobrevivência de um grupo de processos e permitir a comparação entre as curvas de diferentes grupos (por exemplo, ADPFs de diferentes relatores) através de testes como o log-rank. No entanto, o método não consegue, por si só, determinar quais fatores ou variáveis influenciam a duração do processo, nem quantificar o impacto de cada um. Ele nos diz “o quê” e “quando”, mas não “por quê”. Para responder a perguntas como “O perfil do ministro relator afeta o tempo de tramitação?” ou “Processos com rito abreviado são julgados mais rapidamente, controlando por outros fatores?”, é necessário recorrer a outros modelos.</p>
+<p>Esta limitação, no entanto, não diminui o valor do Estimador de Kaplan-Meier; ao contrário, posiciona-o como o primeiro passo essencial em uma análise de sobrevivência, fornecendo a descrição do fenômeno sobre a qual modelos mais complexos, como o Modelo de Riscos Proporcionais de Cox, podem ser construídos para explorar as relações causais.</p>
+<section id="análise-de-sobrevivência-modelo-de-riscos-proporcionais-de-cox" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="análise-de-sobrevivência-modelo-de-riscos-proporcionais-de-cox"><span class="header-section-number">2.1</span> Análise de sobrevivência: modelo de riscos proporcionais de Cox</h2>
+<p>O estimador de Kaplan-Meier, detalhado na seção anterior, é uma ferramenta descritiva de valor inestimável. Ele nos permite visualizar e quantificar a probabilidade de um processo permanecer ativo ao longo do tempo, tratando adequadamente os dados censurados e fornecendo uma imagem fidedigna da dinâmica temporal da baixa processual. Contudo, sua principal limitação reside em sua natureza univariada. A curva de Kaplan-Meier pode nos dizer se existe uma diferença na “sobrevivência” processual entre dois, mas ela não consegue explicar as razões por trás dessa diferença, nem isolar o efeito de uma variável específica enquanto controla o impacto de outras. É para preencher essa lacuna analítica que esta dissertação emprega o Modelo de Riscos Proporcionais de Cox, também conhecido como Regressão de Cox.</p>
+<p>Para entender como o modelo funciona, é preciso primeiro compreender seu conceito central: a função de risco, também chamada de hazard function ou taxa de falha instantânea, denotada por <span class="math inline">\(h(t)\)</span>. A função de risco, no contexto desta pesquisa, pode ser entendida como o “potencial instantâneo” ou o “risco iminente” de um processo ser baixado no exato instante de tempo <span class="math inline">\(t\)</span>, dado que ele “sobreviveu” (permaneceu ativo) até aquele momento. É uma medida da propensão à baixa em um ponto específico no tempo. Enquanto a função de sobrevivência de Kaplan-Meier nos diz a probabilidade de um processo ainda estar ativo após um tempo <span class="math inline">\(t\)</span>, a função de risco nos informa a intensidade com que a “força da baixa” atua sobre os processos que ainda estão na fila de julgamento naquele instante.</p>
+<p>O Modelo de Cox, então, não modela diretamente o tempo de sobrevivência, mas sim como a função de risco de um processo é afetada por suas características específicas. A distinção do modelo reside em sua capacidade de separar a função de risco em duas partes distintas. A primeira é a função de risco de base (baseline hazard) <span class="math inline">\(h_0 (t)\)</span>, que representa o risco de baixa ao longo do tempo para um processo “de referência” hipotético, cujas características são todas nulas ou estão em um nível de base. A segunda parte descreve como o risco de base é modificado (multiplicado) pelas características (covariáveis) de cada processo individual. Essa estrutura permite isolar e quantificar o efeito de cada variável sobre o risco de baixa, respondendo a perguntas como: “A presença de um relator aumenta ou diminui o risco de um processo ser baixado, e em que magnitude?”.</p>
+<p>O pilar sobre o qual todo o Modelo de Cox se assenta é a premissa dos riscos proporcionais (proportional hazards assumption). Esta premissa estabelece que o efeito de uma variável preditora (covariável) sobre a função de risco é multiplicativo e constante ao longo do tempo. Em termos mais simples, isso significa que a razão entre as taxas de risco de dois indivíduos (ou dois processos) com características diferentes permanece constante durante todo o período de observação.</p>
+<p>A fórmula expressa como a taxa de risco instantânea para um determinado processo, em um tempo <span class="math inline">\(t\)</span>, depende de suas características (covariáveis). Para um processo com um conjunto de <span class="math inline">\(p\)</span> covariáveis <span class="math inline">\((X_1,X_2,…,X_p )\)</span>, a função de risco <span class="math inline">\(h(t,X)\)</span> é dada por:</p>
+<p><span class="math display">\[
+h(t,X)=h_0 (t)×exp(β_1 X_1+β_2 X_2+⋯+β_p X_p )
+\]</span> Esta equação estabelece que o risco de um processo ser concluído em um determinado tempo <span class="math inline">\(t\)</span>, dada as suas características específicas <span class="math inline">\(X\)</span>, é o produto do risco base e um fator multiplicador.</p>
+<p>A função de risco base <span class="math inline">\(h_0 (t)\)</span> (baseline hazard function) representa o risco de o evento ocorrer no tempo <span class="math inline">\(t\)</span> para um processo hipotético cujas covariáveis são iguais a zero. O multiplicador de risco <span class="math inline">\(exp(β_1 X_1+β_2 X_2+⋯+β_p X_p )\)</span> age sobre a função de risco base. O multiplicador de risco é composto pela combinação linear das covariáveis e dos respectivos coeficientes.</p>
+<p>As covariáveis são as variáveis independentes da nossa pesquisa, ou seja, os fatores que hipotetizamos influenciar a duração do processo. Em nossa análise das ADPFs, exemplos de covariáveis incluem o tipo de autor, a existência de um pedido de medida cautelar ou o rito. Este termo, portanto, quantifica como o conjunto de características de um processo específico modifica o risco base, escalando-o para cima (se o efeito combinado das covariáveis for de aceleração) ou para baixo (se o efeito for de retardamento).</p>
+<p>Os termos <span class="math inline">\(β_1,β_2,…,β_p\)</span> são os coeficientes de regressão, cada um está associado a uma covariável e mede a magnitude e a direção do efeito daquela variável sobre a função de risco. Uma vez que a interpretação do logaritmo não é intuitiva, foca-se no sinal do coeficiente: um coeficiente <span class="math inline">\(β\)</span> positivo indica que um aumento na variável <span class="math inline">\(X\)</span> está associado a um aumento no risco, o que se traduz em um tempo de tramitação mais curto (o processo é acelerado). Inversamente, um coeficiente <span class="math inline">\(β\)</span> negativo indica que um aumento na variável <span class="math inline">\(X\)</span> está associado a uma diminuição no risco, implicando um tempo de tramitação mais longo (o processo é retardado).</p>
+<p>Embora o modelo de Cox estime os coeficientes <span class="math inline">\(β\)</span>, a sua interpretação direta como efeito no logaritmo do risco é pouco intuitiva. Por essa razão, o padrão é transformar esses coeficientes em uma medida de efeito mais acessível: a Razão de Riscos, ou Hazard Ratio (HR). O HR é calculado simplesmente pela exponenciação do coeficiente <span class="math inline">\(β\)</span>, ou seja, <span class="math inline">\(HR=exp(β)\)</span>. O HR quantifica o efeito de uma covariável de forma multiplicativa e relativa. Ele informa em que proporção o risco de ocorrência do evento muda para cada aumento de uma unidade na covariável, mantendo todas as outras constantes.</p>
+<p>Um HR maior que 1 indica que a covariável aumenta o risco, associando-se a um tempo de tramitação mais curto (aceleração). Por exemplo, um HR de 1.8 significa que o risco de conclusão é 80% maior para o grupo com aquela característica. Um HR menor que 1 indica que a covariável diminui o risco, associando-se a um tempo de tramitação mais longo (retardamento). Por exemplo, um HR de 0.7 significa que o risco de conclusão é 30% menor. Finalmente, um HR igual a 1 indica que a covariável não tem qualquer efeito sobre o risco de conclusão do processo.</p>
+<p>A adoção do Modelo de Regressão de Cox representa um avanço metodológico para a análise da duração processual. Sua principal vantagem é a capacidade de estimar o efeito de múltiplas covariáveis (sejam elas binárias, categóricas ou contínuas) sobre o tempo até o evento, controlando por seus efeitos simultâneos e lidando de forma robusta com dados censurados. No entanto, o modelo não é isento de limitações. Sua validade depende criticamente da premissa de riscos proporcionais. Se o efeito de uma variável muda ao longo do tempo, o modelo padrão pode produzir estimativas enviesadas. Todavia, o modelo permite, ao fim, testar hipóteses derivadas da teoria do direito e da ciência política, quantificando a importância relativa de diferentes variáveis e contribuindo para um diagnóstico mais preciso sobre os gargalos e os aceleradores da prestação jurisdicional.</p>
 </section>
-<section id="limpeza-dos-dados" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="limpeza-dos-dados"><span class="header-section-number">2.2</span> Limpeza dos dados</h2>
-<p>Uma vez obtidos os dados brutos, foi preciso fazer uma faxina inicial. Primeiro, limpei o nome das variáveis:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Limpa o nome das variáveis</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>clean_processos <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_processos)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>clean_decisoes <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_decisoes)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>clean_legitimados <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_legitimados)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>clean_acordaos <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_acordaos)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>clean_monocraticas <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">clean_names</span>(raw_monocraticas)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Após a limpeza dos nomes das variáveis de todas as tabelas, passei a limpar tabelas específicas. Começando pela tabela de processos (<code>clean_processos</code>).</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>clean_processos <span class="ot">&lt;-</span> clean_processos <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># seleciona as colunas que serão utilizadas</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    processo, link_processo, relator_atual, ramo_do_direito, assunto_relacionado, data_autuacao, data_transito_julgado, data_baixa, em_tramitacao, tem_rito_art_12, legislacao</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># transforma as colunas de data </span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_autuacao =</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(<span class="fu">as.Date</span>(data_autuacao)),</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_transito_julgado =</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(<span class="fu">as.Date</span>(data_transito_julgado)),</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">data_baixa =</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(<span class="fu">as.Date</span>(data_baixa, <span class="at">format =</span> <span class="st">"%d/%m/%Y"</span>))</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># separa processo em classe e numero</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate</span>(</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    processo,</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"classe"</span>, <span class="st">"numero"</span>),</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">s"</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># separa os assuntos relacionados</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate_rows</span>(</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    assunto_relacionado,</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">|"</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># separa a legislação</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate_rows</span>(</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    legislacao,</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">r"</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Salva a tabela limpa</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(clean_processos, <span class="st">"DATA/CLEAN/clean_processos.rds"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>A segunda tabela que apliquei a faxina foi a tabela que contém as decisões (<code>clean_decisoes</code>). A tabela criada considera apenas as decisões cujo resultado foi procedente, improcedente, procedente em parte ou prejudicado. Posteriormente, as ações que tiverem “em tramitação” igual a “não” na tabela de processos e não retornarem esses resultados, serão consideradas sem resolução de mérito.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>clean_decisoes <span class="ot">&lt;-</span> clean_decisoes <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># retira a coluna observação e descrição</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>observacao, descricao) <span class="sc">|&gt;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># transforma a coluna de data </span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">data =</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(<span class="fu">as.Date</span>(data))) <span class="sc">|&gt;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># separa processo em classe e numero |&gt;</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate</span>(</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    processo,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"classe"</span>, <span class="st">"numero"</span>),</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">s"</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># transforma o texto da coluna descricao em minusculo</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">descricao =</span> stringr<span class="sc">::</span><span class="fu">str_to_lower</span>(descricao))</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Salva a tabela limpa</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(clean_decisoes, <span class="st">"DATA/CLEAN/clean_decisoes.rds"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>A teceira tabela envolve os legitimados (<code>clean_legitimados</code>):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>clean_legitimados <span class="ot">&lt;-</span> clean_legitimados <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># retira os acentos</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(dplyr<span class="sc">::</span><span class="fu">across</span>(<span class="fu">c</span>(<span class="st">"legitimado_polo_ativo"</span>, <span class="st">"legitimado_polo_passivo"</span>), decJ<span class="sc">::</span>utilitario_remover_acentos)) <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># separa processo em classe e numero</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">separate</span>(</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    processo,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"classe"</span>, <span class="st">"numero"</span>),</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">sep =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">s"</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Salva a tabela limpa</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(clean_legitimados, <span class="st">"DATA/CLEAN/clean_legitimados.rds"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>A limpeza da tabela com as decisões monocráticas e os acórdãos envolveu, basicamente, selecionar as colunas de interesse.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>clean_monocraticas <span class="ot">&lt;-</span> clean_monocraticas <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># seleciona e renomeia as colunas de interesse</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(id, <span class="at">uf =</span> procedencia_geografica_uf_sigla, <span class="at">numero =</span> processo_numero, <span class="at">data =</span> julgamento_data, <span class="at">texto =</span> decisao_texto)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>clean_acordaos <span class="ot">&lt;-</span> clean_acordaos <span class="sc">|&gt;</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># seleciona e renomeia as colunas de interesse</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(id, <span class="at">uf =</span> procedencia_geografica_uf_sigla, <span class="at">numero =</span> processo_numero, <span class="at">data =</span> julgamento_data, <span class="at">texto =</span> ementa_texto, <span class="at">url =</span> inteiro_teor_url)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Salva as tabelas limpas</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(clean_monocraticas, <span class="st">"DATA/CLEAN/clean_monocraticas.rds"</span>)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(clean_acordaos, <span class="st">"DATA/CLEAN/clean_acordaos.rds"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Serão feitas limpezas específicas dos dados a depender da análise. Essas limpezas estarão descritas no momento da análise no capítulo respectivo. Ademais, todo o código está compilado no <a href="#sec-code" class="quarto-xref"><span class="quarto-unresolved-ref">sec-code</span></a>. As tabelas salvas serão carregas sempre antes de serem utilizadas nas análises, permitindo que o ponto de partida das informações sejam os descritos nessa seção.</p>
+<section id="análise-de-correspondência-ac" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="análise-de-correspondência-ac"><span class="header-section-number">2.2</span> Análise de Correspondência (AC)</h2>
+<p>A Análise de Correspondência (AC) surge como a ferramenta metodológica para realizar uma “cartografia jurídica” do campo das ADPFs. Diferentemente de técnicas estatísticas que buscam estabelecer relações de causalidade linear, a AC é uma técnica exploratória e multidimensional cuja vocação primordial é a visualização da estrutura de associações em um conjunto de dados categóricos (Silva, 2012). O objetivo da AC é transformar uma complexa tabela de dados - que cruza, por exemplo, os proponentes das ADPFs com os resultados dos julgamentos - em um mapa perceptual de fácil interpretação. Nesse mapa, as afinidades, oposições e distâncias entre as diferentes categorias revelam a estrutura oculta do campo, permitindo identificar quais atores se associam a quais desfechos e quais são os eixos de oposição fundamentais que organizam o espaço decisório do STF. Desta forma, a AC nos permite ir além da análise caso a caso para desvelar a gramática sistêmica que rege a judicialização da política na mais alta corte do país.</p>
+<p>A AC trata de uma técnica eminentemente exploratória e descritiva, e não confirmatória ou inferencial. Seu propósito não é testar uma hipótese causal pré-definida (como, por exemplo, “o legitimado X causa o resultado Y”), mas sim explorar um conjunto de dados complexos para revelar padrões, tendências e estruturas de associação que não são imediatamente visíveis. Em outras palavras, a AC funciona como um microscópio ou telescópio para o cientista social, permitindo-lhe simplificar a complexidade dos dados e gerar hipóteses fundamentadas sobre as relações entre as variáveis. Esta distinção é necessária, pois orienta a interpretação dos resultados: o mapa gerado pela AC não oferece provas de causalidade, mas sim uma representação visual e estruturada das correspondências existentes no universo analisado, que por sua vez demanda interpretação teórica e análise qualitativa para ser plenamente compreendida (Sarah, 2025).</p>
+<p>A técnica parte de uma tabela de contingência, que nada mais é do que uma tabela de dupla entrada que cruza as frequências de duas ou mais variáveis categóricas, e a converte em um gráfico bidimensional, comumente chamado de “mapa perceptual” ou “biplot”. Neste mapa, cada categoria das variáveis analisadas é representada por um ponto. A distinção do método reside nesta transposição do numérico para o espacial, pois permite que o pesquisador utilize sua capacidade intuitiva de interpretar distâncias e posições para apreender a estrutura dos dados de forma quase instantânea. Em vez de se perder em uma miríade de números e percentagens, o pesquisador pode, com um único olhar, identificar os principais agrupamentos, as oposições mais marcantes e as categorias que se destacam no conjunto (Bortoli; Birck, 2017; Sarah, 2025; Silva, 2012).</p>
+<p>Para mensurar a associação entre as categorias, a AC parte de um conceito basilar: a hipótese de independência estatística. Antes de podermos dizer que duas categorias estão associadas, precisamos de um ponto de referência, um cenário de “não associação” contra o qual comparar a realidade. Este cenário é o da independência, uma situação hipotética na qual as variáveis de linha e de coluna não teriam qualquer relação entre si. No contexto desta pesquisa, a independência significaria que o tipo de proponente de uma ADPF não teria absolutamente nenhuma influência sobre o resultado do julgamento. Nesse mundo hipotético, a proporção de decisões “Procedentes”, “Improcedentes” etc., seria exatamente a mesma para todos os tipos de proponentes (partidos políticos, governadores, entidades de classe) e seria igual à proporção geral de cada resultado no total de ADPFs analisadas.</p>
+<p>Com base nesse referencial de independência, podemos definir os dois elementos centrais para o cálculo da associação: as frequências observadas e as frequências esperadas. As frequências observadas (<span class="math inline">\(f_o\)</span>) são os dados empíricos, os números reais que constam em tabela de contingência. Representam, por exemplo, o número de vezes que, de fato, uma ADPF proposta por um partido político foi julgada procedente. São o retrato da realidade que coletamos. Em contrapartida, as frequências esperadas (<span class="math inline">\(f_e\)</span>) são as frequências teóricas que nós esperaríamos encontrar em cada célula da tabela se a hipótese de independência fosse verdadeira. O cálculo da frequência esperada para cada célula é simples: multiplica-se o total da linha correspondente pelo total da coluna correspondente e divide-se pelo total geral de observações. A comparação entre o que foi observado (<span class="math inline">\(f_o\)</span>) e o que seria esperado em um cenário de ausência de relação (<span class="math inline">\(f_e\)</span>) é o cerne da análise.</p>
+<p>A Análise de Correspondência utiliza essa comparação para construir uma métrica geométrica: a distância qui-quadrado (<span class="math inline">\(\chi^2\)</span>). Enquanto em outros contextos o teste qui-quadrado é usado apenas para obter um valor de significância estatística, na AC ele é a base para definir a própria geometria do espaço que se quer mapear. A distância qui-quadrado mede, para cada célula, o quão longe a frequência observada está da frequência esperada, levando em conta o tamanho relativo da célula. A lógica é que quanto maior a discrepância entre o observado e o esperado, mais forte é a “atração” ou “repulsão” entre a categoria da linha e a categoria da coluna em questão, e maior será essa distância. A soma de todas essas distâncias individuais compõe a variabilidade total do sistema. É essa métrica de distância que permite posicionar os pontos (as categorias) em um mapa, de forma que a distância visual entre eles seja uma representação fiel da sua dissimilaridade estatística. O mapa perceptual, portanto, não é uma mera ilustração, mas uma projeção geométrica rigorosa das relações de associação contidas na tabela de dados original.</p>
+<p>A principal virtude da AC reside em sua capacidade de realizar uma “redução de dimensionalidade”. Uma tabela de contingência, mesmo que com poucas linhas e colunas, representa um espaço multidimensional complexo. O objetivo da AC é decompor a inércia total em menos dimensões ortogonais (ou seja, independentes entre si), chamadas de eixos principais. O método identifica, matematicamente, um primeiro eixo que, sozinho, consegue explicar a maior porcentagem possível da inércia total. Este eixo representa a oposição mais fundamental, a clivagem mais importante que estrutura os dados. Em seguida, ele encontra um segundo eixo, perpendicular ao primeiro, que explica a maior parte da inércia restante, e assim sucessivamente. O objetivo prático é conseguir representar a maior parte da informação original (idealmente, acima de 80%) utilizando apenas os dois ou três primeiros eixos, o que permite a criação de um mapa bidimensional sem uma perda significativa de informação.</p>
+<p>A inércia pode ser conceitualmente entendida como a quantidade total de “variância” ou “informação” contida na tabela de contingência. É uma medida que quantifica o grau em que os dados se afastam da hipótese de independência. Se as frequências observadas fossem idênticas às esperadas, a inércia seria zero, indicando ausência total de estrutura ou associação. Quanto maior o valor da inércia, mais estruturado é o conjunto de dados e mais fortes são as associações entre as categorias de linha e coluna. Ela quantifica o quanto o sistema decisório do STF, como um todo, se desvia de um modelo de neutralidade perfeita em relação à identidade dos proponentes.</p>
+<p>Em síntese, a adoção da AC nesta dissertação se justifica por sua capacidade de oferecer uma visão de conjunto, estrutural e relacional, sobre um fenômeno multifacetado. Ao invés de se limitar a uma análise sequencial e fragmentada dos casos, a AC permite visualizar a totalidade do campo decisório, revelando as afinidades eletivas entre tipos de atores e tipos de resultados, bem como as clivagens fundamentais que organizam este espaço. A técnica funciona como uma ferramenta exploratória, capaz de gerar hipóteses empiricamente fundamentadas sobre a lógica de funcionamento da Corte, que podem então ser aprofundadas por meio da análise qualitativa.</p>
+<p>Contudo, a honestidade intelectual e o rigor metodológico exigem o reconhecimento explícito das limitações desta abordagem. A principal limitação da AC é que ela revela associações, e não causalidade. A proximidade entre “Partido Político” e “Procedente” no mapa não nos autoriza a concluir que ser um partido causa a vitória; apenas indica que essas duas categorias aparecem juntas com uma frequência significativamente maior do que o esperado pelo acaso. Ademais, é importante lembrar que o mapa perceptual é um modelo, uma representação simplificada da realidade, e não a realidade em si. As escolhas de categorização e a redução de dimensionalidade implicam necessariamente em alguma perda de informação.</p>
 </section>
-<section id="análise-quantitativa" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="análise-quantitativa"><span class="header-section-number">2.3</span> Análise quantitativa</h2>
-<p>Estatísticas descritivas…</p>
-<section id="análise-de-sobrevivência" class="level3" data-number="2.3.1">
-<h3 data-number="2.3.1" class="anchored" data-anchor-id="análise-de-sobrevivência"><span class="header-section-number">2.3.1</span> Análise de Sobrevivência</h3>
-<p>Este trabalho incorpora uma abordagem quantitativa para investigar um aspecto crucial da prestação jurisdicional: o tempo. A duração de um processo judicial não é um mero detalhe procedimental; ela representa o tempo em que a sociedade, os atores políticos e os cidadãos aguardam por uma definição do judiciário sobre questões de elevada magnitude. A morosidade ou a celeridade do STF impacta diretamente a segurança jurídica, a estabilidade das relações políticas e a própria efetividade dos direitos. Para mensurar e analisar rigorosamente este fator temporal, a metodologia empregada será a análise de sobrevivência, uma técnica estatística que permite estudar a duração da tramitação processual até a ocorrência de um evento de interesse, que, no escopo desta pesquisa, foi definido como a baixa definitiva do processo.</p>
-<p>A análise de sobrevivência é um conjunto de métodos estatísticos cujo objetivo primordial é analisar o tempo decorrido desde um marco inicial até a ocorrência de um determinado evento. Embora suas origens remontem às ciências médicas — onde era classicamente utilizada para estudar o tempo de sobrevida de pacientes após um diagnóstico ou tratamento —, sua aplicabilidade foi expandida para diversas outras áreas, como engenharia (análise de falha de equipamentos), economia (duração do desemprego) e, como no presente caso, o direito. No contexto jurídico-processual, o “tempo de sobrevivência” de um processo pode ser entendido como o período em que ele permanece ativo, ou “vivo”, no sistema de justiça. O “evento” de interesse, análogo à “morte” no estudo clínico, é a sua conclusão, ou seja, a sua baixa definitiva após o trânsito em julgado. Esta metodologia permite-nos ir além de simples médias ou medianas de duração, oferecendo uma visão dinâmica de como a probabilidade de um processo ser finalizado evolui ao longo do tempo.</p>
-<p>Um dos desafios mais significativos na análise de dados temporais em pesquisas jurídicas é a presença de “dados censurados”. A censura ocorre quando não observamos o evento de interesse para todos os sujeitos da nossa amostra durante o período de estudo. Em nossa pesquisa, que abrange as ADPFs distribuídas até uma data de corte específica, inevitavelmente encontraremos processos que, ao final do período de coleta de dados, ainda estão em tramitação. Esses processos são os nossos dados censurados. Simplesmente ignorá-los ou tratá-los como se tivessem sido finalizados na data de corte introduziria um viés severo na análise, subestimando drasticamente o tempo real de tramitação. A grande vantagem da análise de sobrevivência, e especificamente do método de Kaplan-Meier que adotaremos, é sua capacidade de incorporar essa informação parcial dos dados censurados de forma elegante e precisa, utilizando a informação de que eles “sobreviveram” pelo menos até o final do período de observação, sem presumir quando serão de fato concluídos.</p>
-<p>Para contornar o problema dos dados censurados e estimar a função de sobrevivência dos processos de ADPF, esta dissertação empregará o estimador de Kaplan-Meier. Trata-se de um método não paramétrico, o que representa uma vantagem considerável, pois não nos obriga a fazer pressuposições sobre a distribuição estatística subjacente dos tempos de tramitação dos processos. Em outras palavras, não precisamos assumir que os tempos de julgamento seguem uma forma matemática pré-definida. O método de Kaplan-Meier utiliza a informação disponível no momento exato em que cada processo é finalizado para recalcular, passo a passo, a probabilidade de um processo qualquer “sobreviver”, ou seja, permanecer ativo, para além daquele ponto no tempo. O resultado é uma estimativa mais realista e detalhada da dinâmica temporal da jurisdição constitucional, apresentada geralmente por meio de uma função em escada, conhecida como curva de Kaplan-Meier.</p>
-<p>A fórmula matemática que fundamenta o estimador de Kaplan-Meier, embora possa parecer complexa à primeira vista, baseia-se em uma lógica bastante intuitiva. A probabilidade de um processo sobreviver para além de um tempo <span class="math inline">\(t\)</span>, denotada por <span class="math inline">\(S(t)\)</span>, é calculada pelo produto das probabilidades de sobrevivência em cada um dos momentos em que ocorre um evento (a baixa de um processo) até o tempo <span class="math inline">\(t\)</span>. A fórmula é a seguinte:</p>
-<p><span id="eq-kaplan-meier"><span class="math display">\[
-S(t) = \prod_{i:t_i\leq t} (1 - \frac{d_i}{n_i})
-\tag{2.1}\]</span></span></p>
-<p><span class="math inline">\(S(t)\)</span> é a função de sobrevivência, ou seja, a probabilidade estimada de que uma ADPF inda esteja em tramitação após um tempo <span class="math inline">\(t\)</span>. O símbolo <span class="math inline">\(\prod\)</span> é o produtório, que indica a multiplicação sucessiva de termos. O índice <span class="math inline">\(t_i\leq t\)</span> significa que estamos multiplicando os termos para todos os momentos <span class="math inline">\(t_i\)</span> em que um processo foi baixado, desde o início do acompanhamento até o tempo <span class="math inline">\(t\)</span>. O elemento <span class="math inline">\(d_i\)</span> representa o número de processos que tiveram baixa exatamente no tempo <span class="math inline">\(t_i\)</span>. Por fim, <span class="math inline">\(n_i\)</span> representa o número total de processos que estavam sob risco de serem baixados imediatamenteantes do tempo <span class="math inline">\(t_i\)</span>, isto é, todos os processos que ainda estavam ativos naquele momento.</p>
-<p>O termo central <span class="math inline">\(\frac{d_i}{n_i}\)</span> representa o risco instantâneo de um processo ser baixado no tempo <span class="math inline">\(t_i\)</span>. É a proporção de processos baixados dentre todos que estavam ativos. Consequentemente, a expressão <span class="math inline">\((1-\frac{d_i}{n_i})\)</span> representa a probabilidade de um processo não ser baixado naquele exato momento, ou seja, de sobreviver ao tempo <span class="math inline">\(t_i\)</span>, dado que ele já havia sobrevivido até ali. Ao multiplicar essas probabilidade de sobrevivência em cada etapa, calculamos a probabilidade acumulada de um processo ter sobrevivido a todos os momentos de risco até o tempo <span class="math inline">\(t\)</span>.</p>
-<p>Ao quantificar a dimensão temporal da prestação jurisdicional em ADPFs de forma precisa, controlando os efeitos dos processos ainda em curso, esta pesquisa pode fundamentar suas conclusões em evidências sistemáticas, e não apenas em observações anedóticas ou estudos de caso isolados. A análise da curva de sobrevivência permitirá identificar períodos críticos na tramitação dos processos e oferecerá uma base sólida para discutir a capacidade institucional do STF em responder, em tempo hábil, às complexas demandas que lhe são apresentadas pelos atores políticos.</p>
-<p>Após a aplicação do estimador de Kaplan-Meier, que nos permite descrever a probabilidade de uma ADPF permanecer em tramitação ao longo do tempo, a investigação avança para uma questão mais complexa e explicativa: quais fatores ou características influenciam essa duração? Enquanto a análise de Kaplan-Meier nos mostra o quê acontece com a taxa de finalização dos processos, ela não nos informa o porquê. Por que algumas ADPFs são julgadas em poucos meses, enquanto outras perduram por mais de uma década no Supremo Tribunal Federal (STF)? Para responder a essa pergunta, a metodologia desta pesquisa emprega o modelo de regressão de riscos proporcionais de Cox. Este é um passo analítico subsequente e mais sofisticado, que nos permite avaliar o impacto de múltiplas variáveis (covariáveis) sobre o tempo de tramitação processual, identificando os fatores que aceleram ou retardam a baixa definitiva de uma ADPF.</p>
-</section>
-<section id="regressão-logística" class="level3" data-number="2.3.2">
-<h3 data-number="2.3.2" class="anchored" data-anchor-id="regressão-logística"><span class="header-section-number">2.3.2</span> Regressão Logística</h3>
-</section>
-</section>
-<section id="análise-qualitativa" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="análise-qualitativa"><span class="header-section-number">2.4</span> Análise qualitativa</h2>
-<p>Iramuteq… e quanteda?</p>
+<section id="classificação-hierárquica-descendente-chd" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="classificação-hierárquica-descendente-chd"><span class="header-section-number">2.3</span> Classificação Hierárquica Descendente (CHD)</h2>
+<p>A análise de conteúdo, como sistematizada por Laurence Bardin (1995), representa um pilar metodológico nas ciências sociais e jurídicas para a interpretação de textos e documentos. Tradicionalmente, a pesquisa em Direito se vale de abordagens hermenêuticas e qualitativas para a exegese de leis, doutrinas e decisões judiciais. Contudo, o cenário contemporâneo impõe um desafio de escala sem precedentes. Instituições como o STF produzem um volume colossal de dados textuais, tornando a análise manual de todo um corpo jurisprudencial sobre um tema específico uma tarefa hercúlea, senão impraticável. Diante dessa realidade, a pesquisa jurídica é compelida a buscar novas ferramentas que permitam lidar com grandes volumes de informação sem sacrificar o rigor analítico. É nesse contexto que emerge a lexicometria, uma abordagem que emprega a estatística para a análise de dados textuais, operacionalizada por softwares como o IRaMuTeQ (Interface de R pour les Analyses Multidimensionnelles de Textes et de Questionnaires). Este método não substitui a interpretação qualitativa, mas a potencializa, oferecendo um caminho para identificar padrões, estruturas latentes e tendências discursivas em vastos corpora documentais. A adoção de tal metodologia, portanto, não é uma mera preferência por inovação, mas uma adaptação necessária à “dataficação” do universo jurídico.</p>
+<p>Para investigar os textos as decisões do STF, esta dissertação adota como técnica central a Classificação Hierárquica Descendente (CHD), também conhecida como Método de Reinert. Esta abordagem transcende a simples contagem de frequência de palavras, objetivando a identificação de “mundos lexicais” - definidos como universos semânticos estáveis, caracterizados pela coocorrência sistemática de um determinado vocabulário dentro de um corpus. A premissa fundamental do método é que a organização do vocabulário em um texto não é aleatória; pelo contrário, padrões distintos de uso de palavras correspondem a diferentes estruturas de pensamento, quadros de referência ou, no contexto jurídico, a distintas lógicas argumentativas e posições enunciativas (Marpsat, 2010; Reinert, 1990).</p>
+<p>A CHD, ao agrupar segmentos de texto com vocabulário similar, permite ao pesquisador mapear esses mundos lexicais e, consequentemente, desvelar a estrutura temática subjacente ao discurso analisado. Sua aplicação às decisões do STF permite desconstruir a aparente unidade monolítica de um acórdão ou de um voto, revelando como diferentes lógicas são mobilizadas, por vezes em tensão, dentro do mesmo universo discursivo.</p>
+<p>O nome Classificação Hierárquica Descendente encapsula a lógica operacional do método. “Classificação” refere-se ao seu objetivo principal: agrupar unidades textuais (segmentos de texto) com base na semelhança de seu vocabulário. “Hierárquica” indica que os grupos resultantes, denominados classes, são organizados em uma estrutura aninhada, similar a uma árvore genealógica, que é visualmente representada por um dendrograma. Finalmente, “Descendente” (ou divisiva) descreve o processo algorítmico: a análise parte do corpus inteiro como um único bloco e o divide sucessivamente em subgrupos menores, mais específicos e com maior coesão interna. O objetivo final é gerar um conjunto de classes que sejam, simultaneamente, o mais homogêneas possível em seu interior (o vocabulário dentro de uma classe está fortemente associado) e o mais heterogêneas possível em relação às demais (o vocabulário de uma classe é estatisticamente distinto do vocabulário das outras).</p>
+<p>O primeiro passo prático e conceitualmente importante da CHD é a preparação e segmentação do corpus. Após a compilação dos textos integrais das decisões das ADPFs em um único arquivo, o software realiza a partição do texto em “Segmentos de Texto” (ST) ou “Unidades de Contexto Elementares” (UCE). Essa segmentação, geralmente em trechos de tamanho aproximado, não é um mero artifício técnico. Sua justificativa teórica reside na premissa de que o significado das palavras é construído localmente, em seu contexto imediato (Reinert, 1990). Ao analisar o vocabulário dentro desses pequenos segmentos, o método preserva as relações de coocorrência, em vez de tratar o documento como um simples “saco de palavras” descontextualizadas. Concomitantemente a essa etapa, o software realiza a lematização, um processo de redução das palavras à sua forma canônica ou radical, e isso garante que variações morfológicas de um mesmo conceito sejam tratadas como uma única entidade lexical, aumentando a consistência e a força da análise.</p>
+<p>O núcleo do algoritmo opera através de um processo de partições dicotômicas (divisões em dois) sucessivas e hierárquicas (Reinert, 1990). O procedimento inicia com a totalidade do corpus, ou seja, todos os ST agrupados em uma única entidade. Em seguida, o algoritmo busca a divisão mais estatisticamente robusta deste conjunto, separando-o em dois subgrupos. O critério para essa divisão é maximizar a dissimilaridade lexical entre os dois novos subgrupos e, ao mesmo tempo, a similaridade lexical dentro de cada um deles. Este processo é então aplicado recursivamente a cada subgrupo recém-formado: o algoritmo seleciona um subgrupo e o divide novamente em dois, e assim por diante. Essa cascata descendente prossegue até que as classes atinjam um limiar de estabilidade ou um número mínimo de elementos, resultando em um conjunto final de classes estáveis e semanticamente coesas. O resultado é uma hierarquia na qual a primeira divisão representa a clivagem mais significativa do discurso, e as divisões subsequentes revelam distinções temáticas progressivamente mais finas. Essa abordagem, tecnicamente um tipo de algoritmo “ganancioso” (greedy algorithm), tem uma implicação metodológica importante: a estrutura final do dendrograma é dependente do caminho percorrido (Rakotomalala; Nouvel, 2007). A natureza da primeira e mais forte divisão condiciona todas as que se seguem. Isso significa que a classificação gerada não deve ser entendida como uma verdade ontológica sobre o texto, mas como o modelo hierárquico mais estatisticamente defensável que pode ser extraído a partir dos dados, dada a lógica de otimização do algoritmo.</p>
+<p>Para cada possível divisão do corpus (ou de um subgrupo) em duas novas classes, o software constrói uma tabela de contingência. Essa tabela cruza a lista de palavras (formas ativas) com os dois potenciais novos grupos, registrando a frequência de cada palavra em cada grupo. O algoritmo então calcula o valor de <span class="math inline">\(\chi^2\)</span> para essa tabela. Ele repete esse procedimento para muitas divisões possíveis e, finalmente, seleciona aquela que produz o maior valor de <span class="math inline">\(\chi^2\)</span>. Um valor elevado indica uma associação forte e estatisticamente significativa entre um conjunto de palavras e o primeiro grupo, e, por oposição, entre outro conjunto de palavras e o segundo grupo. Em essência, o qui-quadrado é o motor matemático que impulsiona todo o processo de classificação, garantindo que cada divisão seja a mais discriminante possível. O uso do <span class="math inline">\(\chi^2\)</span> como critério de otimização significa que o método CHD está fundamentalmente orientado para a identificação de distintividade lexical. As classes que ele forma não são apenas agrupamentos de palavras que aparecem juntas, mas sim agrupamentos cujo vocabulário em uma classe é estatisticamente improvável de ocorrer na outra. Esse foco no contraste e na oposição é o que confere ao método sua notável capacidade de mapear os diferentes e, por vezes, concorrentes, “mundos” que compõem um discurso complexo como o jurídico.</p>
+<p>A robustez da CHD não se baseia apenas na partição inicial, mas em um processo de refinamento que garante a qualidade e a estabilidade das classes finais. Após o algoritmo identificar a divisão ótima com base no maior valor de qui-quadrado, ele não a aceita de forma definitiva imediatamente. Em vez disso, inicia-se um passo de otimização iterativa. O algoritmo testa, um por um, cada ST de um grupo, movendo-o temporariamente para o grupo oposto e recalculando qui-quadrado global. Se essa realocação resultar em um aumento do valor, significando uma partição ainda mais coesa e distinta, o segmento é permanentemente movido. Esse processo de verificação e realocação é repetido várias vezes até que nenhuma outra mudança de segmento possa aumentar o valor do qui-quadrado. Somente nesse ponto a partição é considerada “estável” e “definitiva”. Esses mecanismos internos de controle de qualidade são cruciais, pois demonstram que o método não é uma “caixa-preta” que gera categorias arbitrárias. Pelo contrário, ele possui procedimentos incorporados para assegurar que os resultados sejam estatisticamente sólidos, replicáveis e fidedignos, conferindo validade e confiabilidade à análise.</p>
+<p>A CHD, como aqui delineada, oferece vantagens para a análise do discurso jurídico: a capacidade de processar grandes volumes de texto de forma sistemática, o rigor estatístico que fundamenta a identificação de padrões, a descoberta de estruturas argumentativas latentes que poderiam passar despercebidas em uma leitura puramente qualitativa e a mitigação de certos vieses do pesquisador na fase de categorização inicial.</p>
+<p>Contudo, é necessário reconhecer suas limitações. A qualidade da análise é intrinsecamente dependente da qualidade e da representatividade do corpus inicial. As decisões tomadas na preparação do texto, como a lematização ou a definição de palavras a serem ignoradas, podem influenciar os resultados. Mais fundamentalmente, a CHD é uma ferramenta de auxílio à interpretação, não uma máquina que produz a verdade sobre um texto.</p>
+<p>O software não compreende semântica, ironia, polifonia ou a complexidade das teorias; ele detecta padrões de coocorrência lexical. A etapa de nomeação e interpretação das classes é um ato hermenêutico que depende inteiramente do pesquisador. Ao automatizar a tarefa de detecção de padrões, a CHD libera o pesquisador para se concentrar na tarefa de ordem superior que lhe é própria: a atribuição de significado. A adoção desta metodologia representa, em última análise, um compromisso com uma forma de pesquisa jurídica mais transparente, sistemática e empiricamente fundamentada, em uma profícua colaboração entre máquina e intérprete.</p>
 
 
 </section>
@@ -1050,7 +786,7 @@ S(t) = \prod_{i:t_i\leq t} (1 - \frac{d_i}{n_i})
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./03_revisao.html" class="pagination-link" aria-label="Um olhar para a(s) judicialização(ões) da política">
+      <a href="./03_capitulo-3.html" class="pagination-link" aria-label="Um olhar para a(s) judicialização(ões) da política">
         <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Um olhar para a(s) judicialização(ões) da política</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -1076,6 +812,38 @@ S(t) = \prod_{i:t_i\leq t} (1 - \frac{d_i}{n_i})
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
