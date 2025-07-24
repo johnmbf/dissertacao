@@ -8,3 +8,5 @@
 /.quarto/
 .trash/
 _interno
+_extensions
+_quarto.yml

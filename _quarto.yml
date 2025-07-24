@@ -21,7 +21,7 @@ book:
           city: Rio Grande
           state: Rio Grande do Sul
           country: Brasil
-  date: 2025-06-15
+  date: 2025-06-24
   page-footer: 
     left: "Jonathan Morais Barcellos Ferreira (2025)"
     right: 
@@ -38,6 +38,7 @@ book:
     - 07_re.qmd
   appendices: 
     - apendice_a.qmd
+    - apendice_b.qmd
 
 execute:
   warning: false
